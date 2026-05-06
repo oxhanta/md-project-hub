@@ -219,9 +219,6 @@
           Sign In
         </button>
       </form>
-      <div class="mt-4 text-center text-xs text-slate-500">
-        Demo Accounts: <b>admin@</b>, <b>editor@</b>, <b>viewer@</b>
-      </div>
     </div>
   </div>
 
@@ -1081,8 +1078,10 @@
 
       let projects = [];
       let engagements = [];
+      let risks = [];
+      let todos = [];
 
-      let currentUserRole = null;
+      let currentUserRole = localStorage.getItem('lwc_role_v1') || null;
 
       document.getElementById('login-form').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -1095,6 +1094,8 @@
           if (email.startsWith('admin')) currentUserRole = 'Admin';
           else if (email.startsWith('editor')) currentUserRole = 'Editor';
           else currentUserRole = 'Viewer';
+
+          localStorage.setItem('lwc_role_v1', currentUserRole);
 
           document.getElementById('current-user-name').textContent = currentUserRole + ' User';
 
@@ -1109,6 +1110,7 @@
       });
 
       function handleLogout() {
+        localStorage.removeItem('lwc_role_v1');
         const app = document.getElementById('main-app');
         app.classList.add('opacity-0');
         setTimeout(() => {
@@ -1146,7 +1148,7 @@
         renderDashboardTodos();
         updateTodoBadge();
       }
-      let risks = [];
+
 
       let currentProjectModalMode = 'view'; // view or edit
       let currentEngagementModalMode = 'view'; // view or edit
@@ -2078,10 +2080,19 @@
       }
 
       // Initialize Data
-      let todos = []; // MUST be declared before initTodos() is called (let is not hoisted)
       initData();
       renderHistory();
       initTodos();
+
+      // Check auto-login
+      if (currentUserRole) {
+        document.getElementById('current-user-name').textContent = currentUserRole + ' User';
+        document.getElementById('login-screen').style.display = 'none';
+        const app = document.getElementById('main-app');
+        app.classList.remove('hidden');
+        app.classList.remove('opacity-0');
+        enforceRBAC();
+      }
       /* ================================================
          MY DESK FEATURE (Priority-based To-Do)
       ================================================ */
