@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>LWC Intelligence Hub</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#f9f9fe",
+            "surface-tint": "#3a5f94",
+            "surface-container": "#eeedf2",
+            "surface-variant": "#e2e2e7",
+            "tertiary-fixed-dim": "#ffb690",
+            "on-primary-fixed": "#001b3c",
+            "surface-dim": "#dad9de",
+            "primary-fixed-dim": "#a7c8ff",
+            "error": "#ba1a1a",
+            "on-primary-fixed-variant": "#1f477b",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-fixed": "#341100",
+            "background": "#f9f9fe",
+            "on-primary-container": "#799dd6",
+            "on-secondary-container": "#004b69",
+            "primary": "#001e40",
+            "on-tertiary-fixed-variant": "#723610",
+            "secondary-fixed-dim": "#81cfff",
+            "inverse-on-surface": "#f1f0f5",
+            "outline": "#737780",
+            "tertiary-fixed": "#ffdbca",
+            "tertiary": "#381300",
+            "on-background": "#1a1c1f",
+            "on-secondary-fixed": "#001e2d",
+            "on-secondary-fixed-variant": "#004c6b",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-highest": "#e2e2e7",
+            "surface": "#f9f9fe",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#592300",
+            "on-primary": "#ffffff",
+            "outline-variant": "#c3c6d1",
+            "surface-container-low": "#f4f3f8",
+            "surface-container-high": "#e8e8ed",
+            "inverse-surface": "#2f3034",
+            "inverse-primary": "#a7c8ff",
+            "primary-container": "#003366",
+            "primary-fixed": "#d5e3ff",
+            "on-error": "#ffffff",
+            "on-surface": "#1a1c1f",
+            "secondary-container": "#41befd",
+            "on-tertiary-container": "#d8885c",
+            "secondary-fixed": "#c6e7ff",
+            "secondary": "#00658d",
+            "on-surface-variant": "#43474f",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "xl": "32px",
+            "xs": "4px",
+            "base": "4px",
+            "margin": "24px",
+            "grid_columns": "12",
+            "gutter": "20px",
+            "lg": "24px",
+            "sm": "8px",
+            "md": "16px"
+          },
+          "fontFamily": {
+            "label": ["Inter"],
+            "table-header": ["Inter"],
+            "metric-lg": ["Inter"],
+            "body-base": ["Inter"],
+            "h1": ["Public Sans"],
+            "h2": ["Public Sans"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+            "table-header": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "metric-lg": ["36px", { "lineHeight": "1.0", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "body-base": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+            "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    body {
+      background-color: #F8F9FA;
+      color: #1a1c1f;
+    }
+
+    .dark body {
+      background-color: #0f172a;
+      /* Fallback dark bg */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #c3c6d1;
+    }
+
+    .view-section {
+      display: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .spinner {
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 2px solid #003366;
+      width: 16px;
+      height: 16px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+
+    .dark .spinner {
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-top: 2px solid #00FFFF;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body class="flex h-screen overflow-hidden dark:bg-slate-950 dark:text-slate-200 bg-[#F8F9FA]">
+
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#F8F9FA] dark:bg-slate-950">
+    <div
+      class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-lg shadow-xl w-full max-w-md">
+      <div class="flex justify-center mb-6">
+        <img src="logo.png" alt="LWC ProjectHub" class="h-16 w-auto object-contain"
+          onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'text-2xl font-bold text-[#003366] dark:text-white border-l-4 border-[#00FFFF] pl-3\'>LWC ProjectHub</div>';">
+      </div>
+      <h2 class="text-xl font-bold text-center text-primary dark:text-white mb-2">Sign In</h2>
+      <p class="text-sm text-center text-slate-500 dark:text-slate-400 mb-6">Internal Operations Proprietary System</p>
+
+      <form id="login-form">
+        <div class="mb-4">
+          <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" for="email">EMAIL
+            ADDRESS</label>
+          <input type="email" id="email"
+            class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary"
+            placeholder="admin@lwc.gov.ng" required>
+        </div>
+        <div class="mb-6">
+          <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" for="password">PASSWORD</label>
+          <input type="password" id="password"
+            class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary"
+            placeholder="••••••••" required>
+        </div>
+        <button type="submit" id="btn-login"
+          class="w-full py-2 bg-primary-container dark:bg-[#003366] text-white font-bold rounded hover:opacity-90 transition-all flex justify-center items-center gap-2">
+          Sign In
+        </button>
+      </form>
+      <div class="mt-4 text-center text-xs text-slate-500">
+        Demo Accounts: <b>admin@</b>, <b>editor@</b>, <b>viewer@</b>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-app" class="flex h-screen w-full hidden opacity-0 transition-opacity duration-300">
+    <!-- Sidebar Section -->
+    <aside
+      class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0">
+      <div class="p-6">
+        <div class="mb-8 px-2">
+          <img src="logo.png" alt="LWC ProjectHub" class="h-12 w-auto object-contain"
+            onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'text-lg font-bold text-[#003366] dark:text-white border-l-4 border-[#00FFFF] pl-3\'>LWC ProjectHub</div>';">
+        </div>
+        <nav class="flex flex-col gap-2" id="main-nav">
+          <button
+            class="nav-btn w-full text-left px-4 py-2 rounded-lg font-['Public_Sans'] text-sm font-medium tracking-tight bg-primary-container/10 dark:bg-[#00FFFF]/10 text-[#003366] dark:text-[#00FFFF] transition-colors"
+            data-target="view-dashboard">
+            <div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">dashboard</span>
+              Dashboard</div>
+          </button>
+          <button id="nav-todos"
+            class="nav-btn w-full text-left px-4 py-2 rounded-lg font-['Public_Sans'] text-sm font-medium tracking-tight text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-[#003366] dark:hover:text-white transition-colors"
+            data-target="view-todos">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-[20px]">task_alt</span>
+              My Desk
+              <span id="todo-badge" class="hidden ml-auto bg-error text-white text-[10px] font-bold rounded-full px-1.5 py-0.5">0</span>
+            </div>
+          </button>
+          <button
+            class="nav-btn w-full text-left px-4 py-2 rounded-lg font-['Public_Sans'] text-sm font-medium tracking-tight text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-[#003366] dark:hover:text-white transition-colors"
+            data-target="view-projects">
+            <div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">folder</span>
+              Projects</div>
+          </button>
+          <button
+            class="nav-btn w-full text-left px-4 py-2 rounded-lg font-['Public_Sans'] text-sm font-medium tracking-tight text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-[#003366] dark:hover:text-white transition-colors"
+            data-target="view-engagements">
+            <div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">handshake</span>
+              Engagements</div>
+          </button>
+          <button
+            class="nav-btn w-full text-left px-4 py-2 rounded-lg font-['Public_Sans'] text-sm font-medium tracking-tight text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-[#003366] dark:hover:text-white transition-colors"
+            data-target="view-ai-analyzer">
+            <div class="flex items-center gap-3"><span
+                class="material-symbols-outlined text-[20px]">document_scanner</span> AI Analyzer</div>
+          </button>
+        </nav>
+      </div>
+      <div class="mt-auto p-6 border-t border-slate-200 dark:border-slate-800">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div
+              class="h-8 w-8 rounded-full bg-primary-container overflow-hidden border border-slate-200 dark:border-slate-700 flex items-center justify-center text-white font-bold text-xs">
+              LWC
+            </div>
+            <div class="flex flex-col">
+              <div id="current-user-name" class="text-sm font-bold text-slate-700 dark:text-slate-300">Admin User</div>
+              <button onclick="handleLogout()" class="text-xs text-error text-left hover:underline">Sign Out</button>
+            </div>
+          </div>
+          <button id="theme-toggle"
+            class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full transition-colors"
+            title="Toggle Theme">
+            <span class="material-symbols-outlined text-[20px]">light_mode</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="flex-1 flex flex-col overflow-y-auto custom-scrollbar">
+      <main class="flex-grow p-8 max-w-[1600px] mx-auto w-full">
+
+        <!-- DASHBOARD VIEW -->
+        <section id="view-dashboard" class="view-section active">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-lg gap-4">
+            <div>
+              <h1 class="font-h1 text-h1 text-primary dark:text-white">Executive Summary</h1>
+              <p class="font-body-base text-body-base text-outline dark:text-slate-400 mt-1">Operational Performance
+                Oversight</p>
+            </div>
+          </div>
+
+          <!-- Key Metrics Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-lg">
+            <div
+              class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 p-md flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-start">
+                  <span class="font-label text-label text-outline dark:text-slate-400">TOTAL PROJECTS</span>
+                  <span class="material-symbols-outlined text-[#003366] dark:text-[#00FFFF]">inventory</span>
+                </div>
+                <div class="font-metric-lg text-metric-lg text-primary dark:text-white mt-sm" id="kpi-total">0</div>
+              </div>
+              <div class="mt-md text-[11px] text-outline dark:text-slate-500 font-label uppercase tracking-wider">Lagos
+                Metropolitan Region</div>
+            </div>
+
+            <div
+              class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 p-md flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-start">
+                  <span class="font-label text-label text-outline dark:text-slate-400">ACTIVE / ONGOING</span>
+                  <span class="material-symbols-outlined text-secondary dark:text-blue-400">analytics</span>
+                </div>
+                <div class="font-metric-lg text-metric-lg text-secondary dark:text-blue-400 mt-sm" id="kpi-active">0
+                </div>
+              </div>
+              <div class="mt-md flex items-center gap-1">
+                <div class="w-2 h-2 rounded-full bg-secondary dark:bg-blue-400"></div>
+                <span class="text-[11px] text-outline dark:text-slate-500 font-label" id="kpi-active-rate">0% Deployment
+                  Rate</span>
+              </div>
+            </div>
+
+            <div
+              class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 p-md flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-start">
+                  <span class="font-label text-label text-outline dark:text-slate-400">COMPLETED</span>
+                  <span class="material-symbols-outlined text-[#00FFFF] dark:text-[#00FFFF]">verified</span>
+                </div>
+                <div class="font-metric-lg text-metric-lg text-primary dark:text-white mt-sm" id="kpi-completed">0</div>
+              </div>
+              <div class="mt-md text-[11px] text-outline dark:text-slate-500 font-label uppercase tracking-wider">Fully
+                Delivered</div>
+            </div>
+          </div>
+
+          <!-- Middle Section -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-lg">
+            <div class="lg:col-span-12 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800">
+              <div
+                class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
+                <h2 class="font-h2 text-[16px] text-primary dark:text-white">Projects by Completion %</h2>
+              </div>
+              <div class="p-md space-y-md" id="projects-completion-list">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Section -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+            <div class="lg:col-span-12 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800">
+              <div
+                class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
+                <h2 class="font-h2 text-[16px] text-primary dark:text-white">Recent Engagements</h2>
+                <button class="text-secondary dark:text-[#00FFFF] font-label text-label hover:underline"
+                  onclick="document.querySelector('[data-target=view-engagements]').click()">View All Logs</button>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                  <thead>
+                    <tr
+                      class="bg-surface-container-low dark:bg-slate-800/50 border-b border-outline-variant dark:border-slate-800">
+                      <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">DATE</th>
+                      <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">TITLE</th>
+                      <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">PARTNER</th>
+                    </tr>
+                  </thead>
+                  <tbody class="font-body-sm text-body-sm divide-y divide-surface-container dark:divide-slate-800"
+                    id="recent-engagements-list">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dashboard To-Do Widget (Admin only) -->
+          <div id="dashboard-todo-widget" class="mt-gutter hidden">
+            <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl overflow-hidden">
+              <div class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-primary dark:text-[#00FFFF] text-[20px]">checklist</span>
+                  <h2 class="font-h2 text-[16px] text-primary dark:text-white">My Tasks</h2>
+                </div>
+                <button onclick="document.querySelector('[data-target=view-todos]').click()" class="text-secondary dark:text-[#00FFFF] font-label text-label hover:underline">View All</button>
+              </div>
+              <div id="dashboard-todo-list" class="p-md space-y-2">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROJECTS VIEW -->
+        <section id="view-projects" class="view-section">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-lg gap-4">
+            <div>
+              <h1 class="font-h1 text-h1 text-primary dark:text-white">Projects Portfolio</h1>
+            </div>
+            <div class="flex gap-sm">
+              <div class="relative">
+                <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+                  <span class="material-symbols-outlined text-[20px]">search</span>
+                </span>
+                <input id="project-search"
+                  class="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-700 text-sm focus:ring-1 focus:ring-primary outline-none rounded w-64 dark:text-white"
+                  placeholder="Search projects..." type="text" />
+              </div>
+              <button id="btn-new-project" onclick="openProjectModal()"
+                class="flex items-center gap-xs px-md py-sm bg-primary-container dark:bg-[#003366] text-white font-label text-label hover:opacity-90 transition-all rounded">
+                <span class="material-symbols-outlined text-[18px]">add</span>
+                New Project
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead>
+                  <tr
+                    class="bg-surface-container-low dark:bg-slate-800/50 border-b border-outline-variant dark:border-slate-800">
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">NAME</th>
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">CATEGORY</th>
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">REGION</th>
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">HANDLER</th>
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">STATUS</th>
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">COMPLETION
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="font-body-sm text-body-sm divide-y divide-surface-container dark:divide-slate-800"
+                  id="projects-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Completed Projects Collapsible -->
+          <div id="completed-projects-section" class="hidden mt-4">
+            <button onclick="toggleCompletedProjects()" class="w-full flex items-center justify-between px-5 py-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/50 rounded-xl text-green-700 dark:text-green-400 font-semibold text-sm hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">task_alt</span>
+                Completed Projects &mdash; <span id="completed-projects-count" class="font-bold"></span>
+              </div>
+              <span id="completed-projects-chevron" class="material-symbols-outlined text-[20px]">expand_more</span>
+            </button>
+            <div id="completed-projects-table" class="hidden mt-2 border border-green-200 dark:border-green-800/50 rounded-xl overflow-hidden">
+              <table class="w-full text-left">
+                <thead>
+                  <tr class="bg-green-50 dark:bg-green-900/20 border-b border-green-200 dark:border-green-800/50">
+                    <th class="p-md font-table-header text-table-header text-green-700 dark:text-green-400">NAME</th>
+                    <th class="p-md font-table-header text-table-header text-green-700 dark:text-green-400">CATEGORY</th>
+                    <th class="p-md font-table-header text-table-header text-green-700 dark:text-green-400">REGION</th>
+                    <th class="p-md font-table-header text-table-header text-green-700 dark:text-green-400">HANDLER</th>
+                    <th class="p-md font-table-header text-table-header text-green-700 dark:text-green-400">STATUS</th>
+                    <th class="p-md font-table-header text-table-header text-green-700 dark:text-green-400">COMPLETION</th>
+                  </tr>
+                </thead>
+                <tbody id="completed-projects-body" class="font-body-sm text-body-sm divide-y divide-green-100 dark:divide-green-900/30">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ENGAGEMENTS VIEW -->
+        <section id="view-engagements" class="view-section">
+          <!-- Page Header & Controls -->
+          <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+            <div class="space-y-1">
+              <h1 class="font-h1 text-h1 text-primary dark:text-white">Engagements</h1>
+              <p class="text-on-surface-variant dark:text-slate-400 font-body-base">Tracking international donor
+                relations and internal interactions.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <!-- Internal/External Filter -->
+              <div
+                class="flex items-center bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-700 rounded-lg px-3 py-2">
+                <span class="material-symbols-outlined text-outline dark:text-slate-400 mr-2 text-sm">filter_list</span>
+                <select id="engagement-filter"
+                  class="bg-transparent border-none text-body-sm font-medium focus:ring-0 cursor-pointer dark:text-white outline-none">
+                  <option value="all">All Engagements</option>
+                  <option value="Internal">Internal</option>
+                  <option value="External">External</option>
+                </select>
+              </div>
+
+              <!-- Action Button -->
+              <button id="btn-new-engagement" onclick="openEngagementModal()"
+                class="flex items-center gap-2 bg-primary-container dark:bg-[#003366] text-white px-5 py-2.5 rounded-lg font-medium hover:bg-[#002244] dark:hover:bg-[#002244] transition-colors shadow-sm">
+                <span class="material-symbols-outlined text-white text-[18px]">add_circle</span>
+                Log Engagement
+              </button>
+            </div>
+          </div>
+
+          <!-- Engagement Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="engagements-grid">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+
+        <!-- AI ANALYZER VIEW -->
+        <section id="view-ai-analyzer" class="view-section">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-lg gap-4">
+            <div>
+              <h1 class="font-h1 text-h1 text-primary dark:text-white">AI Document Analyzer</h1>
+              <p class="font-body-base text-body-base text-outline dark:text-slate-400 mt-1">Upload unstructured
+                operational reports to extract structured data.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+            <div class="lg:col-span-5 flex flex-col gap-gutter">
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 p-md rounded">
+                <div class="flex items-center gap-2 mb-4">
+                  <span class="material-symbols-outlined text-[20px] text-primary dark:text-white">description</span>
+                  <h2 class="font-h2 text-[16px] text-primary dark:text-white">Source Content</h2>
+                </div>
+
+                <div
+                  class="border-2 border-dashed border-outline-variant dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-8 rounded text-center cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  id="upload-zone">
+                  <span
+                    class="material-symbols-outlined text-[32px] text-outline dark:text-slate-500 mb-2">cloud_upload</span>
+                  <p class="font-body-sm font-bold text-primary dark:text-white">Drag & drop engineering reports or
+                    water project docs</p>
+                  <p class="font-body-sm text-[12px] text-outline dark:text-slate-500 mt-1">PDF, DOCX, XLSX (Max 25MB)
+                  </p>
+                  <input type="file" id="file-upload" accept=".txt,.csv,.pdf,.docx,.doc" style="display: none;">
+                </div>
+
+                <div class="flex items-center my-4">
+                  <div class="flex-grow border-t border-outline-variant dark:border-slate-800"></div>
+                  <span
+                    class="px-3 text-[10px] font-label text-outline dark:text-slate-500 uppercase tracking-widest">Or
+                    Direct Text Paste</span>
+                  <div class="flex-grow border-t border-outline-variant dark:border-slate-800"></div>
+                </div>
+
+                <textarea id="analyzer-input"
+                  class="w-full bg-slate-50 dark:bg-slate-800 border border-outline-variant dark:border-slate-700 rounded p-4 font-body-sm text-primary dark:text-white outline-none focus:ring-1 focus:ring-primary h-[120px] resize-none"
+                  placeholder="Paste report excerpts or data tables here..."></textarea>
+              </div>
+
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 p-md rounded">
+                <h2 class="font-h2 text-[16px] text-primary dark:text-white mb-4">Analysis Configuration</h2>
+
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                  <label class="cursor-pointer">
+                    <input type="radio" name="analysis_mode" value="full" class="peer sr-only" checked>
+                    <div
+                      class="p-3 border border-outline-variant dark:border-slate-700 rounded bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 peer-checked:border-primary peer-checked:ring-1 peer-checked:ring-primary transition-all h-full">
+                      <div class="font-bold text-sm text-primary dark:text-white mb-1">Analyze Full Document</div>
+                      <div class="text-[11px] text-outline dark:text-slate-400 leading-tight">Comprehensive summary &
+                        audit</div>
+                    </div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="analysis_mode" value="projects_only" class="peer sr-only">
+                    <div
+                      class="p-3 border border-outline-variant dark:border-slate-700 rounded bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 peer-checked:border-primary peer-checked:ring-1 peer-checked:ring-primary transition-all h-full">
+                      <div class="font-bold text-sm text-primary dark:text-white mb-1">Extract Projects Only</div>
+                      <div class="text-[11px] text-outline dark:text-slate-400 leading-tight">Isolate infrastructure
+                        items</div>
+                    </div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="analysis_mode" value="engagements_only" class="peer sr-only">
+                    <div
+                      class="p-3 border border-outline-variant dark:border-slate-700 rounded bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 peer-checked:border-primary peer-checked:ring-1 peer-checked:ring-primary transition-all h-full">
+                      <div class="font-bold text-sm text-primary dark:text-white mb-1">Extract Engagements Only</div>
+                      <div class="text-[11px] text-outline dark:text-slate-400 leading-tight">Isolate stakeholder
+                        interactions</div>
+                    </div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="analysis_mode" value="metrics_only" class="peer sr-only">
+                    <div
+                      class="p-3 border border-outline-variant dark:border-slate-700 rounded bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 peer-checked:border-primary peer-checked:ring-1 peer-checked:ring-primary transition-all h-full">
+                      <div class="font-bold text-sm text-primary dark:text-white mb-1">Extract Metrics Only</div>
+                      <div class="text-[11px] text-outline dark:text-slate-400 leading-tight">Isolate numerical data
+                        points</div>
+                    </div>
+                  </label>
+                </div>
+
+                <button id="btn-analyze-report"
+                  class="w-full py-3 bg-primary-container dark:bg-[#003366] text-white font-bold rounded hover:opacity-90 transition-all flex justify-center items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                  Analyze Report
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="lg:col-span-7 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 p-md rounded flex flex-col relative overflow-hidden h-[685px]">
+              <div class="absolute top-0 left-0 w-1 h-full bg-secondary dark:bg-[#00FFFF]"></div>
+
+              <div class="flex justify-between items-center mb-6 pl-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[20px] text-primary dark:text-[#00FFFF]">bar_chart</span>
+                  <h2 class="font-h2 text-lg text-primary dark:text-white">Analysis Output</h2>
+                </div>
+                <div class="flex gap-2 text-outline dark:text-slate-500">
+                  <button class="hover:text-primary dark:hover:text-white" title="Copy"><span
+                      class="material-symbols-outlined text-[18px]">content_copy</span></button>
+                  <button class="hover:text-primary dark:hover:text-white" title="Download"><span
+                      class="material-symbols-outlined text-[18px]">download</span></button>
+                  <button class="hover:text-primary dark:hover:text-white" title="Print"><span
+                      class="material-symbols-outlined text-[18px]">print</span></button>
+                </div>
+              </div>
+
+              <div id="analyzer-status" class="mb-4 font-body-sm text-outline dark:text-slate-400 pl-2">Waiting for
+                input...</div>
+
+              <div id="parsed-output-container" class="hidden flex-col gap-6 pl-2 h-full overflow-y-auto pr-2 pb-4">
+
+                <!-- Metrics -->
+                <div id="metrics-section" class="hidden">
+                  <h3 class="text-[11px] font-label text-outline dark:text-slate-500 uppercase tracking-wider mb-3">Key
+                    Performance Metrics</h3>
+                  <div id="out-metrics" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <!-- JS populated -->
+                  </div>
+                </div>
+
+                <!-- Flags -->
+                <div id="flags-section" class="hidden">
+                  <h3 class="text-[11px] font-label text-outline dark:text-slate-500 uppercase tracking-wider mb-3">
+                    System Risk Flags</h3>
+                  <div id="out-flags" class="flex flex-col gap-2">
+                    <!-- JS populated -->
+                  </div>
+                </div>
+
+                <!-- Entities -->
+                <div id="entities-section" class="hidden">
+                  <h3 class="text-[11px] font-label text-outline dark:text-slate-500 uppercase tracking-wider mb-3">
+                    Detected Projects & Engagements</h3>
+                  <div class="border border-outline-variant dark:border-slate-800 rounded overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                      <thead
+                        class="bg-slate-50 dark:bg-slate-800/50 border-b border-outline-variant dark:border-slate-800">
+                        <tr>
+                          <th class="p-3 text-[12px] font-bold text-slate-700 dark:text-slate-300">Entity Name</th>
+                          <th class="p-3 text-[12px] font-bold text-slate-700 dark:text-slate-300">Classification</th>
+                          <th class="p-3 text-[12px] font-bold text-slate-700 dark:text-slate-300 text-center">
+                            Confidence</th>
+                          <th class="p-3 text-[12px] font-bold text-slate-700 dark:text-slate-300 text-right">Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody id="out-entities" class="divide-y divide-outline-variant dark:divide-slate-800 text-sm">
+                        <!-- JS populated -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <pre id="analyzer-raw-json"
+                class="hidden bg-slate-50 dark:bg-slate-800 border border-outline-variant dark:border-slate-700 rounded p-4 font-mono text-[12px] text-primary dark:text-white overflow-auto max-h-[300px] mt-4 ml-2"></pre>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-8 border-t border-outline-variant dark:border-slate-800">
+            <div class="flex justify-between items-end mb-4">
+              <h2 class="font-h2 text-[16px] text-primary dark:text-white">Recent Document Analysis</h2>
+              <button onclick="clearAnalysisHistory()" class="text-sm font-bold text-error dark:text-red-400 hover:underline flex items-center gap-1">
+                <span class="material-symbols-outlined text-[16px]">delete_sweep</span> Clear History
+              </button>
+            </div>
+            <div id="recent-docs" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div class="text-sm text-outline dark:text-slate-500">No recent documents analyzed.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TO-DO VIEW -->
+        <section id="view-todos" class="view-section">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-lg gap-4">
+            <div>
+              <h1 class="font-h1 text-h1 text-primary dark:text-white">My Desk</h1>
+              <p class="font-body-base text-body-base text-outline dark:text-slate-400 mt-1">Capture and track action items. Click the circle to mark a task complete.</p>
+            </div>
+          </div>
+
+          <!-- Add Task Form -->
+          <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl p-6 mb-6">
+            <h2 class="font-h2 text-[15px] text-primary dark:text-white mb-4 flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px]">add_task</span> Add New Task
+            </h2>
+            <div class="flex flex-col gap-3">
+              <input type="text" id="todo-input" placeholder="What needs to be done?"
+                class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-primary dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                onkeydown="if(event.key==='Enter') addTodo()">
+              <!-- Priority Tags -->
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Priority:</span>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="radio" name="todo-priority" value="High" id="prio-high" class="hidden peer">
+                  <span class="px-3 py-1 rounded-full text-xs font-bold border-2 border-red-300 text-red-600 dark:text-red-400 peer-checked:bg-red-500 peer-checked:text-white peer-checked:border-red-500 transition-all cursor-pointer select-none" onclick="document.getElementById('prio-high').checked=true">🔴 High</span>
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="radio" name="todo-priority" value="Medium" id="prio-medium" class="hidden peer" checked>
+                  <span class="px-3 py-1 rounded-full text-xs font-bold border-2 border-amber-300 text-amber-600 dark:text-amber-400 peer-checked:bg-amber-500 peer-checked:text-white peer-checked:border-amber-500 transition-all cursor-pointer select-none" onclick="document.getElementById('prio-medium').checked=true">🟡 Medium</span>
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="radio" name="todo-priority" value="Low" id="prio-low" class="hidden peer">
+                  <span class="px-3 py-1 rounded-full text-xs font-bold border-2 border-green-300 text-green-600 dark:text-green-400 peer-checked:bg-green-500 peer-checked:text-white peer-checked:border-green-500 transition-all cursor-pointer select-none" onclick="document.getElementById('prio-low').checked=true">🟢 Low</span>
+                </label>
+                <button onclick="addTodo()"
+                  class="ml-auto flex items-center gap-2 px-5 py-2 bg-primary-container dark:bg-[#003366] text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
+                  <span class="material-symbols-outlined text-[18px]">add</span> Add Task
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Task Lists by Priority -->
+          <div class="space-y-4">
+            <!-- High Priority -->
+            <div id="todo-section-High" class="bg-white dark:bg-slate-900 border border-red-200 dark:border-red-900/50 rounded-xl overflow-hidden">
+              <div class="px-6 py-3 bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-900/50 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                  <h2 class="font-h2 text-[14px] text-red-700 dark:text-red-400 font-bold">High Priority</h2>
+                </div>
+                <span id="todo-count-High" class="text-xs text-red-500 dark:text-red-400 font-medium">0 tasks</span>
+              </div>
+              <div id="todo-list-High" class="divide-y divide-slate-100 dark:divide-slate-800 min-h-[48px]">
+                <p class="px-6 py-4 text-sm text-outline dark:text-slate-500 italic">No high priority tasks.</p>
+              </div>
+            </div>
+            <!-- Medium Priority -->
+            <div id="todo-section-Medium" class="bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900/50 rounded-xl overflow-hidden">
+              <div class="px-6 py-3 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-900/50 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                  <h2 class="font-h2 text-[14px] text-amber-700 dark:text-amber-400 font-bold">Medium Priority</h2>
+                </div>
+                <span id="todo-count-Medium" class="text-xs text-amber-500 dark:text-amber-400 font-medium">0 tasks</span>
+              </div>
+              <div id="todo-list-Medium" class="divide-y divide-slate-100 dark:divide-slate-800 min-h-[48px]">
+                <p class="px-6 py-4 text-sm text-outline dark:text-slate-500 italic">No medium priority tasks.</p>
+              </div>
+            </div>
+            <!-- Low Priority -->
+            <div id="todo-section-Low" class="bg-white dark:bg-slate-900 border border-green-200 dark:border-green-900/50 rounded-xl overflow-hidden">
+              <div class="px-6 py-3 bg-green-50 dark:bg-green-900/20 border-b border-green-200 dark:border-green-900/50 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                  <h2 class="font-h2 text-[14px] text-green-700 dark:text-green-400 font-bold">Low Priority</h2>
+                </div>
+                <span id="todo-count-Low" class="text-xs text-green-500 dark:text-green-400 font-medium">0 tasks</span>
+              </div>
+              <div id="todo-list-Low" class="divide-y divide-slate-100 dark:divide-slate-800 min-h-[48px]">
+                <p class="px-6 py-4 text-sm text-outline dark:text-slate-500 italic">No low priority tasks.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bot Integration Info -->
+          <div class="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl p-5 flex items-start gap-4">
+            <span class="material-symbols-outlined text-blue-500 dark:text-blue-400 text-[28px] shrink-0">smart_toy</span>
+            <div>
+              <div class="font-bold text-sm text-blue-800 dark:text-blue-300 mb-1">Telegram / WhatsApp Bot Integration</div>
+              <p class="text-xs text-blue-700 dark:text-blue-400 leading-relaxed">Send tasks to this list via a bot message like <strong>"desk: Prepare Q2 budget report #high"</strong>. Available once the tool is deployed to a live server.</p>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <footer
+        class="bg-[#F8F9FA] dark:bg-slate-950 full-width border-t border-slate-200 dark:border-slate-800 flat no shadows mt-auto">
+        <div class="flex justify-between items-center py-4 px-6 w-full max-w-[1920px] mx-auto">
+          <div class="font-['Public_Sans'] text-xs text-slate-500 dark:text-slate-400">
+            © 2026 Lagos Water Corporation. Internal Operations Proprietary System.
+          </div>
+          <div class="flex gap-6">
+            <a class="font-['Public_Sans'] text-xs text-slate-500 dark:text-slate-400 opacity-80 hover:opacity-100 hover:text-[#003366] dark:hover:text-white transition-all"
+              href="#">Support</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <!-- ADD / EDIT PROJECT MODAL -->
+  <div id="project-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
+    style="display: none;">
+    <div
+      class="bg-white dark:bg-slate-900 w-full max-w-xl rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
+        <h2 id="project-modal-title" class="font-h2 text-lg text-primary dark:text-white">Add Project</h2>
+        <button onclick="closeModal('project-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <form id="project-form" class="p-6 overflow-y-auto flex-1 space-y-4">
+        <input type="hidden" id="p-id">
+        <div>
+          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">NAME *</label>
+          <input type="text" id="p-name" required placeholder="e.g. Iju Waterworks Rehabilitation"
+            class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">CATEGORY</label>
+            <input type="text" id="p-category" placeholder="e.g. Water Treatment Plant"
+              class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
+          </div>
+          <div>
+            <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">REGION</label>
+            <select id="p-region"
+              class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
+              <option>State-wide</option>
+              <option>North</option>
+              <option>South</option>
+              <option>West</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">STATUS</label>
+            <select id="p-status"
+              class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
+              <option>Ongoing</option>
+              <option>Active</option>
+              <option>Delayed</option>
+              <option>Completed</option>
+              <option>Critical</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">COMPLETION (%)</label>
+            <input type="number" id="p-completion" min="0" max="100" value="0"
+              class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
+          </div>
+        </div>
+        <div>
+          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">HANDLER</label>
+          <input type="text" id="p-handler" placeholder="e.g. Engr. John Doe"
+            class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
+        </div>
+        <div>
+          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">NOTES & DETAILS</label>
+          <textarea id="p-notes" rows="3" placeholder="Enter project context, objectives, or important notes..."
+            class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary resize-y"></textarea>
+        </div>
+        <div>
+          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">IMAGES / DOCUMENTS</label>
+          <div id="p-file-dropzone"
+            class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 dark:border-slate-700 border-dashed rounded-lg bg-slate-50 dark:bg-slate-800/30 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors cursor-pointer group">
+            <input type="file" id="p-file-upload" class="hidden" accept="image/png,image/jpeg,application/pdf" />
+            <div class="space-y-2 text-center">
+              <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors">cloud_upload</span>
+              <div class="text-sm text-slate-600 dark:text-slate-400">
+                <span class="text-primary font-semibold hover:underline">Upload a file</span> or drag and drop
+              </div>
+              <p id="p-file-label" class="text-xs text-slate-500">PNG, JPG, PDF up to 10MB</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="closeModal('project-modal')"
+            class="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Cancel</button>
+          <button type="submit"
+            class="px-4 py-2 bg-primary-container dark:bg-[#003366] text-white rounded text-sm font-medium hover:opacity-90">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PROJECT DETAIL MODAL (read-only) -->
+  <div id="project-detail-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
+    style="display: none;">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary dark:text-[#00FFFF]">folder_open</span>
+          <h2 id="pdm-title" class="font-h2 text-lg text-primary dark:text-white">Project Details</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="pdm-edit-btn" onclick="editFromDetail()" class="text-xs font-bold px-3 py-1.5 rounded bg-primary-container dark:bg-[#003366] text-white hover:opacity-90 transition-opacity hidden">
+            Edit
+          </button>
+          <button onclick="closeModal('project-detail-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+      </div>
+      <div id="project-detail-body" class="p-6 overflow-y-auto flex-1 space-y-5">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ENGAGEMENT DETAIL MODAL (read-only) -->
+  <div id="engagement-detail-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
+    style="display: none;">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary dark:text-[#00FFFF]">handshake</span>
+          <h2 id="edm-title" class="font-h2 text-lg text-primary dark:text-white">Engagement Details</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="edm-edit-btn" onclick="editEngagementFromDetail()" class="text-xs font-bold px-3 py-1.5 rounded bg-primary-container dark:bg-[#003366] text-white hover:opacity-90 transition-opacity hidden">
+            Edit
+          </button>
+          <button onclick="closeModal('engagement-detail-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+      </div>
+      <div id="engagement-detail-body" class="p-6 overflow-y-auto flex-1 space-y-5">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+
+  <div id="engagement-modal"
+    class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 md:p-6 transition-all"
+    style="display: none;">
+    <div
+      class="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col max-h-[90vh]">
+      <!-- Header -->
+      <div
+        class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center shrink-0 bg-slate-50 dark:bg-slate-900/50 rounded-t-xl">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary dark:text-[#00FFFF]">assignment_add</span>
+          <h2 id="engagement-modal-title" class="font-h2 text-xl text-slate-800 dark:text-white">Log Engagement</h2>
+        </div>
+        <button onclick="closeModal('engagement-modal')"
+          class="text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <!-- Scrollable Form Body -->
+      <form id="engagement-form" class="flex flex-col flex-1 overflow-hidden">
+        <input type="hidden" id="e-id">
+        <div class="p-6 overflow-y-auto flex-1 space-y-6 form-fieldset">
+
+          <!-- Row 1: Title & Engagement Type -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="space-y-1.5">
+              <label
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Engagement
+                Title <span class="text-error" id="lbl-title-req">*</span></label>
+              <input type="text" id="e-title" required placeholder="e.g., Q3 Funding Review"
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
+            </div>
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Engagement Type</label>
+              <div class="flex gap-3 pt-1">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="e-type" value="Internal" id="e-type-internal" class="accent-blue-600">
+                  <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Internal</span>
+                  <span class="inline-block w-3 h-3 rounded-full bg-blue-500"></span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="e-type" value="External" id="e-type-external" class="accent-green-600" checked>
+                  <span class="text-sm font-medium text-slate-700 dark:text-slate-300">External</span>
+                  <span class="inline-block w-3 h-3 rounded-full bg-green-500"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: Date & Partner -->
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 gap-5 p-4 bg-slate-50 dark:bg-slate-800/30 rounded-lg border border-slate-100 dark:border-slate-800">
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Date
+                <span class="text-error" id="lbl-date-req">*</span></label>
+              <input type="date" id="e-date" required
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
+            </div>
+            <div class="space-y-1.5">
+              <label
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Stakeholder
+                <span class="text-error" id="lbl-partner-req">*</span></label>
+              <input type="text" id="e-partner" required placeholder="e.g., World Bank, JICA, LWC Internal"
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
+            </div>
+          </div>
+
+          <!-- Row 3: Location -->
+          <div class="grid grid-cols-1 gap-5">
+            <div class="space-y-1.5">
+              <label
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Location</label>
+              <input type="text" id="e-location" placeholder="e.g., LWC Head Office"
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
+            </div>
+          </div>
+
+          <!-- Row 4: Notes -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Notes
+              & Details</label>
+            <textarea id="e-notes" rows="3" placeholder="Enter detailed engagement notes and outcomes..."
+              class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-y disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900"></textarea>
+          </div>
+
+          <!-- Row 4b: Next Steps -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Next Steps</label>
+            <input type="text" id="e-next-steps" placeholder="e.g., Follow up with IFC by June, Prepare MOU draft"
+              class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
+            <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Separate multiple steps with a comma</p>
+          </div>
+
+
+          <!-- Row 5: Media Upload Placeholder -->
+          <div class="space-y-1.5 pt-2" id="e-media-container">
+            <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Photos
+              / Attachments</label>
+            <div
+              class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 dark:border-slate-700 border-dashed rounded-lg bg-slate-50 dark:bg-slate-800/30 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors cursor-pointer group"
+              id="e-file-dropzone">
+              <input type="file" id="e-file-upload" class="hidden" accept="image/png, image/jpeg, application/pdf" />
+              <div class="space-y-2 text-center">
+                <span
+                  class="material-symbols-outlined text-4xl text-slate-400 group-hover:text-primary transition-colors">cloud_upload</span>
+                <div class="text-sm text-slate-600 dark:text-slate-400">
+                  <span class="text-primary font-semibold hover:underline">Upload a file</span> or drag and drop
+                </div>
+                <p class="text-xs text-slate-500">PNG, JPG, PDF up to 10MB</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Footer Actions -->
+        <div
+          class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex justify-end gap-3 shrink-0 rounded-b-xl">
+          <button type="button" onclick="closeModal('engagement-modal')" id="btn-cancel-engagement"
+            class="px-5 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
+            Cancel
+          </button>
+          <button type="submit" id="btn-save-engagement"
+            class="px-5 py-2.5 text-sm font-medium text-white bg-primary dark:bg-[#003366] rounded-lg hover:bg-primary/90 dark:hover:bg-[#002244] transition-colors shadow-sm flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">save</span>
+            Save Engagement
+          </button>
+        </div>
+      </form>
+    </div>
+    <script>
+      /* --- DATA & STORAGE --- */
+
+      let projects = [];
+      let engagements = [];
+
+      let currentUserRole = null;
+
+      document.getElementById('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value.toLowerCase();
+        const btn = document.getElementById('btn-login');
+
+        btn.innerHTML = 'Signing in... <div class="spinner border-t-white"></div>';
+
+        setTimeout(() => {
+          if (email.startsWith('admin')) currentUserRole = 'Admin';
+          else if (email.startsWith('editor')) currentUserRole = 'Editor';
+          else currentUserRole = 'Viewer';
+
+          document.getElementById('current-user-name').textContent = currentUserRole + ' User';
+
+          document.getElementById('login-screen').style.display = 'none';
+          const app = document.getElementById('main-app');
+          app.classList.remove('hidden');
+          setTimeout(() => app.classList.remove('opacity-0'), 10); // trigger fade-in
+
+          btn.innerHTML = 'Sign In';
+          enforceRBAC();
+        }, 500); // simulate network delay
+      });
+
+      function handleLogout() {
+        const app = document.getElementById('main-app');
+        app.classList.add('opacity-0');
+        setTimeout(() => {
+          app.classList.add('hidden');
+          document.getElementById('login-screen').style.display = 'flex';
+          document.getElementById('login-form').reset();
+        }, 300);
+      }
+
+      function enforceRBAC() {
+        const isViewer = currentUserRole === 'Viewer';
+        const isAdmin = currentUserRole === 'Admin';
+        document.getElementById('btn-new-project').style.display = isViewer ? 'none' : 'flex';
+        document.getElementById('btn-new-engagement').style.display = isViewer ? 'none' : 'flex';
+
+        // Show To-Do nav only for Admin
+        const navTodos = document.getElementById('nav-todos');
+        if (navTodos) navTodos.style.display = isAdmin ? 'block' : 'none';
+
+        const aiInput = document.getElementById('analyzer-input');
+        const uploadZone = document.getElementById('upload-zone');
+        const actionBtns = document.getElementById('ai-action-buttons');
+
+        if (isViewer) {
+          if (aiInput) aiInput.disabled = true;
+          if (uploadZone) uploadZone.style.pointerEvents = 'none';
+          if (actionBtns) actionBtns.style.display = 'none';
+        } else {
+          if (aiInput) aiInput.disabled = false;
+          if (uploadZone) uploadZone.style.pointerEvents = 'auto';
+          if (actionBtns) actionBtns.style.display = 'flex';
+        }
+        renderAll();
+        // Refresh todo UI after role is set
+        renderDashboardTodos();
+        updateTodoBadge();
+      }
+      let risks = [];
+
+      let currentProjectModalMode = 'view'; // view or edit
+      let currentEngagementModalMode = 'view'; // view or edit
+
+      const SEED_PROJECTS = [
+        { id: 1, name: "Iju Waterworks Rehabilitation", category: "Infrastructure", region: "Lagos Mainland", handler: "JICA", status: "Critical", completion: 35, budget: "5M", startDate: "2023-01-10", expectedEnd: "2024-12-30" },
+        { id: 2, name: "Adiyan Phase II Expansion", category: "Expansion", region: "Ogun Boundary", handler: "World Bank", status: "On Track", completion: 78, budget: "12M", startDate: "2022-05-01", expectedEnd: "2024-06-15" },
+        { id: 3, name: "Lekki Reticulation Network", category: "Distribution", region: "Lagos Island", handler: "LWC Eng", status: "Delayed", completion: 45, budget: "2.5M", startDate: "2023-08-01", expectedEnd: "2024-02-28" },
+        { id: 4, name: "Oshodi Smart Metering", category: "Technology", region: "Lagos Mainland", handler: "IFC", status: "On Track", completion: 92, budget: "1M", startDate: "2023-10-01", expectedEnd: "2024-01-30" },
+        { id: 5, name: "Badagry Rural Access", category: "Community", region: "Badagry", handler: "WaterAid", status: "Critical", completion: 12, budget: "500K", startDate: "2024-01-05", expectedEnd: "2025-01-05" }
+      ];
+
+      const SEED_ENGAGEMENTS = [
+        { id: 1, title: "Q3 Progress Review", date: "2023-11-15", partner: "JICA", location: "Iju Plant", related: "Iju Waterworks", category: "Review Meeting", notes: "Reviewed phase 1 completion. Noted delays in turbine delivery." },
+        { id: 2, title: "Funding Tranche Approval", date: "2023-12-02", partner: "World Bank", location: "LWC HQ", related: "Adiyan Phase II", category: "Financial", notes: "Approved $4M release for next phase piping." },
+        { id: 3, title: "Community Sensitization", date: "2024-01-10", partner: "WaterAid", location: "Badagry Town Hall", related: "Badagry Rural Access", category: "Community", notes: "Engaged local leaders on upcoming excavation works." }
+      ];
+
+      const SEED_RISKS = [
+        { id: Date.now() + 1, title: "Critical Maintenance Delay: Iju Waterworks", severity: "critical", statusText: "Delayed 14 Days", description: "Turbine repair overdue by 14 days. Potential 30% production drop." },
+        { id: Date.now() + 2, title: "Ajah Pipe Replacement", severity: "delayed", statusText: "Delayed 4 Days", description: "Weather-related foundation instability. Reworking scheduled for March 22nd." }
+      ];
+
+      function toggleModal(id, show) {
+        const modal = document.getElementById(id);
+        if (show) {
+          modal.style.display = 'flex';
+          setTimeout(() => {
+            modal.querySelector('div').style.transform = 'scale(1)';
+            modal.querySelector('div').style.opacity = '1';
+          }, 10);
+        } else {
+          modal.querySelector('div').style.transform = 'scale(0.95)';
+          modal.querySelector('div').style.opacity = '0';
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, 200);
+        }
+      }
+
+
+      function initData() {
+        const savedProjects = localStorage.getItem('lwc_projects_v1');
+        const savedEngagements = localStorage.getItem('lwc_engagements_v1');
+        const savedRisks = localStorage.getItem('lwc_risks_v1');
+
+        if (!savedProjects) {
+          projects = [...SEED_PROJECTS];
+          engagements = [...SEED_ENGAGEMENTS];
+          risks = [...SEED_RISKS];
+          saveData();
+        } else {
+          projects = JSON.parse(savedProjects);
+          engagements = JSON.parse(savedEngagements);
+          risks = savedRisks ? JSON.parse(savedRisks) : [];
+        }
+
+        renderAll();
+      }
+
+      function saveData() {
+        localStorage.setItem('lwc_projects_v1', JSON.stringify(projects));
+        localStorage.setItem('lwc_engagements_v1', JSON.stringify(engagements));
+        localStorage.setItem('lwc_risks_v1', JSON.stringify(risks));
+        renderAll();
+      }
+
+      /* --- THEME TOGGLE --- */
+      const themeToggle = document.getElementById('theme-toggle');
+      themeToggle.addEventListener('click', () => {
+        const html = document.documentElement;
+        if (html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          html.classList.add('light');
+          themeToggle.innerHTML = '<span class="material-symbols-outlined">dark_mode</span>';
+        } else {
+          html.classList.remove('light');
+          html.classList.add('dark');
+          themeToggle.innerHTML = '<span class="material-symbols-outlined">light_mode</span>';
+        }
+      });
+
+      /* --- ROUTING --- */
+      document.querySelectorAll('.nav-btn').forEach(link => {
+        link.addEventListener('click', (e) => {
+          // Reset styles
+          document.querySelectorAll('.nav-btn').forEach(l => {
+            l.classList.remove('bg-primary-container/10', 'dark:bg-[#00FFFF]/10', 'text-[#003366]', 'dark:text-[#00FFFF]');
+            l.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-50', 'dark:hover:bg-slate-800', 'hover:text-[#003366]', 'dark:hover:text-white');
+          });
+          document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+
+          // Activate current
+          const btn = e.currentTarget;
+          btn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-50', 'dark:hover:bg-slate-800', 'hover:text-[#003366]', 'dark:hover:text-white');
+          btn.classList.add('bg-primary-container/10', 'dark:bg-[#00FFFF]/10', 'text-[#003366]', 'dark:text-[#00FFFF]');
+          document.getElementById(btn.dataset.target).classList.add('active');
+        });
+      });
+
+      /* --- RENDERING UTILS --- */
+      function getStatusStyles(status) {
+        const s = status.toLowerCase();
+        if (s === 'delayed') return { bg: 'bg-tertiary-fixed/20 border-tertiary-container', text: 'text-tertiary-container', badge: 'bg-tertiary-fixed text-tertiary-container' };
+        if (s === 'completed') return { bg: 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800', text: 'text-green-700 dark:text-green-400', badge: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-400' };
+        if (s === 'critical') return { bg: 'bg-error-container/10 border-error', text: 'text-error dark:text-red-400', badge: 'bg-error-container text-error dark:bg-error/30 dark:text-red-400' };
+        return { bg: 'bg-surface-container-low border-primary-container', text: 'text-primary dark:text-blue-400', badge: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400' };
+      }
+
+      function renderAll() {
+        renderDashboard();
+        renderProjects();
+        renderEngagements();
+      }
+
+      function renderDashboard() {
+        // KPIs
+        document.getElementById('kpi-total').textContent = String(projects.length).padStart(2, '0');
+        const activeProjects = projects.filter(p => p.status !== 'Completed');
+        document.getElementById('kpi-active').textContent = String(activeProjects.length).padStart(2, '0');
+        const rate = projects.length ? Math.round((activeProjects.length / projects.length) * 100) : 0;
+        document.getElementById('kpi-active-rate').textContent = `${rate}% Deployment Rate`;
+        document.getElementById('kpi-completed').textContent = String(projects.filter(p => p.status === 'Completed').length).padStart(2, '0');
+
+        // Projects by completion list — exclude completed projects
+        const activeOnly = projects.filter(p => p.status !== 'Completed');
+        const topProjects = [...activeOnly].sort((a, b) => b.completion - a.completion).slice(0, 5);
+        const completionHtml = topProjects.map(p => {
+          let colorClass = 'bg-amber-500';
+          let textClass = 'text-amber-600 dark:text-amber-400';
+          if (p.completion >= 70) { colorClass = 'bg-green-500'; textClass = 'text-green-600 dark:text-green-400'; }
+          else if (p.completion < 40) { colorClass = 'bg-red-500'; textClass = 'text-red-600 dark:text-red-400'; }
+
+          return `
+        <div class="space-y-xs">
+          <div class="flex justify-between items-center font-body-sm text-body-sm">
+            <span class="font-medium text-primary dark:text-white">${p.name}</span>
+            <span class="${textClass} font-bold">${p.completion}%</span>
+          </div>
+          <div class="w-full bg-surface-container dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+            <div class="${colorClass} h-full" style="width: ${p.completion}%"></div>
+          </div>
+        </div>
+      `}).join('');
+        document.getElementById('projects-completion-list').innerHTML = completionHtml || '<p class="text-sm text-outline dark:text-slate-500">No active projects</p>';
+
+        // Risk List (safe - only render if element exists)
+        const riskListEl = document.getElementById('risk-list');
+        if (riskListEl) {
+          const riskHtml = risks.length === 0
+            ? '<p class="text-sm text-outline dark:text-slate-500">No manual risks added to the dashboard yet.</p>'
+            : risks.map(r => {
+              const isCrit = r.severity === 'critical';
+              const borderClass = isCrit ? 'border-error' : 'border-[#8c4927]';
+              const bgClass = isCrit ? 'bg-[#fefafc] dark:bg-error/5' : 'bg-[#fcf5f0] dark:bg-orange-900/10';
+              const topTextClass = isCrit ? 'text-error' : 'text-[#8c4927]';
+              return `
+              <div class="p-4 ${bgClass} border-l-4 ${borderClass} mb-3">
+                <div class="flex justify-between items-start mb-2">
+                  <span class="font-bold text-[11px] ${topTextClass} uppercase tracking-wider">${r.severity ? r.severity : ''}</span>
+                  <span class="text-[11px] text-slate-400 font-medium">${r.statusText ? r.statusText : ''}</span>
+                </div>
+                ${r.title && r.title !== 'Risk Flag' ? `<h3 class="font-bold text-[14px] text-[#003366] dark:text-blue-300 mb-1">${r.title}</h3>` : ''}
+                <p class="text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed">${r.description}</p>
+              </div>
+            `}).join('');
+          riskListEl.innerHTML = riskHtml;
+        }
+
+        // Recent Engagements
+        const sortedEngagements = [...engagements].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+        const engHtml = sortedEngagements.map((e, index) => {
+          const bgClass = index % 2 === 0 ? 'hover:bg-surface-container-lowest dark:hover:bg-slate-800' : 'bg-slate-50/50 dark:bg-slate-800/20 hover:bg-surface-container-lowest dark:hover:bg-slate-800';
+          return `
+            <tr class="${bgClass} transition-colors">
+              <td class="p-md text-outline dark:text-slate-400">${e.date}</td>
+              <td class="p-md font-medium text-primary dark:text-white">${e.title}</td>
+              <td class="p-md text-primary dark:text-slate-300">
+                <span class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-[11px] font-bold">${e.partner}</span>
+              </td>
+            </tr>
+          `}).join('');
+        document.getElementById('recent-engagements-list').innerHTML = engHtml || '<tr><td colspan="3" class="p-md text-sm text-outline dark:text-slate-500 text-center">No engagements recorded</td></tr>';
+      }
+
+      function renderProjects() {
+        const term = document.getElementById('project-search').value.toLowerCase();
+        const filtered = projects.filter(p => p.name.toLowerCase().includes(term));
+        const active = filtered.filter(p => p.status !== 'Completed');
+        const completed = filtered.filter(p => p.status === 'Completed');
+
+        function buildRow(p, index) {
+          const bgClass = index % 2 === 0 ? 'hover:bg-surface-container-lowest dark:hover:bg-slate-800' : 'bg-slate-50/50 dark:bg-slate-800/20 hover:bg-surface-container-lowest dark:hover:bg-slate-800';
+          let pColor = 'bg-amber-500';
+          if (p.completion >= 70) pColor = 'bg-green-500';
+          else if (p.completion < 40) pColor = 'bg-red-500';
+          const styles = getStatusStyles(p.status);
+          return `
+        <tr class="${bgClass} transition-colors cursor-pointer" onclick="viewProjectDetails(${p.id})" title="Click to view details">
+          <td class="p-md font-medium text-primary dark:text-white">${p.name}</td>
+          <td class="p-md text-outline dark:text-slate-400">${p.category || '—'}</td>
+          <td class="p-md text-outline dark:text-slate-400">${p.region || '—'}</td>
+          <td class="p-md font-medium text-primary dark:text-slate-300">${p.handler || 'Unassigned'}</td>
+          <td class="p-md"><span class="px-2 py-0.5 rounded-full ${styles.badge} text-[11px] font-bold uppercase">${p.status}</span></td>
+          <td class="p-md">
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-[12px] font-medium text-primary dark:text-slate-300">${p.completion}%</span>
+              <div class="w-16 bg-surface-container dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                <div class="${pColor} h-full" style="width: ${p.completion}%"></div>
+              </div>
+            </div>
+          </td>
+        </tr>`;
+        }
+
+        const activeHtml = active.map(buildRow).join('');
+        document.getElementById('projects-table-body').innerHTML = activeHtml || '<tr><td colspan="6" class="p-md text-center text-outline dark:text-slate-500">No active projects found</td></tr>';
+
+        // Collapsible completed projects section
+        const completedSection = document.getElementById('completed-projects-section');
+        if (completedSection) {
+          if (!completed.length) {
+            completedSection.classList.add('hidden');
+          } else {
+            completedSection.classList.remove('hidden');
+            document.getElementById('completed-projects-count').textContent = `${completed.length} project${completed.length > 1 ? 's' : ''}`;
+            document.getElementById('completed-projects-body').innerHTML = completed.map(buildRow).join('');
+          }
+        }
+      }
+
+      document.getElementById('project-search').addEventListener('input', renderProjects);
+
+      function toggleCompletedProjects() {
+        const table = document.getElementById('completed-projects-table');
+        const chevron = document.getElementById('completed-projects-chevron');
+        if (table.classList.contains('hidden')) {
+          table.classList.remove('hidden');
+          chevron.style.transform = 'rotate(180deg)';
+        } else {
+          table.classList.add('hidden');
+          chevron.style.transform = 'rotate(0deg)';
+        }
+      }
+
+      function getPartnerIcon(partner) {
+        const p = (partner || '').toLowerCase();
+        if (p.includes('wateraid') || p.includes('water')) return 'water_drop';
+        if (p.includes('jica') || p.includes('ifc') || p.includes('bank')) return 'handshake';
+        if (p.includes('gov') || p.includes('council')) return 'account_balance';
+        if (p.includes('un-water') || p.includes('eco')) return 'eco';
+        if (p.includes('suez') || p.includes('siemens')) return 'settings_applications';
+        return 'groups';
+      }
+
+      function getCategoryColor(category) {
+        const c = (category || '').toLowerCase();
+        if (c.includes('donor') || c.includes('review')) return 'bg-secondary-fixed text-on-secondary-fixed dark:bg-[#004c6b] dark:text-[#c6e7ff]';
+        if (c.includes('financial') || c.includes('funding')) return 'bg-tertiary-fixed text-on-tertiary-fixed dark:bg-[#592300] dark:text-[#ffdbca]';
+        if (c.includes('policy') || c.includes('framework')) return 'bg-primary-container text-white dark:bg-[#003366] dark:text-[#d5e3ff]';
+        return 'bg-surface-variant text-on-surface-variant dark:bg-slate-800 dark:text-slate-300';
+      }
+
+      function getActionText(category) {
+        const c = (category || '').toLowerCase();
+        if (c.includes('review') || c.includes('policy')) return 'VIEW TRANSCRIPT';
+        if (c.includes('financial') || c.includes('funding')) return 'VIEW MEMORANDUM';
+        if (c.includes('community')) return 'COMMUNITY FEEDBACK';
+        if (c.includes('technical') || c.includes('vendor')) return 'TECH SPECS';
+        return 'VIEW DETAILS';
+      }
+
+      function getActionSuffix(category) {
+        const c = (category || '').toLowerCase();
+        if (c.includes('financial') || c.includes('funding')) return '<span class="material-symbols-outlined text-error text-sm" title="High Priority">priority_high</span>';
+        if (c.includes('technical')) return '<span class="material-symbols-outlined text-secondary dark:text-[#00FFFF] text-sm" title="Completed">check_circle</span>';
+        if (c.includes('policy')) return '<div class="flex gap-1"><span class="w-2 h-2 rounded-full bg-secondary-container dark:bg-[#00FFFF]"></span><span class="w-2 h-2 rounded-full bg-outline-variant dark:bg-slate-700"></span><span class="w-2 h-2 rounded-full bg-outline-variant dark:bg-slate-700"></span></div>';
+        if (c.includes('community')) return '<span class="text-body-sm font-bold text-on-surface-variant dark:text-slate-400">42 Attendees</span>';
+        if (c.includes('vendor')) return '<div class="flex items-center gap-1 text-on-tertiary-container dark:text-amber-400 font-bold text-xs"><span class="material-symbols-outlined text-xs">star</span> RECOMMENDED</div>';
+        return '<div class="flex -space-x-2"><div class="w-6 h-6 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-700"></div><div class="w-6 h-6 rounded-full border-2 border-white dark:border-slate-900 bg-slate-300 dark:bg-slate-600"></div></div>';
+      }
+
+      function renderEngagements() {
+        const filterVal = document.getElementById('engagement-filter').value;
+
+        const filtered = engagements.filter(e => {
+          if (filterVal === 'Internal') return e.engagementType === 'Internal';
+          if (filterVal === 'External') return e.engagementType === 'External';
+          return true;
+        });
+
+        // Sort: Internal first, then External
+        filtered.sort((a, b) => {
+          if (a.engagementType === b.engagementType) return new Date(b.date) - new Date(a.date);
+          return a.engagementType === 'Internal' ? -1 : 1;
+        });
+
+        const html = filtered.map(e => {
+          const engType = e.engagementType || 'External';
+          const loc = e.location || 'Location not specified';
+          const proj = e.related || 'Multiple / General Projects';
+          const note = e.notes || 'No detailed notes provided.';
+          const icon = getPartnerIcon(e.partner);
+
+          // Type color tag
+          const isInternal = engType === 'Internal';
+          const typeTag = isInternal
+            ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
+            : 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300';
+
+          // Role-based color (for who logged it)
+          const savedRole = e.loggedByRole || '';
+          let roleDot = 'bg-green-400'; // Staff default
+          if (savedRole === 'Admin') roleDot = 'bg-red-500';
+          else if (savedRole === 'Editor') roleDot = 'bg-blue-500';
+
+          // Next steps chips
+          const nextSteps = e.nextSteps ? e.nextSteps.split(',').map(s => s.trim()).filter(Boolean) : [];
+          const stepsHtml = nextSteps.length ? `
+            <div class="flex flex-wrap gap-1 mt-2">
+              ${nextSteps.map(s => `<span class="text-[10px] bg-primary/10 text-primary dark:bg-[#003366]/40 dark:text-[#00FFFF] px-2 py-0.5 rounded-full font-medium">→ ${s}</span>`).join('')}
+            </div>` : '';
+
+          return `
+        <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-lg p-6 flex flex-col h-full transition-all duration-200 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] hover:border-[#00FFFF] dark:hover:border-[#00FFFF]">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center gap-2">
+              <span class="${typeTag} text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded">${engType}</span>
+              <span class="w-2 h-2 rounded-full ${roleDot}" title="Logged by ${savedRole || 'Staff'}"></span>
+            </div>
+            <span class="text-slate-400 text-xs font-medium">${e.date}</span>
+          </div>
+          <h3 class="font-h2 text-lg mb-2 text-primary dark:text-white">${e.title}</h3>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="material-symbols-outlined text-secondary dark:text-[#00FFFF] text-base" data-weight="fill">${icon}</span>
+            <span class="font-semibold text-sm text-secondary dark:text-[#00FFFF]">${e.partner || '—'}</span>
+          </div>
+          <div class="space-y-3 mb-6 flex-grow">
+            <div class="flex items-start gap-2">
+              <span class="material-symbols-outlined text-outline dark:text-slate-500 text-sm">location_on</span>
+              <span class="text-body-sm text-on-surface-variant dark:text-slate-400">${loc}</span>
+            </div>
+            <p class="text-body-sm text-on-surface-variant dark:text-slate-400 line-clamp-3">${note}</p>
+            ${stepsHtml}
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+            <button onclick="viewEngagementDetails(${e.id})" class="text-primary dark:text-[#00FFFF] text-xs font-bold hover:underline flex items-center gap-1 focus:outline-none">
+              View Details <span class="material-symbols-outlined text-xs">arrow_forward</span>
+            </button>
+            ${currentUserRole === 'Admin' ? `
+            <button onclick="deleteEngagement(${e.id})" class="text-slate-400 hover:text-error transition-colors focus:outline-none" title="Delete Engagement">
+              <span class="material-symbols-outlined text-[18px]">delete</span>
+            </button>
+            ` : ''}
+          </div>
+        </div>
+        `;
+        }).join('');
+        document.getElementById('engagements-grid').innerHTML = html || '<div class="col-span-full text-center py-8 text-outline dark:text-slate-500">No engagements match your filters</div>';
+      }
+
+      document.getElementById('engagement-filter').addEventListener('change', renderEngagements);
+
+
+      /* --- CRUD LOGIC --- */
+      function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+      }
+
+      function deleteEngagement(id) {
+        if (currentUserRole !== 'Admin') {
+          alert('Unauthorized. Only Admins can delete engagements.');
+          return;
+        }
+        if (confirm('Are you sure you want to delete this engagement log?')) {
+          engagements = engagements.filter(e => e.id !== id);
+          saveData();
+        }
+      }
+
+      function openProjectModal() {
+        document.getElementById('project-form').reset();
+        document.getElementById('p-id').value = '';
+        document.getElementById('project-modal-title').textContent = 'Add Project';
+        document.getElementById('project-modal').style.display = 'flex';
+      }
+
+      function editProject(id) {
+        const p = projects.find(x => x.id === id);
+        if (!p) return;
+        document.getElementById('p-id').value = p.id;
+        document.getElementById('p-name').value = p.name;
+        document.getElementById('p-category').value = p.category;
+        document.getElementById('p-region').value = p.region;
+        document.getElementById('p-handler').value = p.handler || '';
+        document.getElementById('p-status').value = p.status;
+        document.getElementById('p-completion').value = p.completion;
+        document.getElementById('project-modal-title').textContent = 'Edit Project';
+        document.getElementById('project-modal').style.display = 'flex';
+      }
+
+      function deleteProject(id) {
+        if (confirm('Are you sure you want to delete this project?')) {
+          projects = projects.filter(p => p.id !== id);
+          saveData();
+        }
+      }
+
+      let currentDetailProjectId = null;
+
+      function viewProjectDetails(id) {
+        const p = projects.find(x => x.id === id);
+        if (!p) return;
+        currentDetailProjectId = id;
+        const styles = getStatusStyles(p.status);
+        let pColor = 'bg-amber-500';
+        if (p.completion >= 70) pColor = 'bg-green-500';
+        else if (p.completion < 40) pColor = 'bg-red-500';
+
+        document.getElementById('pdm-title').textContent = p.name;
+        document.getElementById('project-detail-body').innerHTML = `
+          <div class="flex flex-wrap gap-3 items-center">
+            <span class="px-3 py-1 rounded-full ${styles.badge} text-xs font-bold uppercase">${p.status}</span>
+            <span class="text-sm text-outline dark:text-slate-400 font-medium">${p.category || 'No Category'}</span>
+            <span class="text-slate-300 dark:text-slate-700">|</span>
+            <span class="text-sm text-outline dark:text-slate-400">${p.region || 'No Region'}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Handler</div>
+              <div class="text-sm font-medium text-primary dark:text-white">${p.handler || 'Unassigned'}</div>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Completion</div>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="text-lg font-bold text-primary dark:text-white">${p.completion}%</span>
+                <div class="flex-1 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                  <div class="${pColor} h-full transition-all" style="width:${p.completion}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          ${p.notes ? `
+          <div>
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Notes & Details</div>
+            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">${p.notes}</p>
+          </div>` : ''}
+        `;
+        // Show edit button only to non-viewers
+        const editBtn = document.getElementById('pdm-edit-btn');
+        editBtn.classList.toggle('hidden', currentUserRole === 'Viewer');
+        document.getElementById('project-detail-modal').style.display = 'flex';
+      }
+
+      function editFromDetail() {
+        closeModal('project-detail-modal');
+        if (currentDetailProjectId) editProject(currentDetailProjectId);
+      }
+
+      let currentDetailEngagementId = null;
+
+      function viewEngagementDetails(id) {
+        const e = engagements.find(x => x.id === id);
+        if (!e) return;
+        currentDetailEngagementId = id;
+
+        const isInternal = e.engagementType === 'Internal';
+        const typeTag = isInternal
+          ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
+          : 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300';
+
+        const icon = getPartnerIcon(e.partner);
+        
+        document.getElementById('edm-title').textContent = e.title;
+        
+        const nextSteps = e.nextSteps ? e.nextSteps.split(',').map(s => s.trim()).filter(Boolean) : [];
+        const stepsHtml = nextSteps.length ? `
+          <div>
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Next Steps</div>
+            <div class="flex flex-wrap gap-2">
+              ${nextSteps.map(s => `<span class="text-sm bg-primary/10 text-primary dark:bg-[#003366]/40 dark:text-[#00FFFF] px-3 py-1 rounded-full font-medium">→ ${s}</span>`).join('')}
+            </div>
+          </div>
+        ` : '';
+
+        document.getElementById('engagement-detail-body').innerHTML = `
+          <div class="flex flex-wrap gap-3 items-center">
+            <span class="${typeTag} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">${e.engagementType || 'External'}</span>
+            <span class="text-sm text-outline dark:text-slate-400 font-medium">${e.date}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Stakeholder</div>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="material-symbols-outlined text-secondary dark:text-[#00FFFF] text-sm" data-weight="fill">${icon}</span>
+                <span class="text-sm font-medium text-primary dark:text-white">${e.partner || '—'}</span>
+              </div>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Location</div>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="material-symbols-outlined text-outline dark:text-slate-500 text-sm">location_on</span>
+                <span class="text-sm font-medium text-primary dark:text-white">${e.location || '—'}</span>
+              </div>
+            </div>
+          </div>
+          ${e.notes ? `
+          <div>
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Notes & Details</div>
+            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">${e.notes}</p>
+          </div>` : ''}
+          ${stepsHtml}
+        `;
+
+        // Show edit button only to Admins/Editors
+        const editBtn = document.getElementById('edm-edit-btn');
+        editBtn.classList.toggle('hidden', currentUserRole === 'Viewer');
+        document.getElementById('engagement-detail-modal').style.display = 'flex';
+      }
+
+      function editEngagementFromDetail() {
+        closeModal('engagement-detail-modal');
+        if (currentDetailEngagementId) editEngagement(currentDetailEngagementId);
+      }
+
+      // Project file dropzone
+      const pDropZone = document.getElementById('p-file-dropzone');
+      const pFileInput = document.getElementById('p-file-upload');
+      if (pDropZone && pFileInput) {
+        pDropZone.addEventListener('click', () => pFileInput.click());
+        pDropZone.addEventListener('dragover', (e) => { e.preventDefault(); pDropZone.classList.add('border-primary'); });
+        pDropZone.addEventListener('dragleave', () => pDropZone.classList.remove('border-primary'));
+        pDropZone.addEventListener('drop', (e) => {
+          e.preventDefault(); pDropZone.classList.remove('border-primary');
+          if (e.dataTransfer.files.length) handleProjectFile(e.dataTransfer.files[0]);
+        });
+        pFileInput.addEventListener('change', (e) => { if (e.target.files.length) handleProjectFile(e.target.files[0]); });
+      }
+      function handleProjectFile(file) {
+        document.getElementById('p-file-label').textContent = `Attached: ${file.name}`;
+        const icon = pDropZone.querySelector('.material-symbols-outlined');
+        icon.textContent = 'check_circle'; icon.classList.replace('text-slate-400', 'text-green-500');
+      }
+
+      document.getElementById('project-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('p-id').value;
+        const data = {
+          name: document.getElementById('p-name').value,
+          category: document.getElementById('p-category').value,
+          region: document.getElementById('p-region').value,
+          handler: document.getElementById('p-handler').value,
+          status: document.getElementById('p-status').value,
+          completion: parseInt(document.getElementById('p-completion').value),
+          notes: document.getElementById('p-notes').value
+        };
+
+        if (id) {
+          const idx = projects.findIndex(p => p.id == id);
+          projects[idx] = { ...projects[idx], ...data };
+        } else {
+          projects.push({ id: Date.now(), ...data });
+        }
+        saveData();
+        closeModal('project-modal');
+        // Reset file UI
+        if (pFileInput) pFileInput.value = '';
+        if (document.getElementById('p-file-label')) document.getElementById('p-file-label').textContent = 'PNG, JPG, PDF up to 10MB';
+      });
+
+
+      function setEngagementModalMode(isViewOnly) {
+        currentEngagementModalMode = isViewOnly ? 'view' : 'edit';
+        const form = document.getElementById('engagement-form');
+        const inputs = form.querySelectorAll('input, select, textarea');
+        const saveBtn = document.getElementById('btn-save-engagement');
+        const mediaContainer = document.getElementById('e-media-container');
+        const reqAsterisks = form.querySelectorAll('.text-error');
+
+        inputs.forEach(input => {
+          if (input.id !== 'e-id') input.disabled = isViewOnly;
+        });
+
+        if (isViewOnly) {
+          saveBtn.style.display = 'none';
+          mediaContainer.style.display = 'none';
+          reqAsterisks.forEach(el => el.style.display = 'none');
+        } else {
+          saveBtn.style.display = 'flex';
+          mediaContainer.style.display = 'block';
+          reqAsterisks.forEach(el => el.style.display = 'inline');
+        }
+      }
+
+      function openEngagementModal() {
+        document.getElementById('engagement-form').reset();
+        document.getElementById('e-id').value = '';
+        document.getElementById('engagement-modal-title').textContent = 'Log Engagement';
+        // Default to External type
+        const extRadio = document.getElementById('e-type-external');
+        if (extRadio) extRadio.checked = true;
+        setEngagementModalMode(false);
+        resetEngagementFileUI();
+        document.getElementById('engagement-modal').style.display = 'flex';
+      }
+
+      function editEngagement(id) {
+        const e = engagements.find(x => x.id === id);
+        if (!e) return;
+        document.getElementById('e-id').value = e.id;
+        document.getElementById('e-title').value = e.title;
+        document.getElementById('e-partner').value = e.partner || '';
+        document.getElementById('e-date').value = e.date || '';
+        document.getElementById('e-location').value = e.location || '';
+        document.getElementById('e-notes').value = e.notes || '';
+        if (document.getElementById('e-next-steps')) {
+          document.getElementById('e-next-steps').value = e.nextSteps || '';
+        }
+        // Set type radio
+        const typeVal = e.engagementType || 'External';
+        const radio = document.querySelector(`input[name="e-type"][value="${typeVal}"]`);
+        if (radio) radio.checked = true;
+
+        document.getElementById('engagement-modal-title').textContent = 'Edit Engagement';
+        setEngagementModalMode(false); // Editable
+        resetEngagementFileUI();
+        document.getElementById('engagement-modal').style.display = 'flex';
+      }
+
+      const eDropZone = document.getElementById('e-file-dropzone');
+      const eFileInput = document.getElementById('e-file-upload');
+
+      if (eDropZone && eFileInput) {
+        eDropZone.addEventListener('click', () => {
+          if (currentEngagementModalMode !== 'view') eFileInput.click();
+        });
+        eDropZone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          if (currentEngagementModalMode !== 'view') eDropZone.classList.add('border-primary');
+        });
+        eDropZone.addEventListener('dragleave', () => { eDropZone.classList.remove('border-primary'); });
+        eDropZone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          eDropZone.classList.remove('border-primary');
+          if (currentEngagementModalMode !== 'view' && e.dataTransfer.files.length) {
+            handleEngagementFile(e.dataTransfer.files[0]);
+          }
+        });
+        eFileInput.addEventListener('change', (e) => {
+          if (e.target.files.length) handleEngagementFile(e.target.files[0]);
+        });
+      }
+
+      function handleEngagementFile(file) {
+        document.querySelector('#e-file-dropzone p').textContent = `Attached: ${file.name}`;
+        const iconSpan = document.querySelector('#e-file-dropzone span.material-symbols-outlined');
+        iconSpan.textContent = 'check_circle';
+        iconSpan.classList.replace('text-slate-400', 'text-green-500');
+        iconSpan.classList.replace('group-hover:text-primary', 'group-hover:text-green-600');
+      }
+
+      function resetEngagementFileUI() {
+        if (!eDropZone) return;
+        document.querySelector('#e-file-dropzone p').textContent = 'PNG, JPG, PDF up to 10MB';
+        const iconSpan = document.querySelector('#e-file-dropzone span.material-symbols-outlined');
+        iconSpan.textContent = 'cloud_upload';
+        iconSpan.classList.replace('text-green-500', 'text-slate-400');
+        iconSpan.classList.replace('group-hover:text-green-600', 'group-hover:text-primary');
+        if (eFileInput) eFileInput.value = '';
+      }
+
+      function deleteEngagement(id) {
+        if (confirm('Are you sure you want to delete this engagement?')) {
+          engagements = engagements.filter(e => e.id !== id);
+          saveData();
+        }
+      }
+
+      document.getElementById('engagement-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('e-id').value;
+        const selectedType = document.querySelector('input[name="e-type"]:checked');
+        const data = {
+          title: document.getElementById('e-title').value,
+          partner: document.getElementById('e-partner').value,
+          date: document.getElementById('e-date').value,
+          location: document.getElementById('e-location').value,
+          notes: document.getElementById('e-notes').value,
+          nextSteps: document.getElementById('e-next-steps') ? document.getElementById('e-next-steps').value : '',
+          engagementType: selectedType ? selectedType.value : 'External',
+          loggedByRole: currentUserRole
+        };
+
+        if (id) {
+          const idx = engagements.findIndex(e => e.id == id);
+          engagements[idx] = { ...engagements[idx], ...data };
+        } else {
+          engagements.push({ id: Date.now(), ...data });
+        }
+        saveData();
+        closeModal('engagement-modal');
+        resetEngagementFileUI();
+      });
+
+
+      /* --- AI ANALYZER --- */
+      let lastExtractedData = null;
+      let currentFile = null;
+
+      const dropZone = document.getElementById('upload-zone');
+      const fileInput = document.getElementById('file-upload');
+      const textInput = document.getElementById('analyzer-input');
+
+      dropZone.addEventListener('click', () => fileInput.click());
+      dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-primary'); });
+      dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-primary'); });
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-primary');
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      });
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length) handleFile(e.target.files[0]);
+      });
+
+      function handleFile(file) {
+        currentFile = file;
+        document.querySelector('#upload-zone p').textContent = `Selected: ${file.name}`;
+        document.querySelector('#upload-zone span').textContent = 'check_circle';
+        document.querySelector('#upload-zone span').classList.replace('text-outline', 'text-green-500');
+        document.querySelector('#upload-zone span').classList.replace('dark:text-slate-500', 'dark:text-green-400');
+      }
+
+      async function triggerAnalysis() {
+        const mode = document.querySelector('input[name="analysis_mode"]:checked').value;
+        const text = textInput.value.trim();
+        const statusEl = document.getElementById('analyzer-status');
+        const container = document.getElementById('parsed-output-container');
+        const outMetrics = document.getElementById('out-metrics');
+        const outFlags = document.getElementById('out-flags');
+        const outEntities = document.getElementById('out-entities');
+        const rawJson = document.getElementById('analyzer-raw-json');
+
+        if (!text && !currentFile) {
+          alert("Please paste or upload a document first.");
+          return;
+        }
+
+        statusEl.innerHTML = `Analyzing document... <div class="spinner"></div>`;
+        container.classList.add('hidden');
+        rawJson.classList.add('hidden');
+
+        try {
+          const formData = new FormData();
+          formData.append('mode', mode);
+          if (currentFile) formData.append('file', currentFile);
+          else formData.append('text', text);
+
+          const res = await fetch('/api/analyze', { method: 'POST', body: formData });
+          const data = await res.json();
+
+          if (!res.ok) throw new Error(data.error || 'API Request Failed');
+
+          lastExtractedData = data;
+          statusEl.innerHTML = `Analysis complete. Extracted items shown below.`;
+
+          // Populate UI
+          container.classList.remove('hidden');
+
+          // Metrics
+          if (data.metrics && data.metrics.length > 0) {
+            document.getElementById('metrics-section').classList.remove('hidden');
+            outMetrics.innerHTML = data.metrics.map(m => `
+            <div class="p-4 border border-outline-variant dark:border-slate-800 rounded bg-white dark:bg-slate-800">
+              <div class="text-[11px] font-label text-outline dark:text-slate-500 uppercase">${m.key}</div>
+              <div class="text-2xl font-h1 text-primary dark:text-[#00FFFF] my-1">${m.value}</div>
+              <div class="text-[11px] text-outline dark:text-slate-400 leading-tight">${m.note || ''}</div>
+            </div>
+          `).join('');
+          } else {
+            document.getElementById('metrics-section').classList.add('hidden');
+          }
+
+          // Flags
+          document.getElementById('flags-section').classList.remove('hidden');
+          if (data.flags && data.flags.length > 0) {
+            outFlags.innerHTML = data.flags.map((f, index) => {
+              if (typeof f === 'string') {
+                f = { title: '', severity: '', description: f, statusText: '' };
+              }
+              const severity = f.severity?.toLowerCase() || 'info';
+              let borderClass, bgClass, topTextClass;
+              
+              if (severity === 'critical') {
+                borderClass = 'border-error'; bgClass = 'bg-[#fefafc] dark:bg-error/5';
+                topTextClass = 'text-error';
+              } else if (severity === 'safe' || severity === 'good') {
+                borderClass = 'border-[#008080] dark:border-[#00FFFF]'; bgClass = 'bg-teal-50 dark:bg-[#00FFFF]/5';
+                topTextClass = 'text-[#008080] dark:text-[#00FFFF]';
+              } else {
+                // Warning or Info
+                borderClass = 'border-[#8c4927] dark:border-orange-500'; bgClass = 'bg-[#fcf5f0] dark:bg-orange-900/10';
+                topTextClass = 'text-[#8c4927] dark:text-orange-400';
+              }
+
+              return `
+            <div class="p-4 ${bgClass} border-l-4 ${borderClass} mb-3 relative group transition-colors">
+              <div class="flex justify-between items-start mb-2 pr-8">
+                <span class="font-bold text-[11px] ${topTextClass} uppercase tracking-wider">${f.severity ? f.severity : ''}</span>
+                <span class="text-[11px] text-slate-400 font-medium">${f.statusText ? f.statusText : ''}</span>
+              </div>
+              ${f.title && f.title !== 'Risk Flag' ? `<h3 class="font-bold text-[14px] text-[#003366] dark:text-blue-300 mb-1 w-11/12">${f.title}</h3>` : ''}
+              <p class="text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed">${f.description}</p>
+              
+              <button onclick="addToDashboard(${index})" class="absolute top-4 right-4 text-slate-300 hover:text-primary dark:hover:text-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100" title="Add to Dashboard">
+                <span class="material-symbols-outlined text-[20px]">add_circle</span>
+              </button>
+            </div>
+          `}).join('');
+          } else {
+            outFlags.innerHTML = `
+            <div class="p-3 border rounded flex items-center gap-3 border-[#008080] bg-[#008080]/10 dark:border-[#00FFFF] dark:bg-[#00FFFF]/10">
+              <span class="material-symbols-outlined text-[20px] text-[#008080] dark:text-[#00FFFF]">check_circle</span>
+              <span class="text-sm font-bold text-[#008080] dark:text-[#00FFFF]">Document Analysis Complete</span>
+            </div>`;
+          }
+
+          // Entities
+          let entityHtml = '';
+          if (data.projects && data.projects.length) {
+            entityHtml += data.projects.map((p, i) => `
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+              <td class="p-3 font-bold text-primary dark:text-white">${p.name}</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded bg-primary-container/20 dark:bg-blue-900 text-primary dark:text-blue-300 text-[10px] uppercase font-bold">Infrastructure</span></td>
+              <td class="p-3 text-center text-outline dark:text-slate-400 font-mono">98%</td>
+              <td class="p-3 text-right">
+                <button onclick="importEntity('project', ${i})" class="px-3 py-1 bg-secondary dark:bg-[#00FFFF] text-white dark:text-slate-900 text-xs font-bold rounded hover:opacity-90">Import</button>
+              </td>
+            </tr>
+          `).join('');
+          }
+          if (data.engagements && data.engagements.length) {
+            entityHtml += data.engagements.map((e, i) => `
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+              <td class="p-3 font-bold text-primary dark:text-white">${e.title}</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 text-[10px] uppercase font-bold">Engagement</span></td>
+              <td class="p-3 text-center text-outline dark:text-slate-400 font-mono">92%</td>
+              <td class="p-3 text-right">
+                <button onclick="importEntity('engagement', ${i})" class="px-3 py-1 bg-secondary dark:bg-[#00FFFF] text-white dark:text-slate-900 text-xs font-bold rounded hover:opacity-90">Import</button>
+              </td>
+            </tr>
+          `).join('');
+          }
+
+          if (entityHtml) {
+            document.getElementById('entities-section').classList.remove('hidden');
+            outEntities.innerHTML = entityHtml;
+          } else {
+            document.getElementById('entities-section').classList.add('hidden');
+          }
+
+          rawJson.textContent = JSON.stringify(data, null, 2);
+
+          // Add to history
+          addToHistory(currentFile ? currentFile.name : 'Pasted Text Report');
+
+          // --- CLEAR INPUTS ---
+          currentFile = null;
+          textInput.value = '';
+          fileInput.value = '';
+          const uzSpan = document.querySelector('#upload-zone span');
+          uzSpan.textContent = 'cloud_upload';
+          uzSpan.classList.replace('text-green-500', 'text-outline');
+          uzSpan.classList.replace('dark:text-green-400', 'dark:text-slate-500');
+          document.querySelector('#upload-zone p').textContent = 'Drag & drop engineering reports or water project docs';
+
+        } catch (err) {
+          statusEl.innerHTML = `<span class="text-error">Error: ${err.message}</span>`;
+          console.error(err);
+        }
+      }
+
+      document.getElementById('btn-analyze-report').addEventListener('click', triggerAnalysis);
+
+      function addToDashboard(index) {
+        if (!lastExtractedData || !lastExtractedData.flags || !lastExtractedData.flags[index]) return;
+        const flag = lastExtractedData.flags[index];
+        // Normalize object if it's a string somehow
+        const riskToAdd = typeof flag === 'string' ? { title: '', severity: '', description: flag, statusText: '' } : flag;
+        
+        risks.unshift({ id: Date.now(), ...riskToAdd }); // Add to top
+        saveData();
+        
+        // Show brief visual feedback (could be a toast, but alert is easiest for now without adding extra UI)
+        alert('Risk flag added to dashboard!');
+      }
+
+      function importEntity(type, index) {
+        if (!lastExtractedData) return;
+        if (type === 'project' && lastExtractedData.projects[index]) {
+          projects.push({ id: Date.now(), ...lastExtractedData.projects[index] });
+          saveData();
+          alert('Project imported successfully!');
+        } else if (type === 'engagement' && lastExtractedData.engagements[index]) {
+          engagements.push({ id: Date.now(), ...lastExtractedData.engagements[index] });
+          saveData();
+          alert('Engagement imported successfully!');
+        }
+      }
+
+      // History Logic
+      function addToHistory(docName) {
+        let history = JSON.parse(localStorage.getItem('lwc_analyzer_history') || '[]');
+        history.unshift({ name: docName, date: new Date().toLocaleString() });
+        if (history.length > 4) history.pop();
+        localStorage.setItem('lwc_analyzer_history', JSON.stringify(history));
+        renderHistory();
+      }
+
+      function clearAnalysisHistory() {
+        if (!confirm('Clear all analysis history?')) return;
+        localStorage.removeItem('lwc_analyzer_history');
+        renderHistory();
+      }
+
+      function renderHistory() {
+        let history = JSON.parse(localStorage.getItem('lwc_analyzer_history') || '[]');
+        const container = document.getElementById('recent-docs');
+        if (!history.length) {
+          container.innerHTML = '<div class="text-sm text-outline dark:text-slate-500">No recent documents analyzed.</div>';
+          return;
+        }
+        container.innerHTML = history.map(h => `
+        <div class="border border-outline-variant dark:border-slate-800 rounded p-4 flex items-center gap-3 bg-white dark:bg-slate-900 hover:shadow-md transition-shadow cursor-pointer">
+          <div class="w-10 h-10 rounded bg-red-50 dark:bg-red-900/20 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[24px] text-red-500">picture_as_pdf</span>
+          </div>
+          <div class="overflow-hidden">
+            <div class="text-sm font-bold text-primary dark:text-white truncate">${h.name}</div>
+            <div class="text-[11px] text-outline dark:text-slate-400 mt-0.5">Analyzed ${h.date}</div>
+          </div>
+        </div>
+      `).join('');
+      }
+
+      // Initialize Data
+      let todos = []; // MUST be declared before initTodos() is called (let is not hoisted)
+      initData();
+      renderHistory();
+      initTodos();
+      /* ================================================
+         MY DESK FEATURE (Priority-based To-Do)
+      ================================================ */
+
+      function initTodos() {
+        todos = JSON.parse(localStorage.getItem('lwc_todos_v1') || '[]');
+        // Migrate old todos that don't have priority
+        todos = todos.map(t => ({ priority: 'Medium', ...t }));
+        renderTodos();
+        renderDashboardTodos();
+        updateTodoBadge();
+      }
+
+      function saveTodos() {
+        localStorage.setItem('lwc_todos_v1', JSON.stringify(todos));
+        renderTodos();
+        renderDashboardTodos();
+        updateTodoBadge();
+      }
+
+      function addTodo() {
+        const input = document.getElementById('todo-input');
+        const text = (input.value || '').trim();
+        if (!text) { input.focus(); return; }
+        const selectedPrio = document.querySelector('input[name="todo-priority"]:checked');
+        const priority = selectedPrio ? selectedPrio.value : 'Medium';
+        todos.push({ id: Date.now(), text, priority, completed: false });
+        input.value = '';
+        // Reset priority to Medium after adding
+        const medRadio = document.getElementById('prio-medium');
+        if (medRadio) medRadio.checked = true;
+        saveTodos();
+      }
+
+      function completeTodo(id) {
+        const todo = todos.find(t => t.id === id);
+        if (!todo) return;
+        todo.completed = true;
+        saveTodos();
+      }
+
+      function deleteTodoItem(id) {
+        todos = todos.filter(t => t.id !== id);
+        saveTodos();
+      }
+
+      const PRIORITY_CONFIG = {
+        High:   { dot: 'bg-red-500',   ring: 'hover:border-red-400',   label: '🔴', emptyMsg: 'No high priority tasks.' },
+        Medium: { dot: 'bg-amber-500', ring: 'hover:border-amber-400', label: '🟡', emptyMsg: 'No medium priority tasks.' },
+        Low:    { dot: 'bg-green-500', ring: 'hover:border-green-400', label: '🟢', emptyMsg: 'No low priority tasks.' }
+      };
+
+      function renderTodos() {
+        const priorities = ['High', 'Medium', 'Low'];
+        const pending = todos.filter(t => !t.completed);
+
+        priorities.forEach(prio => {
+          const listEl = document.getElementById(`todo-list-${prio}`);
+          const countEl = document.getElementById(`todo-count-${prio}`);
+          if (!listEl) return;
+
+          const items = pending.filter(t => t.priority === prio);
+          const cfg = PRIORITY_CONFIG[prio];
+
+          if (countEl) countEl.textContent = `${items.length} task${items.length !== 1 ? 's' : ''}`;
+
+          if (!items.length) {
+            listEl.innerHTML = `<p class="px-6 py-4 text-sm text-outline dark:text-slate-500 italic">${cfg.emptyMsg}</p>`;
+            return;
+          }
+          listEl.innerHTML = items.map(t => `
+            <div class="flex items-center gap-4 px-6 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group">
+              <button onclick="completeTodo(${t.id})" title="Mark complete"
+                class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 ${cfg.ring} transition-all flex items-center justify-center shrink-0 group-hover:scale-110">
+              </button>
+              <p class="flex-1 text-sm font-medium text-primary dark:text-white truncate">${t.text}</p>
+              <button onclick="deleteTodoItem(${t.id})" title="Delete"
+                class="opacity-0 group-hover:opacity-100 text-slate-300 hover:text-error transition-all">
+              <span class="material-symbols-outlined text-[18px]">close</span>
+              </button>
+            </div>
+          `).join('');
+        });
+      }
+
+      function renderDashboardTodos() {
+        const widget = document.getElementById('dashboard-todo-widget');
+        const list = document.getElementById('dashboard-todo-list');
+        if (!widget || !list) return;
+        const pending = todos.filter(t => !t.completed);
+        if (currentUserRole !== 'Admin' || !pending.length) {
+          widget.classList.add('hidden');
+          return;
+        }
+        widget.classList.remove('hidden');
+        // Sort: High first, then Medium, then Low
+        const sorted = [...pending].sort((a, b) => {
+          const order = { High: 0, Medium: 1, Low: 2 };
+          return (order[a.priority] ?? 1) - (order[b.priority] ?? 1);
+        });
+        list.innerHTML = sorted.slice(0, 5).map(t => {
+          const cfg = PRIORITY_CONFIG[t.priority] || PRIORITY_CONFIG.Medium;
+          return `
+            <div class="flex items-center gap-3 py-1.5">
+              <button onclick="completeTodo(${t.id})" title="Mark complete"
+                class="w-4 h-4 rounded-full border-2 border-slate-300 dark:border-slate-600 ${cfg.ring} transition-all shrink-0">
+              </button>
+              <span class="text-sm text-primary dark:text-slate-300 truncate flex-1">${t.text}</span>
+              <span class="text-[10px] font-bold ${cfg.dot.replace('bg-', 'text-')} shrink-0">${cfg.label}</span>
+            </div>
+          `;
+        }).join('');
+        if (sorted.length > 5) {
+          list.innerHTML += `<p class="text-xs text-outline dark:text-slate-500 pt-2">+${sorted.length - 5} more tasks</p>`;
+        }
+      }
+
+      function updateTodoBadge() {
+        const badge = document.getElementById('todo-badge');
+        if (!badge) return;
+        const count = todos.filter(t => !t.completed).length;
+        if (count > 0 && currentUserRole === 'Admin') {
+          badge.textContent = count;
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      }
+    </script>
+</body>
+
+</html>
