@@ -1151,24 +1151,9 @@
       let currentProjectModalMode = 'view'; // view or edit
       let currentEngagementModalMode = 'view'; // view or edit
 
-      const SEED_PROJECTS = [
-        { id: 1, name: "Iju Waterworks Rehabilitation", category: "Infrastructure", region: "Lagos Mainland", handler: "JICA", status: "Critical", completion: 35, budget: "5M", startDate: "2023-01-10", expectedEnd: "2024-12-30" },
-        { id: 2, name: "Adiyan Phase II Expansion", category: "Expansion", region: "Ogun Boundary", handler: "World Bank", status: "On Track", completion: 78, budget: "12M", startDate: "2022-05-01", expectedEnd: "2024-06-15" },
-        { id: 3, name: "Lekki Reticulation Network", category: "Distribution", region: "Lagos Island", handler: "LWC Eng", status: "Delayed", completion: 45, budget: "2.5M", startDate: "2023-08-01", expectedEnd: "2024-02-28" },
-        { id: 4, name: "Oshodi Smart Metering", category: "Technology", region: "Lagos Mainland", handler: "IFC", status: "On Track", completion: 92, budget: "1M", startDate: "2023-10-01", expectedEnd: "2024-01-30" },
-        { id: 5, name: "Badagry Rural Access", category: "Community", region: "Badagry", handler: "WaterAid", status: "Critical", completion: 12, budget: "500K", startDate: "2024-01-05", expectedEnd: "2025-01-05" }
-      ];
-
-      const SEED_ENGAGEMENTS = [
-        { id: 1, title: "Q3 Progress Review", date: "2023-11-15", partner: "JICA", location: "Iju Plant", related: "Iju Waterworks", category: "Review Meeting", notes: "Reviewed phase 1 completion. Noted delays in turbine delivery." },
-        { id: 2, title: "Funding Tranche Approval", date: "2023-12-02", partner: "World Bank", location: "LWC HQ", related: "Adiyan Phase II", category: "Financial", notes: "Approved $4M release for next phase piping." },
-        { id: 3, title: "Community Sensitization", date: "2024-01-10", partner: "WaterAid", location: "Badagry Town Hall", related: "Badagry Rural Access", category: "Community", notes: "Engaged local leaders on upcoming excavation works." }
-      ];
-
-      const SEED_RISKS = [
-        { id: Date.now() + 1, title: "Critical Maintenance Delay: Iju Waterworks", severity: "critical", statusText: "Delayed 14 Days", description: "Turbine repair overdue by 14 days. Potential 30% production drop." },
-        { id: Date.now() + 2, title: "Ajah Pipe Replacement", severity: "delayed", statusText: "Delayed 4 Days", description: "Weather-related foundation instability. Reworking scheduled for March 22nd." }
-      ];
+      const SEED_PROJECTS = [];
+      const SEED_ENGAGEMENTS = [];
+      const SEED_RISKS = [];
 
       function toggleModal(id, show) {
         const modal = document.getElementById(id);
