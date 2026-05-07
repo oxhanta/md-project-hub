@@ -348,6 +348,22 @@
             </div>
           </div>
 
+          <!-- Dashboard To-Do Widget (Admin only) -->
+          <div id="dashboard-todo-widget" class="mb-lg hidden">
+            <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl overflow-hidden">
+              <div class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[#003366] dark:text-[#00FFFF] text-[20px]">checklist</span>
+                  <h2 class="font-h2 text-[16px] text-primary dark:text-white">My Tasks</h2>
+                </div>
+                <button onclick="document.querySelector('[data-target=view-todos]').click()" class="text-secondary dark:text-[#00FFFF] font-label text-label hover:underline">View All</button>
+              </div>
+              <div id="dashboard-todo-list" class="p-md space-y-2">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+
           <!-- Middle Section -->
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-lg">
             <div class="lg:col-span-12 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800">
@@ -385,22 +401,6 @@
                     <!-- Populated by JS -->
                   </tbody>
                 </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- Dashboard To-Do Widget (Admin only) -->
-          <div id="dashboard-todo-widget" class="mt-gutter hidden">
-            <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl overflow-hidden">
-              <div class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-primary dark:text-[#00FFFF] text-[20px]">checklist</span>
-                  <h2 class="font-h2 text-[16px] text-primary dark:text-white">My Tasks</h2>
-                </div>
-                <button onclick="document.querySelector('[data-target=view-todos]').click()" class="text-secondary dark:text-[#00FFFF] font-label text-label hover:underline">View All</button>
-              </div>
-              <div id="dashboard-todo-list" class="p-md space-y-2">
-                <!-- Populated by JS -->
               </div>
             </div>
           </div>
