@@ -2098,9 +2098,30 @@
       ================================================ */
 
       function initTodos() {
-        todos = JSON.parse(localStorage.getItem('lwc_todos_v1') || '[]');
-        // Migrate old todos that don't have priority
-        todos = todos.map(t => ({ priority: 'Medium', ...t }));
+        try {
+          const stored = localStorage.getItem('lwc_todos_v1');
+          let parsed = stored ? JSON.parse(stored) : [];
+          if (!Array.isArray(parsed)) parsed = [];
+          
+          todos = parsed.map((t, index) => {
+            if (typeof t === 'string') {
+              return { id: Date.now() + index, text: t, priority: 'Medium', completed: false };
+            }
+            if (typeof t === 'object' && t !== null) {
+              return {
+                id: t.id || Date.now() + index,
+                text: t.text || t.name || t.title || 'Untitled Task',
+                priority: t.priority || 'Medium',
+                completed: !!t.completed
+              };
+            }
+            return null;
+          }).filter(Boolean);
+        } catch (e) {
+          console.error("Failed to parse todos", e);
+          todos = [];
+        }
+
         renderTodos();
         renderDashboardTodos();
         updateTodoBadge();
