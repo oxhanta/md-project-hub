@@ -1085,55 +1085,47 @@
       let risks = [];
       let todos = [];
 
-      let currentUserRole = 'Admin'; // Defaulting to Admin for internal tool once logged in
+      let currentUserRole = localStorage.getItem('lwc_role_v1') || null;
 
-      document.getElementById('login-form').addEventListener('submit', async (e) => {
+      document.getElementById('login-form').addEventListener('submit', (e) => {
         e.preventDefault();
         const email = document.getElementById('email').value.toLowerCase();
-        const password = document.getElementById('password').value;
         const btn = document.getElementById('btn-login');
 
         btn.innerHTML = 'Signing in... <div class="spinner border-t-white"></div>';
 
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email,
-          password: password,
-        });
+        setTimeout(() => {
+          if (email.startsWith('admin')) currentUserRole = 'Admin';
+          else if (email.startsWith('editor')) currentUserRole = 'Editor';
+          else currentUserRole = 'Viewer';
 
-        if (error) {
-          alert('Error logging in: ' + error.message);
-          btn.innerHTML = 'Sign In';
-          return;
-        }
+          localStorage.setItem('lwc_role_v1', currentUserRole);
 
-        btn.innerHTML = 'Sign In';
-      });
-
-      async function handleLogout() {
-        await supabase.auth.signOut();
-      }
-
-      supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN' || session) {
           document.getElementById('current-user-name').textContent = currentUserRole + ' User';
           document.getElementById('login-screen').style.display = 'none';
           const app = document.getElementById('main-app');
           app.classList.remove('hidden');
           setTimeout(() => app.classList.remove('opacity-0'), 10);
+          
+          btn.innerHTML = 'Sign In';
           enforceRBAC();
-          // Load data from DB once authenticated
           initData();
           initTodos();
-        } else if (event === 'SIGNED_OUT' || !session) {
-          const app = document.getElementById('main-app');
-          app.classList.add('opacity-0');
-          setTimeout(() => {
-            app.classList.add('hidden');
-            document.getElementById('login-screen').style.display = 'flex';
-            document.getElementById('login-form').reset();
-          }, 300);
-        }
+          renderHistory();
+        }, 500);
       });
+
+      function handleLogout() {
+        localStorage.removeItem('lwc_role_v1');
+        currentUserRole = null;
+        const app = document.getElementById('main-app');
+        app.classList.add('opacity-0');
+        setTimeout(() => {
+          app.classList.add('hidden');
+          document.getElementById('login-screen').style.display = 'flex';
+          document.getElementById('login-form').reset();
+        }, 300);
+      }
 
 
       function enforceRBAC() {
@@ -2091,12 +2083,18 @@
       `).join('');
       }
 
-      // Initialize Data
-      initData();
-      renderHistory();
-      initTodos();
-
-
+      // Check auto-login
+      if (currentUserRole) {
+        document.getElementById('current-user-name').textContent = currentUserRole + ' User';
+        document.getElementById('login-screen').style.display = 'none';
+        const app = document.getElementById('main-app');
+        app.classList.remove('hidden');
+        app.classList.remove('opacity-0');
+        enforceRBAC();
+        initData();
+        initTodos();
+        renderHistory();
+      }
       /* ================================================
          MY DESK FEATURE (Priority-based To-Do)
       ================================================ */
