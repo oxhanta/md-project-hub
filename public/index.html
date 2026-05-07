@@ -185,6 +185,7 @@
       }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body class="flex h-screen overflow-hidden dark:bg-slate-950 dark:text-slate-200 bg-[#F8F9FA]">
@@ -1074,51 +1075,66 @@
       </form>
     </div>
     <script>
-      /* --- DATA & STORAGE --- */
+      /* --- SUPABASE INIT --- */
+      const supabaseUrl = 'https://yjlpkjhydxkdkrgdhizh.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbHBramh5ZHhrZGtyZ2RoaXpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzI1NTQsImV4cCI6MjA5Mzc0ODU1NH0.ZX0NUgfc5JJCbvTTYViP0_WHb5m1YbsLskUW_xgB9iU';
+      const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
       let projects = [];
       let engagements = [];
       let risks = [];
       let todos = [];
 
-      let currentUserRole = localStorage.getItem('lwc_role_v1') || null;
+      let currentUserRole = 'Admin'; // Defaulting to Admin for internal tool once logged in
 
-      document.getElementById('login-form').addEventListener('submit', (e) => {
+      document.getElementById('login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('email').value.toLowerCase();
+        const password = document.getElementById('password').value;
         const btn = document.getElementById('btn-login');
 
         btn.innerHTML = 'Signing in... <div class="spinner border-t-white"></div>';
 
-        setTimeout(() => {
-          if (email.startsWith('admin')) currentUserRole = 'Admin';
-          else if (email.startsWith('editor')) currentUserRole = 'Editor';
-          else currentUserRole = 'Viewer';
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password,
+        });
 
-          localStorage.setItem('lwc_role_v1', currentUserRole);
+        if (error) {
+          alert('Error logging in: ' + error.message);
+          btn.innerHTML = 'Sign In';
+          return;
+        }
 
+        btn.innerHTML = 'Sign In';
+      });
+
+      async function handleLogout() {
+        await supabase.auth.signOut();
+      }
+
+      supabase.auth.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN' || session) {
           document.getElementById('current-user-name').textContent = currentUserRole + ' User';
-
           document.getElementById('login-screen').style.display = 'none';
           const app = document.getElementById('main-app');
           app.classList.remove('hidden');
-          setTimeout(() => app.classList.remove('opacity-0'), 10); // trigger fade-in
-
-          btn.innerHTML = 'Sign In';
+          setTimeout(() => app.classList.remove('opacity-0'), 10);
           enforceRBAC();
-        }, 500); // simulate network delay
+          // Load data from DB once authenticated
+          initData();
+          initTodos();
+        } else if (event === 'SIGNED_OUT' || !session) {
+          const app = document.getElementById('main-app');
+          app.classList.add('opacity-0');
+          setTimeout(() => {
+            app.classList.add('hidden');
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('login-form').reset();
+          }, 300);
+        }
       });
 
-      function handleLogout() {
-        localStorage.removeItem('lwc_role_v1');
-        const app = document.getElementById('main-app');
-        app.classList.add('opacity-0');
-        setTimeout(() => {
-          app.classList.add('hidden');
-          document.getElementById('login-screen').style.display = 'flex';
-          document.getElementById('login-form').reset();
-        }, 300);
-      }
 
       function enforceRBAC() {
         const isViewer = currentUserRole === 'Viewer';
@@ -1175,29 +1191,29 @@
       }
 
 
-      function initData() {
-        const savedProjects = localStorage.getItem('lwc_projects_v1');
-        const savedEngagements = localStorage.getItem('lwc_engagements_v1');
-        const savedRisks = localStorage.getItem('lwc_risks_v1');
-
-        if (!savedProjects) {
-          projects = [...SEED_PROJECTS];
-          engagements = [...SEED_ENGAGEMENTS];
-          risks = [...SEED_RISKS];
-          saveData();
-        } else {
-          projects = JSON.parse(savedProjects);
-          engagements = JSON.parse(savedEngagements);
-          risks = savedRisks ? JSON.parse(savedRisks) : [];
+      async function initData() {
+        try {
+          const { data: pData } = await supabase.from('projects').select('data');
+          const { data: eData } = await supabase.from('engagements').select('data');
+          const { data: rData } = await supabase.from('risks').select('data');
+          
+          if (pData) projects = pData.map(row => row.data);
+          if (eData) engagements = eData.map(row => row.data);
+          if (rData) risks = rData.map(row => row.data);
+        } catch(e) {
+          console.error('Error fetching data from Supabase', e);
         }
-
         renderAll();
       }
 
-      function saveData() {
-        localStorage.setItem('lwc_projects_v1', JSON.stringify(projects));
-        localStorage.setItem('lwc_engagements_v1', JSON.stringify(engagements));
-        localStorage.setItem('lwc_risks_v1', JSON.stringify(risks));
+      async function saveData() {
+        try {
+          if (projects.length) await supabase.from('projects').upsert(projects.map(p => ({ id: p.id, data: p })));
+          if (engagements.length) await supabase.from('engagements').upsert(engagements.map(e => ({ id: e.id, data: e })));
+          if (risks.length) await supabase.from('risks').upsert(risks.map(r => ({ id: r.id, data: r })));
+        } catch(e) {
+          console.error('Error saving data to Supabase', e);
+        }
         renderAll();
       }
 
@@ -1503,13 +1519,14 @@
         document.getElementById(id).style.display = 'none';
       }
 
-      function deleteEngagement(id) {
+      async function deleteEngagement(id) {
         if (currentUserRole !== 'Admin') {
           alert('Unauthorized. Only Admins can delete engagements.');
           return;
         }
         if (confirm('Are you sure you want to delete this engagement log?')) {
           engagements = engagements.filter(e => e.id !== id);
+          await supabase.from('engagements').delete().eq('id', id);
           saveData();
         }
       }
@@ -1535,9 +1552,10 @@
         document.getElementById('project-modal').style.display = 'flex';
       }
 
-      function deleteProject(id) {
+      async function deleteProject(id) {
         if (confirm('Are you sure you want to delete this project?')) {
           projects = projects.filter(p => p.id !== id);
+          await supabase.from('projects').delete().eq('id', id);
           saveData();
         }
       }
@@ -1805,12 +1823,6 @@
         if (eFileInput) eFileInput.value = '';
       }
 
-      function deleteEngagement(id) {
-        if (confirm('Are you sure you want to delete this engagement?')) {
-          engagements = engagements.filter(e => e.id !== id);
-          saveData();
-        }
-      }
 
       document.getElementById('engagement-form').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -2084,41 +2096,19 @@
       renderHistory();
       initTodos();
 
-      // Check auto-login
-      if (currentUserRole) {
-        document.getElementById('current-user-name').textContent = currentUserRole + ' User';
-        document.getElementById('login-screen').style.display = 'none';
-        const app = document.getElementById('main-app');
-        app.classList.remove('hidden');
-        app.classList.remove('opacity-0');
-        enforceRBAC();
-      }
+
       /* ================================================
          MY DESK FEATURE (Priority-based To-Do)
       ================================================ */
 
-      function initTodos() {
+      async function initTodos() {
         try {
-          const stored = localStorage.getItem('lwc_todos_v1');
-          let parsed = stored ? JSON.parse(stored) : [];
-          if (!Array.isArray(parsed)) parsed = [];
-          
-          todos = parsed.map((t, index) => {
-            if (typeof t === 'string') {
-              return { id: Date.now() + index, text: t, priority: 'Medium', completed: false };
-            }
-            if (typeof t === 'object' && t !== null) {
-              return {
-                id: t.id || Date.now() + index,
-                text: t.text || t.name || t.title || 'Untitled Task',
-                priority: t.priority || 'Medium',
-                completed: !!t.completed
-              };
-            }
-            return null;
-          }).filter(Boolean);
+          const { data } = await supabase.from('todos').select('data');
+          if (data) {
+             todos = data.map(row => row.data);
+          }
         } catch (e) {
-          console.error("Failed to parse todos", e);
+          console.error("Failed to load todos from Supabase", e);
           todos = [];
         }
 
@@ -2127,8 +2117,12 @@
         updateTodoBadge();
       }
 
-      function saveTodos() {
-        localStorage.setItem('lwc_todos_v1', JSON.stringify(todos));
+      async function saveTodos() {
+        try {
+           if (todos.length) await supabase.from('todos').upsert(todos.map(t => ({ id: t.id, data: t })));
+        } catch (e) {
+           console.error('Failed to sync todos', e);
+        }
         renderTodos();
         renderDashboardTodos();
         updateTodoBadge();
@@ -2155,8 +2149,9 @@
         saveTodos();
       }
 
-      function deleteTodoItem(id) {
+      async function deleteTodoItem(id) {
         todos = todos.filter(t => t.id !== id);
+        await supabase.from('todos').delete().eq('id', id);
         saveTodos();
       }
 
