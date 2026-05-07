@@ -7,6 +7,7 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
+import { createClient } from '@supabase/supabase-js';
 
 dotenv.config();
 
@@ -21,6 +22,29 @@ app.use(express.static('public')); // Serve the frontend
 
 // Initialize Google Gemini client
 const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
+
+// Initialize Supabase admin client
+const supabaseUrl = process.env.SUPABASE_URL || 'https://yjlpkjhydxkdkrgdhizh.supabase.co';
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+
+// Middleware for Supabase Auth
+async function requireAuth(req, res, next) {
+  if (!supabase) {
+    // If running without service role locally, we can either block or warn. 
+    // We'll block strictly if enforcing RBAC.
+    return res.status(500).json({ error: 'Supabase Server Setup Incomplete' });
+  }
+
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ error: 'Unauthorized: No token provided' });
+
+  const { data: { user }, error } = await supabase.auth.getUser(token);
+  if (error || !user) return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+
+  req.user = user;
+  next();
+}
 
 // JSON Schema for extraction (matching PRD)
 const extractionSchema = {
@@ -89,7 +113,7 @@ const extractionSchema = {
 };
 
 // API Endpoint for Document Analysis
-app.post('/api/analyze', upload.single('file'), async (req, res) => {
+app.post('/api/analyze', requireAuth, upload.single('file'), async (req, res) => {
   let text = req.body.text;
   const mode = req.body.mode;
 

@@ -1085,56 +1085,72 @@
       let risks = [];
       let todos = [];
 
-      let currentUserRole = localStorage.getItem('lwc_role_v1') || null;
+      let currentUserRole = null;
 
-      document.getElementById('login-form').addEventListener('submit', (e) => {
+      document.getElementById('login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('email').value.toLowerCase();
+        const password = document.getElementById('password').value;
         const btn = document.getElementById('btn-login');
 
         btn.innerHTML = 'Signing in... <div class="spinner border-t-white"></div>';
 
-        setTimeout(() => {
-          if (email.startsWith('admin')) currentUserRole = 'Admin';
-          else if (email.startsWith('editor')) currentUserRole = 'Editor';
-          else currentUserRole = 'Viewer';
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
 
-          localStorage.setItem('lwc_role_v1', currentUserRole);
-
-          document.getElementById('current-user-name').textContent = currentUserRole + ' User';
-          document.getElementById('login-screen').style.display = 'none';
-          const app = document.getElementById('main-app');
-          app.classList.remove('hidden');
-          setTimeout(() => app.classList.remove('opacity-0'), 10);
-          
+        if (error) {
+          alert('Login failed: ' + error.message);
           btn.innerHTML = 'Sign In';
-          enforceRBAC();
-          initData();
-          initTodos();
-          renderHistory();
-        }, 500);
+          return;
+        }
+
+        // Fetch the user's role from profiles table
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('role, full_name')
+          .eq('id', data.user.id)
+          .single();
+
+        if (profileError || !profile) {
+          alert('Could not load user profile. Please ensure the trigger ran.');
+          btn.innerHTML = 'Sign In';
+          return;
+        }
+
+        currentUserRole = profile.role;
+        window._userRole = profile.role;
+        window._userName = profile.full_name || email;
+
+        document.getElementById('current-user-name').textContent = window._userName;
+        document.getElementById('login-screen').style.display = 'none';
+        const app = document.getElementById('main-app');
+        app.classList.remove('hidden');
+        setTimeout(() => app.classList.remove('opacity-0'), 10);
+        
+        btn.innerHTML = 'Sign In';
+        applyRolePermissions(currentUserRole);
+        initData();
+        initTodos();
+        renderHistory();
       });
 
-      function handleLogout() {
-        localStorage.removeItem('lwc_role_v1');
-        currentUserRole = null;
-        const app = document.getElementById('main-app');
-        app.classList.add('opacity-0');
-        setTimeout(() => {
-          app.classList.add('hidden');
-          document.getElementById('login-screen').style.display = 'flex';
-          document.getElementById('login-form').reset();
-        }, 300);
+      async function handleLogout() {
+        await supabase.auth.signOut();
+        window.location.reload();
       }
 
+      function applyRolePermissions(role) {
+        // Map old roles 'Admin', 'Editor', 'Viewer' to 'admin', 'editor', 'user'
+        const r = (role || 'user').toLowerCase();
+        const isAdmin = r === 'admin';
+        const isEditor = r === 'editor' || isAdmin;
 
-      function enforceRBAC() {
-        const isViewer = currentUserRole === 'Viewer';
-        const isAdmin = currentUserRole === 'Admin';
-        document.getElementById('btn-new-project').style.display = isViewer ? 'none' : 'flex';
-        document.getElementById('btn-new-engagement').style.display = isViewer ? 'none' : 'flex';
+        // Apply to old logic
+        document.getElementById('btn-new-project').style.display = isEditor ? 'flex' : 'none';
+        document.getElementById('btn-new-engagement').style.display = isEditor ? 'flex' : 'none';
 
-        // Show To-Do nav only for Admin
         const navTodos = document.getElementById('nav-todos');
         if (navTodos) navTodos.style.display = isAdmin ? 'block' : 'none';
 
@@ -1142,7 +1158,7 @@
         const uploadZone = document.getElementById('upload-zone');
         const actionBtns = document.getElementById('ai-action-buttons');
 
-        if (isViewer) {
+        if (!isEditor) {
           if (aiInput) aiInput.disabled = true;
           if (uploadZone) uploadZone.style.pointerEvents = 'none';
           if (actionBtns) actionBtns.style.display = 'none';
@@ -1151,6 +1167,16 @@
           if (uploadZone) uploadZone.style.pointerEvents = 'auto';
           if (actionBtns) actionBtns.style.display = 'flex';
         }
+
+        // Apply new data-requires logic
+        document.querySelectorAll('[data-requires="editor"]').forEach(el => {
+          el.style.display = isEditor ? '' : 'none';
+        });
+
+        document.querySelectorAll('[data-requires="admin"]').forEach(el => {
+          el.style.display = isAdmin ? '' : 'none';
+        });
+        
         renderAll();
         // Refresh todo UI after role is set
         renderDashboardTodos();
@@ -1896,7 +1922,14 @@
           if (currentFile) formData.append('file', currentFile);
           else formData.append('text', text);
 
-          const res = await fetch('/api/analyze', { method: 'POST', body: formData });
+          const session = await supabase.auth.getSession();
+          const token = session.data.session?.access_token;
+
+          const res = await fetch('/api/analyze', { 
+            method: 'POST', 
+            headers: { 'Authorization': `Bearer ${token}` },
+            body: formData 
+          });
           const data = await res.json();
 
           if (!res.ok) throw new Error(data.error || 'API Request Failed');
@@ -2083,18 +2116,36 @@
       `).join('');
       }
 
-      // Check auto-login
-      if (currentUserRole) {
-        document.getElementById('current-user-name').textContent = currentUserRole + ' User';
-        document.getElementById('login-screen').style.display = 'none';
-        const app = document.getElementById('main-app');
-        app.classList.remove('hidden');
-        app.classList.remove('opacity-0');
-        enforceRBAC();
-        initData();
-        initTodos();
-        renderHistory();
+      // Check auto-login via Supabase Auth Guard
+      async function initAuth() {
+        const { data: { session } } = await supabase.auth.getSession();
+
+        if (session) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role, full_name')
+            .eq('id', session.user.id)
+            .single();
+
+          if (profile) {
+            currentUserRole = profile.role;
+            window._userRole = profile.role;
+            window._userName = profile.full_name || session.user.email;
+
+            document.getElementById('current-user-name').textContent = window._userName;
+            document.getElementById('login-screen').style.display = 'none';
+            const app = document.getElementById('main-app');
+            app.classList.remove('hidden');
+            app.classList.remove('opacity-0');
+            
+            applyRolePermissions(currentUserRole);
+            initData();
+            initTodos();
+            renderHistory();
+          }
+        }
       }
+      initAuth();
       /* ================================================
          MY DESK FEATURE (Priority-based To-Do)
       ================================================ */
