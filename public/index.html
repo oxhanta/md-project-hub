@@ -207,7 +207,7 @@
             ADDRESS</label>
           <input type="email" id="email"
             class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary"
-            placeholder="admin@lwc.gov.ng" required>
+            placeholder="Enter email" required>
         </div>
         <div class="mb-6">
           <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" for="password">PASSWORD</label>
@@ -314,8 +314,7 @@
                 </div>
                 <div class="font-metric-lg text-metric-lg text-primary dark:text-white mt-sm" id="kpi-total">0</div>
               </div>
-              <div class="mt-md text-[11px] text-outline dark:text-slate-500 font-label uppercase tracking-wider">Lagos
-                Metropolitan Region</div>
+              <div class="mt-md text-[11px] text-outline dark:text-slate-500 font-label uppercase tracking-wider">All Regions</div>
             </div>
 
             <div
@@ -323,7 +322,7 @@
               <div>
                 <div class="flex justify-between items-start">
                   <span class="font-label text-label text-outline dark:text-slate-400">ACTIVE / ONGOING</span>
-                  <span class="material-symbols-outlined text-secondary dark:text-blue-400">analytics</span>
+                  <span class="material-symbols-outlined text-[#003366] dark:text-[#00FFFF]">analytics</span>
                 </div>
                 <div class="font-metric-lg text-metric-lg text-secondary dark:text-blue-400 mt-sm" id="kpi-active">0
                 </div>
@@ -340,7 +339,7 @@
               <div>
                 <div class="flex justify-between items-start">
                   <span class="font-label text-label text-outline dark:text-slate-400">COMPLETED</span>
-                  <span class="material-symbols-outlined text-[#00FFFF] dark:text-[#00FFFF]">verified</span>
+                  <span class="material-symbols-outlined text-[#003366] dark:text-[#00FFFF]">verified</span>
                 </div>
                 <div class="font-metric-lg text-metric-lg text-primary dark:text-white mt-sm" id="kpi-completed">0</div>
               </div>
@@ -1285,12 +1284,12 @@
 
       function renderDashboard() {
         // KPIs
-        document.getElementById('kpi-total').textContent = String(projects.length).padStart(2, '0');
+        document.getElementById('kpi-total').textContent = projects.length;
         const activeProjects = projects.filter(p => p.status !== 'Completed');
-        document.getElementById('kpi-active').textContent = String(activeProjects.length).padStart(2, '0');
+        document.getElementById('kpi-active').textContent = activeProjects.length;
         const rate = projects.length ? Math.round((activeProjects.length / projects.length) * 100) : 0;
         document.getElementById('kpi-active-rate').textContent = `${rate}% Deployment Rate`;
-        document.getElementById('kpi-completed').textContent = String(projects.filter(p => p.status === 'Completed').length).padStart(2, '0');
+        document.getElementById('kpi-completed').textContent = projects.filter(p => p.status === 'Completed').length;
 
         // Projects by completion list — exclude completed projects
         const activeOnly = projects.filter(p => p.status !== 'Completed');
@@ -1617,6 +1616,11 @@
             <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Notes & Details</div>
             <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">${p.notes}</p>
           </div>` : ''}
+          ${p.image ? `
+          <div>
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Attached Photo</div>
+            <img src="${p.image}" alt="Project attachment" class="rounded-lg max-h-64 w-full object-cover border border-slate-200 dark:border-slate-700 cursor-pointer" onclick="window.open(this.src,'_blank')">
+          </div>` : ''}
         `;
         // Show edit button only to non-viewers
         const editBtn = document.getElementById('pdm-edit-btn');
@@ -1682,6 +1686,11 @@
             <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">${e.notes}</p>
           </div>` : ''}
           ${stepsHtml}
+          ${e.image ? `
+          <div>
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Attached Photo</div>
+            <img src="${e.image}" alt="Engagement attachment" class="rounded-lg max-h-64 w-full object-cover border border-slate-200 dark:border-slate-700 cursor-pointer" onclick="window.open(this.src,'_blank')">
+          </div>` : ''}
         `;
 
         // Show edit button only to Admins/Editors
@@ -1717,27 +1726,36 @@
       document.getElementById('project-form').addEventListener('submit', (e) => {
         e.preventDefault();
         const id = document.getElementById('p-id').value;
-        const data = {
-          name: document.getElementById('p-name').value,
-          category: document.getElementById('p-category').value,
-          region: document.getElementById('p-region').value,
-          handler: document.getElementById('p-handler').value,
-          status: document.getElementById('p-status').value,
-          completion: parseInt(document.getElementById('p-completion').value),
-          notes: document.getElementById('p-notes').value
+        const file = pFileInput && pFileInput.files[0];
+        const finishSave = (imageData) => {
+          const data = {
+            name: document.getElementById('p-name').value,
+            category: document.getElementById('p-category').value,
+            region: document.getElementById('p-region').value,
+            handler: document.getElementById('p-handler').value,
+            status: document.getElementById('p-status').value,
+            completion: parseInt(document.getElementById('p-completion').value),
+            notes: document.getElementById('p-notes').value
+          };
+          if (imageData) data.image = imageData;
+          if (id) {
+            const idx = projects.findIndex(p => p.id == id);
+            projects[idx] = { ...projects[idx], ...data };
+          } else {
+            projects.push({ id: Date.now(), ...data });
+          }
+          saveData();
+          closeModal('project-modal');
+          if (pFileInput) pFileInput.value = '';
+          if (document.getElementById('p-file-label')) document.getElementById('p-file-label').textContent = 'PNG, JPG, PDF up to 10MB';
         };
-
-        if (id) {
-          const idx = projects.findIndex(p => p.id == id);
-          projects[idx] = { ...projects[idx], ...data };
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = ev => finishSave(ev.target.result);
+          reader.readAsDataURL(file);
         } else {
-          projects.push({ id: Date.now(), ...data });
+          finishSave(null);
         }
-        saveData();
-        closeModal('project-modal');
-        // Reset file UI
-        if (pFileInput) pFileInput.value = '';
-        if (document.getElementById('p-file-label')) document.getElementById('p-file-label').textContent = 'PNG, JPG, PDF up to 10MB';
       });
 
 
@@ -1846,26 +1864,36 @@
         e.preventDefault();
         const id = document.getElementById('e-id').value;
         const selectedType = document.querySelector('input[name="e-type"]:checked');
-        const data = {
-          title: document.getElementById('e-title').value,
-          partner: document.getElementById('e-partner').value,
-          date: document.getElementById('e-date').value,
-          location: document.getElementById('e-location').value,
-          notes: document.getElementById('e-notes').value,
-          nextSteps: document.getElementById('e-next-steps') ? document.getElementById('e-next-steps').value : '',
-          engagementType: selectedType ? selectedType.value : 'External',
-          loggedByRole: currentUserRole
+        const file = eFileInput && eFileInput.files[0];
+        const finishSave = (imageData) => {
+          const data = {
+            title: document.getElementById('e-title').value,
+            partner: document.getElementById('e-partner').value,
+            date: document.getElementById('e-date').value,
+            location: document.getElementById('e-location').value,
+            notes: document.getElementById('e-notes').value,
+            nextSteps: document.getElementById('e-next-steps') ? document.getElementById('e-next-steps').value : '',
+            engagementType: selectedType ? selectedType.value : 'External',
+            loggedByRole: currentUserRole
+          };
+          if (imageData) data.image = imageData;
+          if (id) {
+            const idx = engagements.findIndex(e => e.id == id);
+            engagements[idx] = { ...engagements[idx], ...data };
+          } else {
+            engagements.push({ id: Date.now(), ...data });
+          }
+          saveData();
+          closeModal('engagement-modal');
+          resetEngagementFileUI();
         };
-
-        if (id) {
-          const idx = engagements.findIndex(e => e.id == id);
-          engagements[idx] = { ...engagements[idx], ...data };
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = ev => finishSave(ev.target.result);
+          reader.readAsDataURL(file);
         } else {
-          engagements.push({ id: Date.now(), ...data });
+          finishSave(null);
         }
-        saveData();
-        closeModal('engagement-modal');
-        resetEngagementFileUI();
       });
 
 
@@ -2248,30 +2276,37 @@
         const list = document.getElementById('dashboard-todo-list');
         if (!widget || !list) return;
         const pending = todos.filter(t => !t.completed);
-        if (currentUserRole !== 'Admin' || !pending.length) {
+        const role = (currentUserRole || '').toLowerCase();
+        if (role !== 'admin' || !pending.length) {
           widget.classList.add('hidden');
           return;
         }
         widget.classList.remove('hidden');
-        // Sort: High first, then Medium, then Low
         const sorted = [...pending].sort((a, b) => {
           const order = { High: 0, Medium: 1, Low: 2 };
           return (order[a.priority] ?? 1) - (order[b.priority] ?? 1);
         });
-        list.innerHTML = sorted.slice(0, 5).map(t => {
-          const cfg = PRIORITY_CONFIG[t.priority] || PRIORITY_CONFIG.Medium;
-          return `
-            <div class="flex items-center gap-3 py-1.5">
-              <button onclick="completeTodo(${t.id})" title="Mark complete"
-                class="w-4 h-4 rounded-full border-2 border-slate-300 dark:border-slate-600 ${cfg.ring} transition-all shrink-0">
-              </button>
-              <span class="text-sm text-primary dark:text-slate-300 truncate flex-1">${t.text}</span>
-              <span class="text-[10px] font-bold ${cfg.dot.replace('bg-', 'text-')} shrink-0">${cfg.label}</span>
-            </div>
-          `;
-        }).join('');
-        if (sorted.length > 5) {
-          list.innerHTML += `<p class="text-xs text-outline dark:text-slate-500 pt-2">+${sorted.length - 5} more tasks</p>`;
+        const colorMap = {
+          High:   { border: 'border-red-400',   bg: 'bg-red-50 dark:bg-red-900/20',   text: 'text-red-700 dark:text-red-300',   badge: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' },
+          Medium: { border: 'border-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', text: 'text-amber-700 dark:text-amber-300', badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' },
+          Low:    { border: 'border-green-400', bg: 'bg-green-50 dark:bg-green-900/20', text: 'text-green-700 dark:text-green-300', badge: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300' }
+        };
+        list.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">` +
+          sorted.slice(0, 6).map(t => {
+            const cfg = colorMap[t.priority] || colorMap.Medium;
+            const PRIORITY_CFG = PRIORITY_CONFIG[t.priority] || PRIORITY_CONFIG.Medium;
+            return `
+              <div class="flex items-center gap-3 p-3 rounded-lg border-l-4 ${cfg.border} ${cfg.bg}">
+                <button onclick="completeTodo(${t.id})" title="Mark complete"
+                  class="w-5 h-5 rounded-full border-2 border-current ${cfg.text} transition-all shrink-0 hover:scale-110">
+                </button>
+                <span class="flex-1 text-sm font-medium text-primary dark:text-white truncate">${t.text}</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${cfg.badge} shrink-0">${PRIORITY_CFG.label} ${t.priority}</span>
+              </div>
+            `;
+          }).join('') + `</div>`;
+        if (sorted.length > 6) {
+          list.innerHTML += `<p class="text-xs text-outline dark:text-slate-500 pt-2">+${sorted.length - 6} more tasks</p>`;
         }
       }
 
@@ -2279,7 +2314,8 @@
         const badge = document.getElementById('todo-badge');
         if (!badge) return;
         const count = todos.filter(t => !t.completed).length;
-        if (count > 0 && currentUserRole === 'Admin') {
+        const role = (currentUserRole || '').toLowerCase();
+        if (count > 0 && role === 'admin') {
           badge.textContent = count;
           badge.classList.remove('hidden');
         } else {
