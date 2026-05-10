@@ -207,7 +207,7 @@
             ADDRESS</label>
           <input type="email" id="email"
             class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary"
-            placeholder="Enter email" required>
+            placeholder="admin@lwc.gov.ng" required>
         </div>
         <div class="mb-6">
           <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" for="password">PASSWORD</label>
@@ -314,7 +314,8 @@
                 </div>
                 <div class="font-metric-lg text-metric-lg text-primary dark:text-white mt-sm" id="kpi-total">0</div>
               </div>
-              <div class="mt-md text-[11px] text-outline dark:text-slate-500 font-label uppercase tracking-wider">All Regions</div>
+              <div class="mt-md text-[11px] text-outline dark:text-slate-500 font-label uppercase tracking-wider">Lagos
+                Metropolitan Region</div>
             </div>
 
             <div
@@ -322,13 +323,15 @@
               <div>
                 <div class="flex justify-between items-start">
                   <span class="font-label text-label text-outline dark:text-slate-400">ACTIVE / ONGOING</span>
-                  <span class="material-symbols-outlined text-[#003366] dark:text-[#00FFFF]">analytics</span>
+                  <span class="material-symbols-outlined text-secondary dark:text-blue-400">analytics</span>
                 </div>
                 <div class="font-metric-lg text-metric-lg text-secondary dark:text-blue-400 mt-sm" id="kpi-active">0
                 </div>
               </div>
               <div class="mt-md flex items-center gap-1">
-                <span class="text-[11px] text-outline dark:text-slate-500 font-label hidden" id="kpi-active-rate"></span>
+                <div class="w-2 h-2 rounded-full bg-secondary dark:bg-blue-400"></div>
+                <span class="text-[11px] text-outline dark:text-slate-500 font-label" id="kpi-active-rate">0% Deployment
+                  Rate</span>
               </div>
             </div>
 
@@ -337,27 +340,12 @@
               <div>
                 <div class="flex justify-between items-start">
                   <span class="font-label text-label text-outline dark:text-slate-400">COMPLETED</span>
-                  <span class="material-symbols-outlined text-[#003366] dark:text-[#00FFFF]">verified</span>
+                  <span class="material-symbols-outlined text-[#00FFFF] dark:text-[#00FFFF]">verified</span>
                 </div>
                 <div class="font-metric-lg text-metric-lg text-primary dark:text-white mt-sm" id="kpi-completed">0</div>
               </div>
-              <div class="mt-md text-[11px] text-outline dark:text-slate-500 font-label uppercase tracking-wider"></div>
-            </div>
-          </div>
-
-          <!-- Dashboard To-Do Widget (Admin only) -->
-          <div id="dashboard-todo-widget" class="mb-lg hidden">
-            <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl overflow-hidden">
-              <div class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-[#003366] dark:text-[#00FFFF] text-[20px]">checklist</span>
-                  <h2 class="font-h2 text-[16px] text-primary dark:text-white">My Tasks</h2>
-                </div>
-                <button onclick="document.querySelector('[data-target=view-todos]').click()" class="text-secondary dark:text-[#00FFFF] font-label text-label hover:underline">View All</button>
-              </div>
-              <div id="dashboard-todo-list" class="p-md space-y-2">
-                <!-- Populated by JS -->
-              </div>
+              <div class="mt-md text-[11px] text-outline dark:text-slate-500 font-label uppercase tracking-wider">Fully
+                Delivered</div>
             </div>
           </div>
 
@@ -366,7 +354,7 @@
             <div class="lg:col-span-12 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800">
               <div
                 class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
-                <h2 class="font-h2 text-[16px] text-primary dark:text-white">Projects Due</h2>
+                <h2 class="font-h2 text-[16px] text-primary dark:text-white">Projects by Completion %</h2>
               </div>
               <div class="p-md space-y-md" id="projects-completion-list">
                 <!-- Populated by JS -->
@@ -401,6 +389,22 @@
               </div>
             </div>
           </div>
+
+          <!-- Dashboard To-Do Widget (Admin only) -->
+          <div id="dashboard-todo-widget" class="mt-gutter hidden">
+            <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl overflow-hidden">
+              <div class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-primary dark:text-[#00FFFF] text-[20px]">checklist</span>
+                  <h2 class="font-h2 text-[16px] text-primary dark:text-white">My Tasks</h2>
+                </div>
+                <button onclick="document.querySelector('[data-target=view-todos]').click()" class="text-secondary dark:text-[#00FFFF] font-label text-label hover:underline">View All</button>
+              </div>
+              <div id="dashboard-todo-list" class="p-md space-y-2">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- PROJECTS VIEW -->
@@ -426,9 +430,26 @@
             </div>
           </div>
 
-          <div class="mt-4">
-            <div id="projects-list-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              <!-- Populated by JS -->
+          <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead>
+                  <tr
+                    class="bg-surface-container-low dark:bg-slate-800/50 border-b border-outline-variant dark:border-slate-800">
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">NAME</th>
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">CATEGORY</th>
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">REGION</th>
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">HANDLER</th>
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">STATUS</th>
+                    <th class="p-md font-table-header text-table-header text-outline dark:text-slate-400">COMPLETION
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="font-body-sm text-body-sm divide-y divide-surface-container dark:divide-slate-800"
+                  id="projects-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -801,14 +822,14 @@
       <form id="project-form" class="p-6 overflow-y-auto flex-1 space-y-4">
         <input type="hidden" id="p-id">
         <div>
-          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">PROJECT NAME *</label>
+          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">NAME *</label>
           <input type="text" id="p-name" required placeholder="e.g. Iju Waterworks Rehabilitation"
             class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">PERSON RESPONSIBLE *</label>
-            <input type="text" id="p-handler" required placeholder="e.g. Engr. John Doe"
+            <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">CATEGORY</label>
+            <input type="text" id="p-category" placeholder="e.g. Water Treatment Plant"
               class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
           </div>
           <div>
@@ -824,18 +845,6 @@
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">START DATE</label>
-            <input type="date" id="p-start-date"
-              class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
-          </div>
-          <div>
-            <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">DUE DATE *</label>
-            <input type="date" id="p-due-date" required
-              class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
             <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">STATUS</label>
             <select id="p-status"
               class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
@@ -847,28 +856,15 @@
             </select>
           </div>
           <div>
-            <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">SUPPORTING LINK URL</label>
-            <input type="url" id="p-link" placeholder="https://..."
+            <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">COMPLETION (%)</label>
+            <input type="number" id="p-completion" min="0" max="100" value="0"
               class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
           </div>
         </div>
         <div>
-          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">BREAKDOWN OF PROJECT</label>
-          <textarea id="p-notes" rows="3" placeholder="Enter project breakdown, context, or important notes..."
-            class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary resize-y"></textarea>
-        </div>
-        
-        <!-- SUB PROJECTS -->
-        <div class="pt-2 border-t border-slate-200 dark:border-slate-700">
-          <div class="flex justify-between items-center mb-2">
-            <label class="block font-label text-xs text-outline dark:text-slate-400">SUB-PROJECTS</label>
-            <button type="button" onclick="addSubProjectField()" class="text-xs font-bold text-secondary dark:text-[#00FFFF] hover:underline flex items-center gap-1">
-              <span class="material-symbols-outlined text-[14px]">add</span> Add Sub-Project
-            </button>
-          </div>
-          <div id="sub-projects-container" class="space-y-3">
-            <!-- Dynamically populated -->
-          </div>
+          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">HANDLER</label>
+          <input type="text" id="p-handler" placeholder="e.g. Engr. John Doe"
+            class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
         </div>
         <div>
           <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">NOTES & DETAILS</label>
@@ -997,58 +993,48 @@
             </div>
           </div>
 
-          <!-- Row 2: Partner & Handler -->
+          <!-- Row 2: Date & Partner -->
           <div
             class="grid grid-cols-1 md:grid-cols-2 gap-5 p-4 bg-slate-50 dark:bg-slate-800/30 rounded-lg border border-slate-100 dark:border-slate-800">
             <div class="space-y-1.5">
-              <label
-                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Partner Name or Stakeholder
-                <span class="text-error" id="lbl-partner-req">*</span></label>
-              <input type="text" id="e-partner" required placeholder="e.g., World Bank, JICA, LWC Internal"
-                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Date
+                <span class="text-error" id="lbl-date-req">*</span></label>
+              <input type="date" id="e-date" required
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
             </div>
             <div class="space-y-1.5">
               <label
-                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Person Responsible
-                <span class="text-error" id="lbl-handler-req">*</span></label>
-              <input type="text" id="e-handler" required placeholder="e.g., Engr. John Doe"
-                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Stakeholder
+                <span class="text-error" id="lbl-partner-req">*</span></label>
+              <input type="text" id="e-partner" required placeholder="e.g., World Bank, JICA, LWC Internal"
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
             </div>
           </div>
 
-          <!-- Row 3: Due Date & Location -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-4 bg-slate-50 dark:bg-slate-800/30 rounded-lg border border-slate-100 dark:border-slate-800">
-            <div class="space-y-1.5">
-              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Due Date</label>
-              <input type="date" id="e-due-date"
-                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
-            </div>
+          <!-- Row 3: Location -->
+          <div class="grid grid-cols-1 gap-5">
             <div class="space-y-1.5">
               <label
                 class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Location</label>
               <input type="text" id="e-location" placeholder="e.g., LWC Head Office"
-                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
             </div>
           </div>
 
-          <!-- Row 4: Link & Notes -->
-          <div class="space-y-5">
-            <div class="space-y-1.5">
-              <label
-                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Supporting Link URL</label>
-              <input type="url" id="e-link" placeholder="https://..."
-                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
-            </div>
-            <div class="space-y-1.5">
-              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Breakdown of the Engagement</label>
-              <textarea id="e-notes" rows="3" placeholder="Enter detailed engagement breakdown and context..."
-                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-y"></textarea>
-            </div>
-            <div class="space-y-1.5 mt-4">
-              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Next Phase</label>
-              <textarea id="e-next-phase" rows="3" placeholder="Enter next phase notes... They will display as bulletin points."
-                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-y"></textarea>
-            </div>
+          <!-- Row 4: Notes -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Notes
+              & Details</label>
+            <textarea id="e-notes" rows="3" placeholder="Enter detailed engagement notes and outcomes..."
+              class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-y disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900"></textarea>
+          </div>
+
+          <!-- Row 4b: Next Steps -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Next Steps</label>
+            <input type="text" id="e-next-steps" placeholder="e.g., Follow up with IFC by June, Prepare MOU draft"
+              class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
+            <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Separate multiple steps with a comma</p>
           </div>
 
 
@@ -1091,8 +1077,8 @@
     <script>
       /* --- SUPABASE INIT --- */
       var supabaseUrl = 'https://yjlpkjhydxkdkrgdhizh.supabase.co';
-      var supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbHBramh5ZHhrZGtyZ2RoaXpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzI1NTQsImV4cCI6MjA5Mzc0ODU1NH0.ZX0NUgfc5JJCbvTTYViP0_WHb5m1YbsLskUW_xgB9iU';
-      var supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbHBramh5ZHhrZGtyZ2RoaXpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzI1NTQsImV4cCI6MjA5Mzc0ODU1NH0.ZX0NUgfc5JJCbvTTYViP0_WHb5m1YbsLskUW_xgB9iU';
+      const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
       let projects = [];
       let engagements = [];
@@ -1229,33 +1215,12 @@
           const { data: eData } = await supabase.from('engagements').select('data');
           const { data: rData } = await supabase.from('risks').select('data');
           
-          if (pData && pData.length > 0) projects = pData.map(row => row.data);
-          if (eData && eData.length > 0) engagements = eData.map(row => row.data);
-          if (rData && rData.length > 0) risks = rData.map(row => row.data);
+          if (pData) projects = pData.map(row => row.data);
+          if (eData) engagements = eData.map(row => row.data);
+          if (rData) risks = rData.map(row => row.data);
         } catch(e) {
           console.error('Error fetching data from Supabase', e);
         }
-
-        // Add placeholders if empty
-        if (projects.length === 0) {
-          const today = new Date();
-          const nextWeek = new Date(today); nextWeek.setDate(today.getDate() + 6);
-          const nextMonth = new Date(today); nextMonth.setMonth(today.getMonth() + 1);
-          const lastMonth = new Date(today); lastMonth.setMonth(today.getMonth() - 1);
-          
-          projects = [
-            { id: 1, name: 'Lekki Water Pipeline Expansion', category: 'Transmission pipeline', region: 'South', handler: 'Alpha Engineering', status: 'Ongoing', completion: 65, contractor: 'Alpha Engineering', notes: 'Phase 1 completed.', startDate: lastMonth.toISOString().split('T')[0], dueDate: nextMonth.toISOString().split('T')[0] },
-            { id: 2, name: 'Ikeja Treatment Plant Upgrade', category: 'Water treatment plant', region: 'State-wide', handler: 'Beta Solutions', status: 'Completed', completion: 100, contractor: 'Beta Solutions', notes: 'Fully operational.', startDate: '2025-01-01', dueDate: '2025-06-01' },
-            { id: 3, name: 'Agege Distribution Network', category: 'Distribution network', region: 'West', handler: 'Gamma Infrastructure', status: 'Active', completion: 40, contractor: 'Gamma Infrastructure', notes: 'Pipes laid.', startDate: lastMonth.toISOString().split('T')[0], dueDate: nextWeek.toISOString().split('T')[0] }
-          ];
-        }
-        if (engagements.length === 0) {
-          engagements = [
-            { id: 1, title: 'World Bank Funding Review', partner: 'World Bank', engagementType: 'External', region: 'State-wide', handler: 'Admin User', dueDate: '2026-06-10', link: 'https://worldbank.org', notes: 'Discussed funding for Phase 2.', date: '5/10/2026' },
-            { id: 2, title: 'JICA Technical Assistance', partner: 'JICA', engagementType: 'External', region: 'State-wide', handler: 'LWC Staff', dueDate: '2026-07-12', link: '', notes: 'Reviewing technical specifications.', date: '5/12/2026' }
-          ];
-        }
-
         renderAll();
       }
 
@@ -1320,64 +1285,34 @@
 
       function renderDashboard() {
         // KPIs
-        document.getElementById('kpi-total').textContent = projects.length;
+        document.getElementById('kpi-total').textContent = String(projects.length).padStart(2, '0');
         const activeProjects = projects.filter(p => p.status !== 'Completed');
-        document.getElementById('kpi-active').textContent = activeProjects.length;
+        document.getElementById('kpi-active').textContent = String(activeProjects.length).padStart(2, '0');
         const rate = projects.length ? Math.round((activeProjects.length / projects.length) * 100) : 0;
-        document.getElementById('kpi-active-rate').textContent = ``;
-        document.getElementById('kpi-completed').textContent = projects.filter(p => p.status === 'Completed').length;
+        document.getElementById('kpi-active-rate').textContent = `${rate}% Deployment Rate`;
+        document.getElementById('kpi-completed').textContent = String(projects.filter(p => p.status === 'Completed').length).padStart(2, '0');
 
-        // Projects Due list — exclude completed projects
-        const activeOnly = projects.filter(p => p.status !== 'Completed' && p.dueDate);
-        // Sort by closest due date
-        const topProjects = [...activeOnly].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)).slice(0, 5);
-        
+        // Projects by completion list — exclude completed projects
+        const activeOnly = projects.filter(p => p.status !== 'Completed');
+        const topProjects = [...activeOnly].sort((a, b) => b.completion - a.completion).slice(0, 5);
         const completionHtml = topProjects.map(p => {
-          const due = new Date(p.dueDate);
-          const now = new Date();
-          const daysRemaining = (due - now) / (1000 * 60 * 60 * 24);
-          
           let colorClass = 'bg-amber-500';
           let textClass = 'text-amber-600 dark:text-amber-400';
-          let indicatorLabel = 'Due Soon';
-          
-          if (daysRemaining <= 7) {
-             colorClass = 'bg-red-500'; 
-             textClass = 'text-red-600 dark:text-red-400';
-             indicatorLabel = daysRemaining < 0 ? 'Overdue' : 'Critical';
-          } else if (daysRemaining > 14) {
-             colorClass = 'bg-green-500'; 
-             textClass = 'text-green-600 dark:text-green-400';
-             indicatorLabel = 'On Track';
-          }
-
-          const spCount = p.subprojects ? p.subprojects.length : 0;
-          const badgeHtml = spCount > 0 ? `<span class="bg-primary/10 text-primary dark:bg-[#003366]/40 dark:text-[#00FFFF] text-[10px] font-bold px-2 py-0.5 rounded-full ml-2">${spCount} Sub-project${spCount>1?'s':''}</span>` : '';
+          if (p.completion >= 70) { colorClass = 'bg-green-500'; textClass = 'text-green-600 dark:text-green-400'; }
+          else if (p.completion < 40) { colorClass = 'bg-red-500'; textClass = 'text-red-600 dark:text-red-400'; }
 
           return `
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group cursor-pointer" onclick="viewProjectDetails(${p.id})">
-          <div class="absolute top-0 left-0 w-1 h-full ${colorClass}"></div>
-          <div>
-            <div class="flex justify-between items-start mb-2">
-              <h3 class="font-bold text-sm text-primary dark:text-white leading-tight pr-2">${p.name}${badgeHtml}</h3>
-              <span class="text-[10px] font-bold ${textClass} bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-md uppercase tracking-wider shrink-0 border border-slate-100 dark:border-slate-700">${indicatorLabel}</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2 mt-4">
-              <div class="flex items-center gap-1.5 text-xs text-outline dark:text-slate-400">
-                <span class="material-symbols-outlined text-[14px]">person</span>
-                <span class="font-medium truncate">${p.handler || 'Unassigned'}</span>
-              </div>
-              <div class="flex items-center gap-1.5 text-xs text-outline dark:text-slate-400">
-                <span class="material-symbols-outlined text-[14px]">event</span>
-                <span class="font-medium truncate">${due.toLocaleDateString()}</span>
-              </div>
-            </div>
+        <div class="space-y-xs">
+          <div class="flex justify-between items-center font-body-sm text-body-sm">
+            <span class="font-medium text-primary dark:text-white">${p.name}</span>
+            <span class="${textClass} font-bold">${p.completion}%</span>
+          </div>
+          <div class="w-full bg-surface-container dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+            <div class="${colorClass} h-full" style="width: ${p.completion}%"></div>
           </div>
         </div>
       `}).join('');
-        document.getElementById('projects-completion-list').innerHTML = completionHtml 
-            ? `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${completionHtml}</div>` 
-            : '<p class="text-sm text-outline dark:text-slate-500 p-4">No active projects with due dates.</p>';
+        document.getElementById('projects-completion-list').innerHTML = completionHtml || '<p class="text-sm text-outline dark:text-slate-500">No active projects</p>';
 
         // Risk List (safe - only render if element exists)
         const riskListEl = document.getElementById('risk-list');
@@ -1424,48 +1359,32 @@
         const active = filtered.filter(p => p.status !== 'Completed');
         const completed = filtered.filter(p => p.status === 'Completed');
 
-        function buildCard(p) {
+        function buildRow(p, index) {
+          const bgClass = index % 2 === 0 ? 'hover:bg-surface-container-lowest dark:hover:bg-slate-800' : 'bg-slate-50/50 dark:bg-slate-800/20 hover:bg-surface-container-lowest dark:hover:bg-slate-800';
+          let pColor = 'bg-amber-500';
+          if (p.completion >= 70) pColor = 'bg-green-500';
+          else if (p.completion < 40) pColor = 'bg-red-500';
           const styles = getStatusStyles(p.status);
-          
-          let dateInfo = '';
-          if (p.dueDate) {
-            const due = new Date(p.dueDate);
-            dateInfo = `<div class="flex items-center gap-1 text-xs font-medium text-slate-500 dark:text-slate-400 mt-2"><span class="material-symbols-outlined text-[14px]">calendar_today</span> Due: ${due.toLocaleDateString()}</div>`;
-          }
-
           return `
-          <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-lg transition-all cursor-pointer flex flex-col h-full relative group" onclick="viewProjectDetails(${p.id})">
-            <!-- Top Color Accent -->
-            <div class="h-2 w-full ${styles.bg.split(' ')[0].replace('/10','').replace('/20','')}"></div>
-            
-            <div class="p-5 flex flex-col flex-1">
-              <div class="flex justify-between items-start mb-3 gap-2">
-                <h3 class="font-bold text-base text-primary dark:text-white leading-tight">${p.name}</h3>
-                <span class="px-2.5 py-0.5 rounded-full ${styles.badge} text-[10px] font-bold uppercase tracking-wider shrink-0">${p.status}</span>
-              </div>
-              
-              <div class="text-sm text-outline dark:text-slate-400 mb-4 flex-1 line-clamp-3">
-                ${p.notes || p.category || 'No breakdown provided.'}
-              </div>
-              
-              <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 space-y-2 mt-auto">
-                <div class="flex items-center gap-2 text-sm">
-                  <span class="material-symbols-outlined text-[16px] text-primary dark:text-[#00FFFF]">person</span>
-                  <span class="font-medium text-primary dark:text-slate-200 truncate">${p.handler || 'Unassigned'}</span>
-                </div>
-                ${dateInfo}
-                ${p.region ? `<div class="flex items-center gap-2 text-sm mt-1">
-                  <span class="material-symbols-outlined text-[16px] text-secondary dark:text-slate-400">location_on</span>
-                  <span class="text-secondary dark:text-slate-400">${p.region}</span>
-                </div>` : ''}
+        <tr class="${bgClass} transition-colors cursor-pointer" onclick="viewProjectDetails(${p.id})" title="Click to view details">
+          <td class="p-md font-medium text-primary dark:text-white">${p.name}</td>
+          <td class="p-md text-outline dark:text-slate-400">${p.category || '—'}</td>
+          <td class="p-md text-outline dark:text-slate-400">${p.region || '—'}</td>
+          <td class="p-md font-medium text-primary dark:text-slate-300">${p.handler || 'Unassigned'}</td>
+          <td class="p-md"><span class="px-2 py-0.5 rounded-full ${styles.badge} text-[11px] font-bold uppercase">${p.status}</span></td>
+          <td class="p-md">
+            <div class="flex items-center gap-2">
+              <span class="w-8 text-[12px] font-medium text-primary dark:text-slate-300">${p.completion}%</span>
+              <div class="w-16 bg-surface-container dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                <div class="${pColor} h-full" style="width: ${p.completion}%"></div>
               </div>
             </div>
-          </div>
-          `;
+          </td>
+        </tr>`;
         }
 
-        const activeHtml = active.map(buildCard).join('');
-        document.getElementById('projects-list-container').innerHTML = activeHtml || '<div class="col-span-full p-8 text-center bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-dashed border-slate-200 dark:border-slate-700 text-outline dark:text-slate-500">No active projects found</div>';
+        const activeHtml = active.map(buildRow).join('');
+        document.getElementById('projects-table-body').innerHTML = activeHtml || '<tr><td colspan="6" class="p-md text-center text-outline dark:text-slate-500">No active projects found</td></tr>';
 
         // Collapsible completed projects section
         const completedSection = document.getElementById('completed-projects-section');
@@ -1475,7 +1394,7 @@
           } else {
             completedSection.classList.remove('hidden');
             document.getElementById('completed-projects-count').textContent = `${completed.length} project${completed.length > 1 ? 's' : ''}`;
-            document.getElementById('completed-projects-body').innerHTML = completed.map(buildCard).join('');
+            document.getElementById('completed-projects-body').innerHTML = completed.map(buildRow).join('');
           }
         }
       }
@@ -1630,28 +1549,8 @@
         }
       }
 
-      function addSubProjectField(sp = null) {
-        const container = document.getElementById('sub-projects-container');
-        const div = document.createElement('div');
-        div.className = 'sub-project-entry border border-slate-200 dark:border-slate-700 rounded bg-slate-100 dark:bg-slate-800/50 p-3 space-y-3 relative';
-        div.innerHTML = `
-          <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-slate-400 hover:text-red-500">
-            <span class="material-symbols-outlined text-[16px]">close</span>
-          </button>
-          <div>
-            <input type="text" class="sp-name w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-2 py-1.5 text-sm text-primary dark:text-white outline-none focus:border-primary" placeholder="Sub-project name or breakdown" value="${sp ? sp.name : ''}" required>
-          </div>
-          <div class="flex gap-2">
-            <input type="text" class="sp-handler flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-2 py-1.5 text-sm text-primary dark:text-white outline-none focus:border-primary" placeholder="Person responsible" value="${sp ? sp.handler : ''}">
-            <input type="date" class="sp-due-date w-32 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-2 py-1.5 text-sm text-primary dark:text-white outline-none focus:border-primary" value="${sp ? sp.dueDate : ''}">
-          </div>
-        `;
-        container.appendChild(div);
-      }
-
       function openProjectModal() {
         document.getElementById('project-form').reset();
-        document.getElementById('sub-projects-container').innerHTML = '';
         document.getElementById('p-id').value = '';
         document.getElementById('project-modal-title').textContent = 'Add Project';
         document.getElementById('project-modal').style.display = 'flex';
@@ -1662,20 +1561,11 @@
         if (!p) return;
         document.getElementById('p-id').value = p.id;
         document.getElementById('p-name').value = p.name;
+        document.getElementById('p-category').value = p.category;
         document.getElementById('p-region').value = p.region;
         document.getElementById('p-handler').value = p.handler || '';
         document.getElementById('p-status').value = p.status;
-        if(document.getElementById('p-link')) document.getElementById('p-link').value = p.link || '';
-        if(document.getElementById('p-start-date')) document.getElementById('p-start-date').value = p.startDate || '';
-        if(document.getElementById('p-due-date')) document.getElementById('p-due-date').value = p.dueDate || '';
-        if(document.getElementById('p-notes')) document.getElementById('p-notes').value = p.notes || '';
-        
-        const spContainer = document.getElementById('sub-projects-container');
-        spContainer.innerHTML = '';
-        if (p.subprojects && p.subprojects.length > 0) {
-          p.subprojects.forEach(sp => addSubProjectField(sp));
-        }
-
+        document.getElementById('p-completion').value = p.completion;
         document.getElementById('project-modal-title').textContent = 'Edit Project';
         document.getElementById('project-modal').style.display = 'flex';
       }
@@ -1700,100 +1590,38 @@
         else if (p.completion < 40) pColor = 'bg-red-500';
 
         document.getElementById('pdm-title').textContent = p.name;
-        
-        let subProjectsHtml = '';
-        if (p.subprojects && p.subprojects.length > 0) {
-          subProjectsHtml = `
-            <div class="mt-4 border-t border-slate-200 dark:border-slate-700 pt-4">
-              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-3">Sub-Projects</div>
-              <div class="space-y-3">
-                ${p.subprojects.map(sp => `
-                  <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-3">
-                    <div class="font-bold text-sm text-primary dark:text-white mb-1">${sp.name}</div>
-                    <div class="flex flex-wrap gap-4 text-xs text-outline dark:text-slate-400 mt-2">
-                      <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">person</span> ${sp.handler}</div>
-                      ${sp.dueDate ? `<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">calendar_today</span> Due: ${new Date(sp.dueDate).toLocaleDateString()}</div>` : ''}
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          `;
-        }
-        
-        let dateHtml = '';
-        if (p.dueDate) {
-           dateHtml = `
-             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
-               <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Due Date</div>
-               <div class="text-sm font-medium text-primary dark:text-white flex items-center gap-1">
-                 <span class="material-symbols-outlined text-[16px] text-slate-400">event</span> ${new Date(p.dueDate).toLocaleDateString()}
-               </div>
-             </div>
-           `;
-        }
-
         document.getElementById('project-detail-body').innerHTML = `
           <div class="flex flex-wrap gap-3 items-center">
             <span class="px-3 py-1 rounded-full ${styles.badge} text-xs font-bold uppercase">${p.status}</span>
-            <span class="text-sm text-outline dark:text-slate-400 font-medium">${p.region || 'No Region'}</span>
-            ${p.link ? `<a href="${p.link}" target="_blank" class="text-sm font-bold text-secondary dark:text-[#00FFFF] hover:underline flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">link</span> External Link</a>` : ''}
+            <span class="text-sm text-outline dark:text-slate-400 font-medium">${p.category || 'No Category'}</span>
+            <span class="text-slate-300 dark:text-slate-700">|</span>
+            <span class="text-sm text-outline dark:text-slate-400">${p.region || 'No Region'}</span>
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
-              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Person Responsible</div>
-              <div class="text-sm font-medium text-primary dark:text-white flex items-center gap-1">
-                 <span class="material-symbols-outlined text-[16px] text-slate-400">person</span> ${p.handler || 'Unassigned'}
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Handler</div>
+              <div class="text-sm font-medium text-primary dark:text-white">${p.handler || 'Unassigned'}</div>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Completion</div>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="text-lg font-bold text-primary dark:text-white">${p.completion}%</span>
+                <div class="flex-1 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                  <div class="${pColor} h-full transition-all" style="width:${p.completion}%"></div>
+                </div>
               </div>
             </div>
-            ${dateHtml}
           </div>
           ${p.notes ? `
           <div>
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Project Breakdown</div>
-            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 rounded-lg p-4">${p.notes.replace(/\n/g, '<br>')}</p>
-          </div>` : ''}
-          ${subProjectsHtml}
-          ${p.image ? `
-          <div class="mt-4">
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Attached Photo</div>
-            <img src="${p.image}" alt="Project attachment" class="rounded-lg max-h-64 w-full object-cover border border-slate-200 dark:border-slate-700 cursor-pointer" onclick="window.open(this.src,'_blank')">
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Notes & Details</div>
+            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">${p.notes}</p>
           </div>` : ''}
         `;
-        // Show edit/delete buttons only to Admins/Editors
+        // Show edit button only to non-viewers
         const editBtn = document.getElementById('pdm-edit-btn');
-        const completeBtn = document.getElementById('pdm-complete-btn');
-        const deleteBtn = document.getElementById('pdm-delete-btn');
-        
-        const isViewer = currentUserRole === 'Viewer';
-        const isAdmin = currentUserRole === 'Admin';
-        
-        editBtn.classList.toggle('hidden', isViewer);
-        if (p.status !== 'Completed' && !isViewer) {
-            completeBtn.classList.remove('hidden');
-        } else {
-            completeBtn.classList.add('hidden');
-        }
-        deleteBtn.classList.toggle('hidden', !isAdmin);
-        
+        editBtn.classList.toggle('hidden', currentUserRole === 'Viewer');
         document.getElementById('project-detail-modal').style.display = 'flex';
-      }
-
-      function deleteFromDetail() {
-        if (!currentDetailProjectId || !confirm('Are you sure you want to delete this project?')) return;
-        projects = projects.filter(p => p.id !== currentDetailProjectId);
-        saveData();
-        closeModal('project-detail-modal');
-      }
-
-      function markProjectCompleteFromDetail() {
-        if (!currentDetailProjectId) return;
-        const p = projects.find(x => x.id === currentDetailProjectId);
-        if (p) {
-          p.status = 'Completed';
-          saveData();
-          closeModal('project-detail-modal');
-        }
       }
 
       function editFromDetail() {
@@ -1817,75 +1645,49 @@
         
         document.getElementById('edm-title').textContent = e.title;
         
-        const nextStepsHtml = e.nextPhase ? `
+        const nextSteps = e.nextSteps ? e.nextSteps.split(',').map(s => s.trim()).filter(Boolean) : [];
+        const stepsHtml = nextSteps.length ? `
           <div>
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Next Phase</div>
-            <ul class="list-disc pl-5 space-y-1">
-              ${e.nextPhase.split('\n').filter(Boolean).map(s => `<li class="text-sm font-medium text-primary dark:text-[#00FFFF]">${s.trim()}</li>`).join('')}
-            </ul>
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Next Steps</div>
+            <div class="flex flex-wrap gap-2">
+              ${nextSteps.map(s => `<span class="text-sm bg-primary/10 text-primary dark:bg-[#003366]/40 dark:text-[#00FFFF] px-3 py-1 rounded-full font-medium">→ ${s}</span>`).join('')}
+            </div>
           </div>
         ` : '';
 
         document.getElementById('engagement-detail-body').innerHTML = `
           <div class="flex flex-wrap gap-3 items-center">
             <span class="${typeTag} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">${e.engagementType || 'External'}</span>
-            <span class="text-sm text-outline dark:text-slate-400 font-medium">${e.region || 'No Region'}</span>
-            ${e.link ? `<a href="${e.link}" target="_blank" class="text-sm font-bold text-secondary dark:text-[#00FFFF] hover:underline flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">link</span> External Link</a>` : ''}
+            <span class="text-sm text-outline dark:text-slate-400 font-medium">${e.date}</span>
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
-              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Partner / Stakeholder</div>
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Stakeholder</div>
               <div class="flex items-center gap-2 mt-1">
                 <span class="material-symbols-outlined text-secondary dark:text-[#00FFFF] text-sm" data-weight="fill">${icon}</span>
                 <span class="text-sm font-medium text-primary dark:text-white">${e.partner || '—'}</span>
               </div>
             </div>
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
-              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Person Responsible</div>
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Location</div>
               <div class="flex items-center gap-2 mt-1">
-                <span class="material-symbols-outlined text-outline dark:text-slate-500 text-sm">person</span>
-                <span class="text-sm font-medium text-primary dark:text-white">${e.handler || '—'}</span>
+                <span class="material-symbols-outlined text-outline dark:text-slate-500 text-sm">location_on</span>
+                <span class="text-sm font-medium text-primary dark:text-white">${e.location || '—'}</span>
               </div>
             </div>
           </div>
-          ${e.dueDate ? `
-          <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4 w-1/2">
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Due Date</div>
-            <div class="flex items-center gap-2 mt-1">
-              <span class="material-symbols-outlined text-outline dark:text-slate-500 text-sm">event</span>
-              <span class="text-sm font-medium text-primary dark:text-white">${new Date(e.dueDate).toLocaleDateString()}</span>
-            </div>
-          </div>` : ''}
           ${e.notes ? `
           <div>
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Breakdown of Engagement</div>
-            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 rounded-lg p-4">${e.notes.replace(/\n/g, '<br>')}</p>
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Notes & Details</div>
+            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">${e.notes}</p>
           </div>` : ''}
-          ${nextStepsHtml}
-          ${e.image ? `
-          <div>
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Attached Photo</div>
-            <img src="${e.image}" alt="Engagement attachment" class="rounded-lg max-h-64 w-full object-cover border border-slate-200 dark:border-slate-700 cursor-pointer" onclick="window.open(this.src,'_blank')">
-          </div>` : ''}
+          ${stepsHtml}
         `;
 
         // Show edit button only to Admins/Editors
         const editBtn = document.getElementById('edm-edit-btn');
-        const deleteBtn = document.getElementById('edm-delete-btn');
-        const isViewer = currentUserRole === 'Viewer';
-        const isAdmin = currentUserRole === 'Admin';
-        
-        editBtn.classList.toggle('hidden', isViewer);
-        deleteBtn.classList.toggle('hidden', !isAdmin);
-        
+        editBtn.classList.toggle('hidden', currentUserRole === 'Viewer');
         document.getElementById('engagement-detail-modal').style.display = 'flex';
-      }
-
-      function deleteEngagementFromDetail() {
-        if (!currentDetailEngagementId || !confirm('Are you sure you want to delete this engagement?')) return;
-        engagements = engagements.filter(e => e.id !== currentDetailEngagementId);
-        saveData();
-        closeModal('engagement-detail-modal');
       }
 
       function editEngagementFromDetail() {
@@ -1915,46 +1717,27 @@
       document.getElementById('project-form').addEventListener('submit', (e) => {
         e.preventDefault();
         const id = document.getElementById('p-id').value;
-        const file = pFileInput && pFileInput.files[0];
-        
-        // Collect sub-projects
-        const subprojects = Array.from(document.querySelectorAll('.sub-project-entry')).map(entry => ({
-          name: entry.querySelector('.sp-name').value,
-          handler: entry.querySelector('.sp-handler').value,
-          dueDate: entry.querySelector('.sp-due-date').value
-        })).filter(sp => sp.name); // only keep if name is filled
-        
-        const finishSave = (imageData) => {
-          const data = {
-            name: document.getElementById('p-name').value,
-            region: document.getElementById('p-region').value,
-            handler: document.getElementById('p-handler').value,
-            status: document.getElementById('p-status').value,
-            link: document.getElementById('p-link') ? document.getElementById('p-link').value : '',
-            startDate: document.getElementById('p-start-date').value,
-            dueDate: document.getElementById('p-due-date').value,
-            notes: document.getElementById('p-notes').value,
-            subprojects: subprojects
-          };
-          if (imageData) data.image = imageData;
-          if (id) {
-            const idx = projects.findIndex(p => p.id == id);
-            projects[idx] = { ...projects[idx], ...data };
-          } else {
-            projects.push({ id: Date.now(), ...data });
-          }
-          saveData();
-          closeModal('project-modal');
-          if (pFileInput) pFileInput.value = '';
-          if (document.getElementById('p-file-label')) document.getElementById('p-file-label').textContent = 'PNG, JPG, PDF up to 10MB';
+        const data = {
+          name: document.getElementById('p-name').value,
+          category: document.getElementById('p-category').value,
+          region: document.getElementById('p-region').value,
+          handler: document.getElementById('p-handler').value,
+          status: document.getElementById('p-status').value,
+          completion: parseInt(document.getElementById('p-completion').value),
+          notes: document.getElementById('p-notes').value
         };
-        if (file && file.type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onload = ev => finishSave(ev.target.result);
-          reader.readAsDataURL(file);
+
+        if (id) {
+          const idx = projects.findIndex(p => p.id == id);
+          projects[idx] = { ...projects[idx], ...data };
         } else {
-          finishSave(null);
+          projects.push({ id: Date.now(), ...data });
         }
+        saveData();
+        closeModal('project-modal');
+        // Reset file UI
+        if (pFileInput) pFileInput.value = '';
+        if (document.getElementById('p-file-label')) document.getElementById('p-file-label').textContent = 'PNG, JPG, PDF up to 10MB';
       });
 
 
@@ -1999,12 +1782,12 @@
         document.getElementById('e-id').value = e.id;
         document.getElementById('e-title').value = e.title;
         document.getElementById('e-partner').value = e.partner || '';
-        document.getElementById('e-handler').value = e.handler || '';
-        document.getElementById('e-due-date').value = e.dueDate || '';
-        document.getElementById('e-region').value = e.region || 'State-wide';
-        if(document.getElementById('e-link')) document.getElementById('e-link').value = e.link || '';
+        document.getElementById('e-date').value = e.date || '';
+        document.getElementById('e-location').value = e.location || '';
         document.getElementById('e-notes').value = e.notes || '';
-        if(document.getElementById('e-next-phase')) document.getElementById('e-next-phase').value = e.nextPhase || '';
+        if (document.getElementById('e-next-steps')) {
+          document.getElementById('e-next-steps').value = e.nextSteps || '';
+        }
         // Set type radio
         const typeVal = e.engagementType || 'External';
         const radio = document.querySelector(`input[name="e-type"][value="${typeVal}"]`);
@@ -2062,42 +1845,27 @@
       document.getElementById('engagement-form').addEventListener('submit', (e) => {
         e.preventDefault();
         const id = document.getElementById('e-id').value;
-        const file = eFileInput && eFileInput.files[0];
-        const finishSave = (imageData) => {
-          let selectedType = 'External';
-          const radioObj = document.querySelector('input[name="e-type"]:checked');
-          if (radioObj) selectedType = radioObj.value;
-
-          const data = {
-            title: document.getElementById('e-title').value,
-            partner: document.getElementById('e-partner').value,
-            handler: document.getElementById('e-handler').value,
-            dueDate: document.getElementById('e-due-date').value,
-            region: document.getElementById('e-region').value,
-            link: document.getElementById('e-link') ? document.getElementById('e-link').value : '',
-            notes: document.getElementById('e-notes').value,
-            nextPhase: document.getElementById('e-next-phase') ? document.getElementById('e-next-phase').value : '',
-            engagementType: selectedType,
-            date: new Date().toLocaleDateString() // Keep a creation date for sorting
-          };
-          if (imageData) data.image = imageData;
-          if (id) {
-            const idx = engagements.findIndex(e => e.id == id);
-            engagements[idx] = { ...engagements[idx], ...data };
-          } else {
-            engagements.push({ id: Date.now(), ...data });
-          }
-          saveData();
-          closeModal('engagement-modal');
-          resetEngagementFileUI();
+        const selectedType = document.querySelector('input[name="e-type"]:checked');
+        const data = {
+          title: document.getElementById('e-title').value,
+          partner: document.getElementById('e-partner').value,
+          date: document.getElementById('e-date').value,
+          location: document.getElementById('e-location').value,
+          notes: document.getElementById('e-notes').value,
+          nextSteps: document.getElementById('e-next-steps') ? document.getElementById('e-next-steps').value : '',
+          engagementType: selectedType ? selectedType.value : 'External',
+          loggedByRole: currentUserRole
         };
-        if (file && file.type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onload = ev => finishSave(ev.target.result);
-          reader.readAsDataURL(file);
+
+        if (id) {
+          const idx = engagements.findIndex(e => e.id == id);
+          engagements[idx] = { ...engagements[idx], ...data };
         } else {
-          finishSave(null);
+          engagements.push({ id: Date.now(), ...data });
         }
+        saveData();
+        closeModal('engagement-modal');
+        resetEngagementFileUI();
       });
 
 
@@ -2350,40 +2118,32 @@
 
       // Check auto-login via Supabase Auth Guard
       async function initAuth() {
-        try {
-          const { data: { session } } = await supabase.auth.getSession();
-          if (session) {
-            const { data: profile } = await supabase
-              .from('profiles')
-              .select('role, full_name')
-              .eq('id', session.user.id)
-              .single();
+        const { data: { session } } = await supabase.auth.getSession();
 
-            if (profile) {
-              currentUserRole = profile.role;
-              window._userRole = profile.role;
-              window._userName = profile.full_name || session.user.email;
+        if (session) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role, full_name')
+            .eq('id', session.user.id)
+            .single();
 
-              document.getElementById('current-user-name').textContent = window._userName;
-              document.getElementById('login-screen').style.display = 'none';
-              const app = document.getElementById('main-app');
-              app.classList.remove('hidden');
-              app.classList.remove('opacity-0');
-              
-              applyRolePermissions(currentUserRole);
-              initData();
-              initTodos();
-              renderHistory();
-              return; // Successfully initialized auth session
-            }
+          if (profile) {
+            currentUserRole = profile.role;
+            window._userRole = profile.role;
+            window._userName = profile.full_name || session.user.email;
+
+            document.getElementById('current-user-name').textContent = window._userName;
+            document.getElementById('login-screen').style.display = 'none';
+            const app = document.getElementById('main-app');
+            app.classList.remove('hidden');
+            app.classList.remove('opacity-0');
+            
+            applyRolePermissions(currentUserRole);
+            initData();
+            initTodos();
+            renderHistory();
           }
-        } catch(e) {
-          console.error("Supabase auth check failed", e);
         }
-
-        // Not logged in or failed
-        document.getElementById('login-screen').style.display = 'flex';
-        document.getElementById('main-app').classList.add('hidden');
       }
       initAuth();
       /* ================================================
@@ -2488,37 +2248,30 @@
         const list = document.getElementById('dashboard-todo-list');
         if (!widget || !list) return;
         const pending = todos.filter(t => !t.completed);
-        const role = (currentUserRole || '').toLowerCase();
-        if (role !== 'admin' || !pending.length) {
+        if (currentUserRole !== 'Admin' || !pending.length) {
           widget.classList.add('hidden');
           return;
         }
         widget.classList.remove('hidden');
+        // Sort: High first, then Medium, then Low
         const sorted = [...pending].sort((a, b) => {
           const order = { High: 0, Medium: 1, Low: 2 };
           return (order[a.priority] ?? 1) - (order[b.priority] ?? 1);
         });
-        const colorMap = {
-          High:   { border: 'border-red-400',   bg: 'bg-red-50 dark:bg-red-900/20',   text: 'text-red-700 dark:text-red-300',   badge: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' },
-          Medium: { border: 'border-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', text: 'text-amber-700 dark:text-amber-300', badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' },
-          Low:    { border: 'border-green-400', bg: 'bg-green-50 dark:bg-green-900/20', text: 'text-green-700 dark:text-green-300', badge: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300' }
-        };
-        list.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">` +
-          sorted.slice(0, 6).map(t => {
-            const cfg = colorMap[t.priority] || colorMap.Medium;
-            const PRIORITY_CFG = PRIORITY_CONFIG[t.priority] || PRIORITY_CONFIG.Medium;
-            return `
-              <div class="flex items-center gap-3 p-3 rounded-lg border-l-4 ${cfg.border} ${cfg.bg}">
-                <button onclick="completeTodo(${t.id})" title="Mark complete"
-                  class="w-5 h-5 rounded-full border-2 border-current ${cfg.text} transition-all shrink-0 hover:scale-110">
-                </button>
-                <span class="flex-1 text-sm font-medium text-primary dark:text-white truncate">${t.text}</span>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${cfg.badge} shrink-0">${PRIORITY_CFG.label} ${t.priority}</span>
-              </div>
-            `;
-          }).join('') + `</div>`;
-        if (sorted.length > 6) {
-          list.innerHTML += `<p class="text-xs text-outline dark:text-slate-500 pt-2">+${sorted.length - 6} more tasks</p>`;
+        list.innerHTML = sorted.slice(0, 5).map(t => {
+          const cfg = PRIORITY_CONFIG[t.priority] || PRIORITY_CONFIG.Medium;
+          return `
+            <div class="flex items-center gap-3 py-1.5">
+              <button onclick="completeTodo(${t.id})" title="Mark complete"
+                class="w-4 h-4 rounded-full border-2 border-slate-300 dark:border-slate-600 ${cfg.ring} transition-all shrink-0">
+              </button>
+              <span class="text-sm text-primary dark:text-slate-300 truncate flex-1">${t.text}</span>
+              <span class="text-[10px] font-bold ${cfg.dot.replace('bg-', 'text-')} shrink-0">${cfg.label}</span>
+            </div>
+          `;
+        }).join('');
+        if (sorted.length > 5) {
+          list.innerHTML += `<p class="text-xs text-outline dark:text-slate-500 pt-2">+${sorted.length - 5} more tasks</p>`;
         }
       }
 
@@ -2526,8 +2279,7 @@
         const badge = document.getElementById('todo-badge');
         if (!badge) return;
         const count = todos.filter(t => !t.completed).length;
-        const role = (currentUserRole || '').toLowerCase();
-        if (count > 0 && role === 'admin') {
+        if (count > 0 && currentUserRole === 'Admin') {
           badge.textContent = count;
           badge.classList.remove('hidden');
         } else {
