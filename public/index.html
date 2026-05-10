@@ -1000,48 +1000,59 @@
             </div>
           </div>
 
-          <!-- Row 2: Date & Partner -->
+          <!-- Row 2: Partner & Handler -->
           <div
             class="grid grid-cols-1 md:grid-cols-2 gap-5 p-4 bg-slate-50 dark:bg-slate-800/30 rounded-lg border border-slate-100 dark:border-slate-800">
             <div class="space-y-1.5">
-              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Date
-                <span class="text-error" id="lbl-date-req">*</span></label>
-              <input type="date" id="e-date" required
-                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
-            </div>
-            <div class="space-y-1.5">
               <label
-                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Stakeholder
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Partner Name or Stakeholder
                 <span class="text-error" id="lbl-partner-req">*</span></label>
               <input type="text" id="e-partner" required placeholder="e.g., World Bank, JICA, LWC Internal"
-                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
             </div>
-          </div>
-
-          <!-- Row 3: Location -->
-          <div class="grid grid-cols-1 gap-5">
             <div class="space-y-1.5">
               <label
-                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Location</label>
-              <input type="text" id="e-location" placeholder="e.g., LWC Head Office"
-                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Person Responsible
+                <span class="text-error" id="lbl-handler-req">*</span></label>
+              <input type="text" id="e-handler" required placeholder="e.g., Engr. John Doe"
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
             </div>
           </div>
 
-          <!-- Row 4: Notes -->
-          <div class="space-y-1.5">
-            <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Notes
-              & Details</label>
-            <textarea id="e-notes" rows="3" placeholder="Enter detailed engagement notes and outcomes..."
-              class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-y disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900"></textarea>
+          <!-- Row 3: Due Date & Region -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 p-4 bg-slate-50 dark:bg-slate-800/30 rounded-lg border border-slate-100 dark:border-slate-800">
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Due Date
+                <span class="text-error" id="lbl-due-date-req">*</span></label>
+              <input type="date" id="e-due-date" required
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+            </div>
+            <div class="space-y-1.5">
+              <label
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Region</label>
+              <select id="e-region"
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                <option value="State-wide">State-wide</option>
+                <option value="North">North</option>
+                <option value="South">South</option>
+                <option value="West">West</option>
+              </select>
+            </div>
           </div>
 
-          <!-- Row 4b: Next Steps -->
-          <div class="space-y-1.5">
-            <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Next Steps</label>
-            <input type="text" id="e-next-steps" placeholder="e.g., Follow up with IFC by June, Prepare MOU draft"
-              class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
-            <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">Separate multiple steps with a comma</p>
+          <!-- Row 4: Link & Notes -->
+          <div class="space-y-5">
+            <div class="space-y-1.5">
+              <label
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Supporting Link URL</label>
+              <input type="url" id="e-link" placeholder="https://..."
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+            </div>
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Breakdown of the Engagement</label>
+              <textarea id="e-notes" rows="4" placeholder="Enter detailed engagement breakdown, outcomes, and context..."
+                class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-y"></textarea>
+            </div>
           </div>
 
 
@@ -1244,8 +1255,8 @@
         }
         if (engagements.length === 0) {
           engagements = [
-            { id: 1, title: 'World Bank Funding Review', partner: 'World Bank', date: '2026-05-10', location: 'Lagos HQ', related: 'Waterworks', notes: 'Discussed funding for Phase 2.' },
-            { id: 2, title: 'JICA Technical Assistance', partner: 'JICA', date: '2026-05-12', location: 'Virtual', related: 'Treatment plant', notes: 'Reviewing technical specifications.' }
+            { id: 1, title: 'World Bank Funding Review', partner: 'World Bank', engagementType: 'External', region: 'State-wide', handler: 'Admin User', dueDate: '2026-06-10', link: 'https://worldbank.org', notes: 'Discussed funding for Phase 2.', date: '5/10/2026' },
+            { id: 2, title: 'JICA Technical Assistance', partner: 'JICA', engagementType: 'External', region: 'State-wide', handler: 'LWC Staff', dueDate: '2026-07-12', link: '', notes: 'Reviewing technical specifications.', date: '5/12/2026' }
           ];
         }
 
@@ -1783,30 +1794,38 @@
         document.getElementById('engagement-detail-body').innerHTML = `
           <div class="flex flex-wrap gap-3 items-center">
             <span class="${typeTag} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">${e.engagementType || 'External'}</span>
-            <span class="text-sm text-outline dark:text-slate-400 font-medium">${e.date}</span>
+            <span class="text-sm text-outline dark:text-slate-400 font-medium">${e.region || 'No Region'}</span>
+            ${e.link ? `<a href="${e.link}" target="_blank" class="text-sm font-bold text-secondary dark:text-[#00FFFF] hover:underline flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">link</span> External Link</a>` : ''}
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
-              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Stakeholder</div>
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Partner / Stakeholder</div>
               <div class="flex items-center gap-2 mt-1">
                 <span class="material-symbols-outlined text-secondary dark:text-[#00FFFF] text-sm" data-weight="fill">${icon}</span>
                 <span class="text-sm font-medium text-primary dark:text-white">${e.partner || '—'}</span>
               </div>
             </div>
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
-              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Location</div>
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Person Responsible</div>
               <div class="flex items-center gap-2 mt-1">
-                <span class="material-symbols-outlined text-outline dark:text-slate-500 text-sm">location_on</span>
-                <span class="text-sm font-medium text-primary dark:text-white">${e.location || '—'}</span>
+                <span class="material-symbols-outlined text-outline dark:text-slate-500 text-sm">person</span>
+                <span class="text-sm font-medium text-primary dark:text-white">${e.handler || '—'}</span>
               </div>
             </div>
           </div>
+          ${e.dueDate ? `
+          <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4 w-1/2">
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Due Date</div>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="material-symbols-outlined text-outline dark:text-slate-500 text-sm">event</span>
+              <span class="text-sm font-medium text-primary dark:text-white">${new Date(e.dueDate).toLocaleDateString()}</span>
+            </div>
+          </div>` : ''}
           ${e.notes ? `
           <div>
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Notes & Details</div>
-            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">${e.notes}</p>
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Breakdown of Engagement</div>
+            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 rounded-lg p-4">${e.notes.replace(/\n/g, '<br>')}</p>
           </div>` : ''}
-          ${stepsHtml}
           ${e.image ? `
           <div>
             <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Attached Photo</div>
@@ -1931,12 +1950,11 @@
         document.getElementById('e-id').value = e.id;
         document.getElementById('e-title').value = e.title;
         document.getElementById('e-partner').value = e.partner || '';
-        document.getElementById('e-date').value = e.date || '';
-        document.getElementById('e-location').value = e.location || '';
+        document.getElementById('e-handler').value = e.handler || '';
+        document.getElementById('e-due-date').value = e.dueDate || '';
+        document.getElementById('e-region').value = e.region || 'State-wide';
+        if(document.getElementById('e-link')) document.getElementById('e-link').value = e.link || '';
         document.getElementById('e-notes').value = e.notes || '';
-        if (document.getElementById('e-next-steps')) {
-          document.getElementById('e-next-steps').value = e.nextSteps || '';
-        }
         // Set type radio
         const typeVal = e.engagementType || 'External';
         const radio = document.querySelector(`input[name="e-type"][value="${typeVal}"]`);
@@ -1994,18 +2012,22 @@
       document.getElementById('engagement-form').addEventListener('submit', (e) => {
         e.preventDefault();
         const id = document.getElementById('e-id').value;
-        const selectedType = document.querySelector('input[name="e-type"]:checked');
         const file = eFileInput && eFileInput.files[0];
         const finishSave = (imageData) => {
+          let selectedType = 'External';
+          const radioObj = document.querySelector('input[name="e-type"]:checked');
+          if (radioObj) selectedType = radioObj.value;
+
           const data = {
             title: document.getElementById('e-title').value,
             partner: document.getElementById('e-partner').value,
-            date: document.getElementById('e-date').value,
-            location: document.getElementById('e-location').value,
+            handler: document.getElementById('e-handler').value,
+            dueDate: document.getElementById('e-due-date').value,
+            region: document.getElementById('e-region').value,
+            link: document.getElementById('e-link') ? document.getElementById('e-link').value : '',
             notes: document.getElementById('e-notes').value,
-            nextSteps: document.getElementById('e-next-steps') ? document.getElementById('e-next-steps').value : '',
-            engagementType: selectedType ? selectedType.value : 'External',
-            loggedByRole: currentUserRole
+            engagementType: selectedType,
+            date: new Date().toLocaleDateString() // Keep a creation date for sorting
           };
           if (imageData) data.image = imageData;
           if (id) {
