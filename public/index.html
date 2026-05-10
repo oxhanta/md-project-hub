@@ -1369,8 +1369,6 @@
         document.getElementById('kpi-total').textContent = projects.length;
         const activeProjects = projects.filter(p => p.status !== 'Completed');
         document.getElementById('kpi-active').textContent = activeProjects.length;
-        const rate = projects.length ? Math.round((activeProjects.length / projects.length) * 100) : 0;
-        document.getElementById('kpi-active-rate').textContent = ``;
         document.getElementById('kpi-completed').textContent = projects.filter(p => p.status === 'Completed').length;
 
         // Projects Due list — exclude completed projects
