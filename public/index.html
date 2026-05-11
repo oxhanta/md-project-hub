@@ -2105,7 +2105,7 @@
         const mdAttentionCb = document.getElementById('e-md-attention');
         if (mdAttentionCb) {
            mdAttentionCb.checked = e.mdAttention || false;
-           toggleMdAttention(); // Updates visibility based on typeVal
+           // toggleMdAttention removed — field no longer shown conditionally
         }
 
         document.getElementById('engagement-modal-title').textContent = 'Edit Engagement';
@@ -2170,7 +2170,7 @@
             title: document.getElementById('e-title').value,
             partner: document.getElementById('e-partner').value,
             handler: document.getElementById('e-handler').value,
-            dueDate: document.getElementById('e-due-date').value,
+            dueDate: document.getElementById('e-due-date') ? document.getElementById('e-due-date').value : '',
             region: document.getElementById('e-region') ? document.getElementById('e-region').value : (document.getElementById('e-location') ? document.getElementById('e-location').value : 'State-wide'),
             link: document.getElementById('e-link') ? document.getElementById('e-link').value : '',
             notes: document.getElementById('e-notes').value,
