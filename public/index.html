@@ -1858,13 +1858,15 @@
         const isViewer = currentUserRole === 'Viewer';
         const isAdmin = currentUserRole === 'Admin';
         
-        editBtn.classList.toggle('hidden', isViewer);
-        if (p.status !== 'Completed' && !isViewer) {
-            completeBtn.classList.remove('hidden');
-        } else {
-            completeBtn.classList.add('hidden');
+        editBtn?.classList.toggle('hidden', isViewer);
+        if (completeBtn) {
+          if (p.status !== 'Completed' && !isViewer) {
+              completeBtn.classList.remove('hidden');
+          } else {
+              completeBtn.classList.add('hidden');
+          }
         }
-        deleteBtn.classList.toggle('hidden', !isAdmin);
+        deleteBtn?.classList.toggle('hidden', !isAdmin);
         
         document.getElementById('project-detail-modal').style.display = 'flex';
       }
@@ -1966,8 +1968,8 @@
         const isViewer = currentUserRole === 'Viewer';
         const isAdmin = currentUserRole === 'Admin';
         
-        editBtn.classList.toggle('hidden', isViewer);
-        deleteBtn.classList.toggle('hidden', !isAdmin);
+        editBtn?.classList.toggle('hidden', isViewer);
+        deleteBtn?.classList.toggle('hidden', !isAdmin);
         
         document.getElementById('engagement-detail-modal').style.display = 'flex';
       }
