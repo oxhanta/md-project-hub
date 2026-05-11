@@ -2090,7 +2090,7 @@
         document.getElementById('e-title').value = e.title;
         document.getElementById('e-partner').value = e.partner || '';
         document.getElementById('e-handler').value = e.handler || '';
-        document.getElementById('e-due-date').value = e.dueDate || '';
+        if (document.getElementById('e-due-date')) document.getElementById('e-due-date').value = e.dueDate || '';
         if (document.getElementById('e-region')) document.getElementById('e-region').value = e.region || 'State-wide';
         if (document.getElementById('e-location')) document.getElementById('e-location').value = e.location || e.region || '';
         if(document.getElementById('e-link')) document.getElementById('e-link').value = e.link || '';
