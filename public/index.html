@@ -2094,7 +2094,8 @@
         document.getElementById('e-partner').value = e.partner || '';
         document.getElementById('e-handler').value = e.handler || '';
         document.getElementById('e-due-date').value = e.dueDate || '';
-        document.getElementById('e-region').value = e.region || 'State-wide';
+        if (document.getElementById('e-region')) document.getElementById('e-region').value = e.region || 'State-wide';
+        if (document.getElementById('e-location')) document.getElementById('e-location').value = e.location || e.region || '';
         if(document.getElementById('e-link')) document.getElementById('e-link').value = e.link || '';
         document.getElementById('e-notes').value = e.notes || '';
         if(document.getElementById('e-next-phase')) document.getElementById('e-next-phase').value = e.nextPhase || '';
@@ -2173,7 +2174,7 @@
             partner: document.getElementById('e-partner').value,
             handler: document.getElementById('e-handler').value,
             dueDate: document.getElementById('e-due-date').value,
-            region: document.getElementById('e-region').value,
+            region: document.getElementById('e-region') ? document.getElementById('e-region').value : (document.getElementById('e-location') ? document.getElementById('e-location').value : 'State-wide'),
             link: document.getElementById('e-link') ? document.getElementById('e-link').value : '',
             notes: document.getElementById('e-notes').value,
             nextPhase: document.getElementById('e-next-phase') ? document.getElementById('e-next-phase').value : '',
