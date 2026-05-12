@@ -1854,10 +1854,15 @@
             </div>
             ${dateHtml}
           </div>
-          ${p.notes ? `
+          ${p.breakdown ? `
           <div>
             <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Project Breakdown</div>
-            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 rounded-lg p-4">${p.notes.replace(/\n/g, '<br>')}</p>
+            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 rounded-lg p-4">${p.breakdown.replace(/\n/g, '<br>')}</p>
+          </div>` : ''}
+          ${p.notes ? `
+          <div>
+            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Key Objectives</div>
+            <div class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 rounded-lg p-4">${p.notes.replace(/\n/g, '<br>')}</div>
           </div>` : ''}
           ${subProjectsHtml}
           ${p.image ? `
