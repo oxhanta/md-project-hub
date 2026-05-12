@@ -277,7 +277,10 @@
             </div>
             <div class="flex flex-col">
               <div id="current-user-name" class="text-sm font-bold text-slate-700 dark:text-slate-300">Admin User</div>
-              <button onclick="handleLogout()" class="text-xs text-error text-left hover:underline">Sign Out</button>
+              <div class="flex gap-2">
+                <button onclick="handleLogout()" class="text-xs text-error text-left hover:underline">Sign Out</button>
+                <button id="btn-reset-system" onclick="resetSystem()" class="text-[10px] text-slate-400 dark:text-slate-500 hover:text-error transition-colors hidden uppercase font-bold">Reset System</button>
+              </div>
             </div>
           </div>
           <button id="theme-toggle"
@@ -1155,6 +1158,33 @@
         window.location.reload();
       }
 
+      async function resetSystem() {
+        if (!confirm('☢️ DANGER ZONE: This will delete ALL projects, engagements, and tasks permanently. Are you absolutely sure?')) return;
+        if (!confirm('FINAL CONFIRMATION: There is no undo. Proceed with total system reset?')) return;
+        
+        try {
+          const btn = document.getElementById('btn-reset-system');
+          const originalText = btn.innerText;
+          btn.innerText = 'Resetting...';
+          btn.disabled = true;
+
+          // Clear all tables
+          await Promise.all([
+            supabase.from('projects').delete().neq('id', '00000000-0000-0000-0000-000000000000'),
+            supabase.from('engagements').delete().neq('id', '00000000-0000-0000-0000-000000000000'),
+            supabase.from('todos').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+          ]);
+
+          alert('System reset successful. The page will now reload.');
+          window.location.reload();
+        } catch (e) {
+          console.error('System reset failed', e);
+          alert('Failed to reset system. Check console for details.');
+          document.getElementById('btn-reset-system').disabled = false;
+          document.getElementById('btn-reset-system').innerText = 'Reset System';
+        }
+      }
+
       function applyRolePermissions(role) {
         // Map old roles 'Admin', 'Editor', 'Viewer' to 'admin', 'editor', 'user'
         const r = (role || 'user').toLowerCase();
@@ -1167,6 +1197,9 @@
 
         const navTodos = document.getElementById('nav-todos');
         if (navTodos) navTodos.style.display = isAdmin ? 'block' : 'none';
+        
+        const resetBtn = document.getElementById('btn-reset-system');
+        if (resetBtn) resetBtn.style.display = isAdmin ? 'block' : 'none';
 
         const aiInput = document.getElementById('analyzer-input');
         const uploadZone = document.getElementById('upload-zone');
