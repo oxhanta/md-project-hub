@@ -1170,12 +1170,14 @@
 
           // Clear all tables
           await Promise.all([
-            supabase.from('projects').delete().neq('id', '00000000-0000-0000-0000-000000000000'),
-            supabase.from('engagements').delete().neq('id', '00000000-0000-0000-0000-000000000000'),
-            supabase.from('todos').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+            supabase.from('projects').delete().neq('id', -1),
+            supabase.from('engagements').delete().neq('id', -1),
+            supabase.from('todos').delete().neq('id', -1),
+            supabase.from('risks').delete().neq('id', -1)
           ]);
 
-          alert('System reset successful. The page will now reload.');
+          localStorage.setItem('lwc_system_reset', 'true');
+          alert('System reset successful. The page will now reload with a clean state.');
           window.location.reload();
         } catch (e) {
           console.error('System reset failed', e);
@@ -1305,8 +1307,13 @@
           console.error('Error fetching data from Supabase', e);
         }
 
-        // Add placeholders if empty
-        if (projects.length === 0) {
+        // Add placeholders if empty AND not recently reset
+        const justReset = localStorage.getItem('lwc_system_reset') === 'true';
+        if (justReset) {
+           localStorage.removeItem('lwc_system_reset');
+        }
+
+        if (projects.length === 0 && !justReset) {
           const today = new Date();
           const nextWeek = new Date(today); nextWeek.setDate(today.getDate() + 6);
           const nextMonth = new Date(today); nextMonth.setMonth(today.getMonth() + 1);
@@ -1318,7 +1325,7 @@
             { id: 3, name: 'Agege Distribution Network', category: 'Distribution network', region: 'West', handler: 'Gamma Infrastructure', status: 'Active', completion: 40, contractor: 'Gamma Infrastructure', notes: 'Pipes laid.', startDate: lastMonth.toISOString().split('T')[0], dueDate: nextWeek.toISOString().split('T')[0] }
           ];
         }
-        if (engagements.length === 0) {
+        if (engagements.length === 0 && !justReset) {
           engagements = [
             { id: 1, title: 'World Bank Funding Review', partner: 'World Bank', engagementType: 'External', region: 'State-wide', handler: 'Admin User', dueDate: '2026-06-10', link: 'https://worldbank.org', notes: 'Discussed funding for Phase 2.', date: '5/10/2026' },
             { id: 2, title: 'JICA Technical Assistance', partner: 'JICA', engagementType: 'External', region: 'State-wide', handler: 'LWC Staff', dueDate: '2026-07-12', link: '', notes: 'Reviewing technical specifications.', date: '5/12/2026' }
