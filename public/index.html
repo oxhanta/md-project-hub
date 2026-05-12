@@ -841,7 +841,12 @@
         </div>
         <div>
           <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">BREAKDOWN OF PROJECT</label>
-          <textarea id="p-notes" rows="3" placeholder="Enter project breakdown, context, or important notes..."
+          <textarea id="p-breakdown" rows="3" placeholder="Enter project breakdown, context, or important notes..."
+            class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary resize-y"></textarea>
+        </div>
+        <div>
+          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">KEY OBJECTIVES</label>
+          <textarea id="p-notes" rows="3" placeholder="• Enter objective 1..."
             class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary resize-y"></textarea>
         </div>
         
@@ -856,11 +861,6 @@
           <div id="sub-projects-container" class="space-y-3">
             <!-- Dynamically populated -->
           </div>
-        </div>
-        <div>
-          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">NOTES & DETAILS</label>
-          <textarea id="p-notes" rows="3" placeholder="Enter project context, objectives, or important notes..."
-            class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary resize-y"></textarea>
         </div>
         <div>
           <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">IMAGES / DOCUMENTS</label>
@@ -1791,6 +1791,7 @@
         if(document.getElementById('p-start-date')) document.getElementById('p-start-date').value = p.startDate || '';
         if(document.getElementById('p-due-date')) document.getElementById('p-due-date').value = p.dueDate || '';
         if(document.getElementById('p-notes')) document.getElementById('p-notes').value = p.notes || '';
+        if(document.getElementById('p-breakdown')) document.getElementById('p-breakdown').value = p.breakdown || '';
         
         const spContainer = document.getElementById('sub-projects-container');
         spContainer.innerHTML = '';
@@ -2025,7 +2026,30 @@
         if (currentDetailEngagementId) editEngagement(currentDetailEngagementId);
       }
 
-      // Project file dropzone
+        // Automatic bullet points for Key Objectives
+        const pNotes = document.getElementById('p-notes');
+        if (pNotes) {
+          pNotes.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+              const start = this.selectionStart;
+              const end = this.selectionEnd;
+              const lines = this.value.substring(0, start).split('\n');
+              const currentLine = lines[lines.length - 1];
+              
+              // Only auto-bullet if the current line already has a bullet or if it's the first line
+              if (currentLine.trim().startsWith('•') || currentLine.trim() === '') {
+                e.preventDefault();
+                this.value = this.value.substring(0, start) + '\n• ' + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 3;
+              }
+            }
+          });
+          pNotes.addEventListener('focus', function() {
+            if (this.value.trim() === '') {
+              this.value = '• ';
+            }
+          });
+        }
       const pDropZone = document.getElementById('p-file-dropzone');
       const pFileInput = document.getElementById('p-file-upload');
       if (pDropZone && pFileInput) {
@@ -2065,6 +2089,7 @@
             link: document.getElementById('p-link') ? document.getElementById('p-link').value : '',
             startDate: document.getElementById('p-start-date') ? document.getElementById('p-start-date').value : '',
             dueDate: document.getElementById('p-due-date').value,
+            breakdown: document.getElementById('p-breakdown') ? document.getElementById('p-breakdown').value : '',
             notes: document.getElementById('p-notes').value,
             subprojects: subprojects
           };
