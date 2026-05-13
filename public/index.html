@@ -184,20 +184,6 @@
         transform: rotate(360deg);
       }
     }
-
-    /* Mobile Sidebar Utilities */
-    @media (max-width: 1023px) {
-      .sidebar-closed {
-        transform: translateX(-100%);
-      }
-      .sidebar-open {
-        transform: translateX(0);
-      }
-      .mobile-backdrop {
-        display: block;
-        opacity: 0.5;
-      }
-    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -254,7 +240,7 @@
 
     <!-- Sidebar Section -->
     <aside id="main-sidebar"
-      class="fixed lg:static inset-y-0 left-0 w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 z-50 transform lg:transform-none transition-transform duration-300 sidebar-closed">
+      class="fixed lg:static inset-y-0 left-0 w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 z-50 transform lg:translate-x-0 transition-transform duration-300 -translate-x-full">
       <div class="p-6">
         <div class="mb-8 px-2">
           <img src="logo.png" alt="LWC ProjectHub" class="h-12 w-auto object-contain"
@@ -295,11 +281,6 @@
                 class="material-symbols-outlined text-[20px]">document_scanner</span> AI Analyzer</div>
           </button>
         </nav>
-      </div>
-      <div class="lg:hidden p-4 border-t border-slate-100 dark:border-slate-800">
-        <button onclick="toggleSidebar()" class="w-full flex items-center justify-center gap-2 py-2 text-xs font-bold text-slate-500 uppercase tracking-widest hover:text-primary transition-colors">
-          <span class="material-symbols-outlined text-[18px]">close</span> Close Menu
-        </button>
       </div>
       <div class="mt-auto p-4 border-t border-slate-200 dark:border-slate-800 space-y-4">
         <div class="flex items-center gap-3">
@@ -1187,19 +1168,18 @@
       function toggleSidebar() {
         const sidebar = document.getElementById('main-sidebar');
         const backdrop = document.getElementById('sidebar-backdrop');
-        const isOpen = sidebar.classList.contains('sidebar-open');
+        const isClosed = sidebar.classList.contains('-translate-x-full');
         
-        if (isOpen) {
-          sidebar.classList.remove('sidebar-open');
-          sidebar.classList.add('sidebar-closed');
-          backdrop.classList.add('hidden');
-          backdrop.classList.remove('opacity-50');
-        } else {
-          sidebar.classList.add('sidebar-open');
-          sidebar.classList.remove('sidebar-closed');
+        if (isClosed) {
+          sidebar.classList.remove('-translate-x-full');
+          sidebar.classList.add('translate-x-0');
           backdrop.classList.remove('hidden');
-          // Trigger transition
           setTimeout(() => backdrop.classList.add('opacity-50'), 10);
+        } else {
+          sidebar.classList.add('-translate-x-full');
+          sidebar.classList.remove('translate-x-0');
+          backdrop.classList.remove('opacity-50');
+          setTimeout(() => backdrop.classList.add('hidden'), 300);
         }
       }
 
