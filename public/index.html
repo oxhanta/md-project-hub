@@ -695,28 +695,33 @@
             <h2 class="font-h2 text-[15px] text-primary dark:text-white mb-4 flex items-center gap-2">
               <span class="material-symbols-outlined text-[18px]">add_task</span> Add New Task
             </h2>
-            <div class="flex flex-col gap-3">
+            <div class="flex flex-col gap-4">
               <input type="text" id="todo-input" placeholder="What needs to be done?"
-                class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-primary dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-primary dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                oninput="updateAddTodoButton()"
                 onkeydown="if(event.key==='Enter') addTodo()">
-              <!-- Priority Tags -->
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Priority:</span>
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                  <input type="radio" name="todo-priority" value="High" id="prio-high" class="hidden peer">
-                  <span class="px-3 py-1 rounded-full text-xs font-bold border-2 border-red-300 text-red-600 dark:text-red-400 peer-checked:bg-red-500 peer-checked:text-white peer-checked:border-red-500 transition-all cursor-pointer select-none" onclick="document.getElementById('prio-high').checked=true">🔴 High</span>
-                </label>
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                  <input type="radio" name="todo-priority" value="Medium" id="prio-medium" class="hidden peer" checked>
-                  <span class="px-3 py-1 rounded-full text-xs font-bold border-2 border-amber-300 text-amber-600 dark:text-amber-400 peer-checked:bg-amber-500 peer-checked:text-white peer-checked:border-amber-500 transition-all cursor-pointer select-none" onclick="document.getElementById('prio-medium').checked=true">🟡 Medium</span>
-                </label>
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                  <input type="radio" name="todo-priority" value="Low" id="prio-low" class="hidden peer">
-                  <span class="px-3 py-1 rounded-full text-xs font-bold border-2 border-green-300 text-green-600 dark:text-green-400 peer-checked:bg-green-500 peer-checked:text-white peer-checked:border-green-500 transition-all cursor-pointer select-none" onclick="document.getElementById('prio-low').checked=true">🟢 Low</span>
-                </label>
-                <button onclick="addTodo()"
-                  class="ml-auto flex items-center gap-2 px-5 py-2 bg-primary-container dark:bg-[#003366] text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
-                  <span class="material-symbols-outlined text-[18px]">add</span> Add Task
+              
+              <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-slate-50 dark:border-slate-800/50">
+                <div class="flex items-center gap-3">
+                  <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Priority</span>
+                  <div class="flex items-center gap-2">
+                    <label class="cursor-pointer group">
+                      <input type="radio" name="todo-priority" value="High" id="prio-high" class="hidden peer">
+                      <span class="px-3 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:border-red-500 peer-checked:bg-red-50 dark:peer-checked:bg-red-900/20 peer-checked:text-red-600 transition-all block" onclick="document.getElementById('prio-high').checked=true">High</span>
+                    </label>
+                    <label class="cursor-pointer group">
+                      <input type="radio" name="todo-priority" value="Medium" id="prio-medium" class="hidden peer" checked>
+                      <span class="px-3 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:border-amber-500 peer-checked:bg-amber-50 dark:peer-checked:bg-amber-900/20 peer-checked:text-amber-600 transition-all block" onclick="document.getElementById('prio-medium').checked=true">Medium</span>
+                    </label>
+                    <label class="cursor-pointer group">
+                      <input type="radio" name="todo-priority" value="Low" id="prio-low" class="hidden peer">
+                      <span class="px-3 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:border-green-500 peer-checked:bg-green-50 dark:peer-checked:bg-green-900/20 peer-checked:text-green-600 transition-all block" onclick="document.getElementById('prio-low').checked=true">Low</span>
+                    </label>
+                  </div>
+                </div>
+                <button id="btn-add-todo" onclick="addTodo()" disabled
+                  class="px-6 py-2.5 bg-primary dark:bg-[#003366] text-white rounded-lg text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-all shadow-sm">
+                  Add Task
                 </button>
               </div>
             </div>
@@ -2618,6 +2623,14 @@
         updateTodoBadge();
       }
 
+      function updateAddTodoButton() {
+        const input = document.getElementById('todo-input');
+        const btn = document.getElementById('btn-add-todo');
+        if (input && btn) {
+          btn.disabled = !(input.value || '').trim();
+        }
+      }
+
       function addTodo() {
         const input = document.getElementById('todo-input');
         const text = (input.value || '').trim();
@@ -2626,6 +2639,7 @@
         const priority = selectedPrio ? selectedPrio.value : 'Medium';
         todos.push({ id: Date.now(), text, priority, completed: false });
         input.value = '';
+        updateAddTodoButton();
         // Reset priority to Medium after adding
         const medRadio = document.getElementById('prio-medium');
         if (medRadio) medRadio.checked = true;
