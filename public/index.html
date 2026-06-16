@@ -225,18 +225,21 @@
 
   <div id="main-app" class="flex flex-col lg:flex-row h-screen w-full hidden opacity-0 transition-opacity duration-300">
     <!-- Mobile Header -->
-    <header class="lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between shrink-0 z-40">
+    <header
+      class="lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between shrink-0 z-40">
       <div class="flex items-center gap-2">
         <img src="logo.png" alt="LWC ProjectHub" class="h-8 w-auto object-contain"
           onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'text-sm font-bold text-[#003366] dark:text-white border-l-2 border-[#00FFFF] pl-2\'>LWC Hub</div>';">
       </div>
-      <button onclick="toggleSidebar()" class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+      <button onclick="toggleSidebar()"
+        class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
         <span class="material-symbols-outlined">menu</span>
       </button>
     </header>
 
     <!-- Sidebar Backdrop -->
-    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black z-40 hidden lg:hidden transition-opacity duration-300"></div>
+    <div id="sidebar-backdrop" onclick="toggleSidebar()"
+      class="fixed inset-0 bg-black z-40 hidden lg:hidden transition-opacity duration-300"></div>
 
     <!-- Sidebar Section -->
     <aside id="main-sidebar"
@@ -259,7 +262,8 @@
             <div class="flex items-center gap-3">
               <span class="material-symbols-outlined text-[20px]">task_alt</span>
               My Desk
-              <span id="todo-badge" class="hidden ml-auto bg-error text-white text-[10px] font-bold rounded-full px-1.5 py-0.5">0</span>
+              <span id="todo-badge"
+                class="hidden ml-auto bg-error text-white text-[10px] font-bold rounded-full px-1.5 py-0.5">0</span>
             </div>
           </button>
           <button
@@ -284,11 +288,13 @@
       </div>
       <div class="mt-auto p-4 border-t border-slate-200 dark:border-slate-800 space-y-4">
         <div class="flex items-center gap-3">
-          <div class="h-10 w-10 rounded-full bg-primary-container overflow-hidden border border-slate-200 dark:border-slate-700 flex items-center justify-center text-white font-bold text-xs shrink-0">
+          <div
+            class="h-10 w-10 rounded-full bg-primary-container overflow-hidden border border-slate-200 dark:border-slate-700 flex items-center justify-center text-white font-bold text-xs shrink-0">
             LWC
           </div>
           <div class="flex flex-col min-w-0">
-            <div id="current-user-name" class="text-sm font-bold text-slate-700 dark:text-slate-300 truncate">Admin User</div>
+            <div id="current-user-name" class="text-sm font-bold text-slate-700 dark:text-slate-300 truncate">Admin User
+            </div>
             <button onclick="handleLogout()" class="text-xs text-error text-left hover:underline">Sign Out</button>
           </div>
         </div>
@@ -299,13 +305,15 @@
             <span class="material-symbols-outlined text-[20px]">light_mode</span>
             <span class="text-xs font-medium lg:hidden">Toggle Theme</span>
           </button>
-          <button id="btn-reset-system" onclick="resetSystem()" class="text-[10px] text-slate-400 dark:text-slate-500 hover:text-error transition-colors hidden uppercase font-bold tracking-tighter">Reset System</button>
+          <button id="btn-reset-system" onclick="resetSystem()"
+            class="text-[10px] text-slate-400 dark:text-slate-500 hover:text-error transition-colors hidden uppercase font-bold tracking-tighter">Reset
+            System</button>
         </div>
       </div>
     </aside>
 
     <!-- Main Content Wrapper -->
-    <div class="flex-1 flex flex-col overflow-y-auto custom-scrollbar relative">
+    <div id="main-content-wrapper" class="flex-1 flex flex-col overflow-y-auto custom-scrollbar relative">
       <main class="flex-grow p-8 max-w-[1600px] mx-auto w-full">
 
         <!-- DASHBOARD VIEW -->
@@ -323,64 +331,88 @@
             <div class="lg:col-span-9">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter h-full">
                 <!-- KPI: Total Projects -->
-                <div style="background:#FFFFFF;border:1px solid #BCBFC9;box-sizing:border-box;padding:20px 20px 14px 20px;display:flex;flex-direction:column;justify-content:space-between;min-height:154px">
+                <div
+                  style="background:#FFFFFF;border:1px solid #BCBFC9;box-sizing:border-box;padding:20px 20px 14px 20px;display:flex;flex-direction:column;justify-content:space-between;min-height:154px">
                   <div style="display:flex;justify-content:space-between;align-items:flex-start">
-                    <span style="font-family:Inter,sans-serif;font-weight:600;font-size:20px;line-height:24px;color:#091D36">Total Projects</span>
+                    <span
+                      style="font-family:Inter,sans-serif;font-weight:600;font-size:20px;line-height:24px;color:#091D36">Total
+                      Projects</span>
                     <div style="width:16px;height:16px;background:#D9D9D9;border-radius:50%;flex-shrink:0"></div>
                   </div>
-                  <div style="font-family:Inter,sans-serif;font-weight:600;font-size:64px;line-height:77px;color:#091D36;margin-top:4px" id="kpi-total">0</div>
-                  <div style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;line-height:17px;color:#686868;margin-top:2px">All Regions</div>
+                  <div
+                    style="font-family:Inter,sans-serif;font-weight:600;font-size:64px;line-height:77px;color:#091D36;margin-top:4px"
+                    id="kpi-total">0</div>
+                  <div
+                    style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;line-height:17px;color:#686868;margin-top:2px">
+                    All Regions</div>
                 </div>
                 <!-- KPI: Active -->
-                <div style="background:#FFFFFF;border:1px solid #BCBFC9;box-sizing:border-box;padding:20px 20px 14px 20px;display:flex;flex-direction:column;justify-content:space-between;min-height:154px">
+                <div
+                  style="background:#FFFFFF;border:1px solid #BCBFC9;box-sizing:border-box;padding:20px 20px 14px 20px;display:flex;flex-direction:column;justify-content:space-between;min-height:154px">
                   <div style="display:flex;justify-content:space-between;align-items:flex-start">
-                    <span style="font-family:Inter,sans-serif;font-weight:600;font-size:20px;line-height:24px;color:#091D36">Active</span>
+                    <span
+                      style="font-family:Inter,sans-serif;font-weight:600;font-size:20px;line-height:24px;color:#091D36">Active</span>
                     <div style="width:16px;height:16px;background:#D9D9D9;border-radius:50%;flex-shrink:0"></div>
                   </div>
-                  <div style="font-family:Inter,sans-serif;font-weight:600;font-size:64px;line-height:77px;color:#091D36;margin-top:4px" id="kpi-active">0</div>
-                  <div style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;line-height:17px;color:transparent;margin-top:2px">-</div>
+                  <div
+                    style="font-family:Inter,sans-serif;font-weight:600;font-size:64px;line-height:77px;color:#091D36;margin-top:4px"
+                    id="kpi-active">0</div>
+                  <div
+                    style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;line-height:17px;color:transparent;margin-top:2px">
+                    -</div>
                 </div>
                 <!-- KPI: Completed -->
-                <div style="background:#FFFFFF;border:1px solid #BCBFC9;box-sizing:border-box;padding:20px 20px 14px 20px;display:flex;flex-direction:column;justify-content:space-between;min-height:154px">
+                <div
+                  style="background:#FFFFFF;border:1px solid #BCBFC9;box-sizing:border-box;padding:20px 20px 14px 20px;display:flex;flex-direction:column;justify-content:space-between;min-height:154px">
                   <div style="display:flex;justify-content:space-between;align-items:flex-start">
-                    <span style="font-family:Inter,sans-serif;font-weight:600;font-size:20px;line-height:24px;color:#091D36">Completed</span>
+                    <span
+                      style="font-family:Inter,sans-serif;font-weight:600;font-size:20px;line-height:24px;color:#091D36">Completed</span>
                     <div style="width:16px;height:16px;background:#D9D9D9;border-radius:50%;flex-shrink:0"></div>
                   </div>
-                  <div style="font-family:Inter,sans-serif;font-weight:600;font-size:64px;line-height:77px;color:#091D36;margin-top:4px" id="kpi-completed">0</div>
-                  <div style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;line-height:17px;color:transparent;margin-top:2px">-</div>
+                  <div
+                    style="font-family:Inter,sans-serif;font-weight:600;font-size:64px;line-height:77px;color:#091D36;margin-top:4px"
+                    id="kpi-completed">0</div>
+                  <div
+                    style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;line-height:17px;color:transparent;margin-top:2px">
+                    -</div>
                 </div>
               </div>
             </div>
             <div class="lg:col-span-3">
               <!-- Calendar placeholder -->
-              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 p-md h-full flex flex-col justify-center">
-                 <div class="flex justify-between items-center mb-4 px-2">
-                   <span class="material-symbols-outlined text-[18px] cursor-pointer text-slate-400 hover:text-slate-700">chevron_left</span>
-                   <span class="text-sm font-bold text-primary dark:text-white" id="dashboard-calendar-month"></span>
-                   <span class="material-symbols-outlined text-[18px] cursor-pointer text-slate-400 hover:text-slate-700">chevron_right</span>
-                 </div>
-                 <div class="grid grid-cols-7 text-center gap-1">
-                    <div class="text-[10px] font-bold text-slate-400 mb-1">S</div>
-                    <div class="text-[10px] font-bold text-slate-400 mb-1">M</div>
-                    <div class="text-[10px] font-bold text-slate-400 mb-1">T</div>
-                    <div class="text-[10px] font-bold text-slate-400 mb-1">W</div>
-                    <div class="text-[10px] font-bold text-slate-400 mb-1">T</div>
-                    <div class="text-[10px] font-bold text-slate-400 mb-1">F</div>
-                    <div class="text-[10px] font-bold text-slate-400 mb-1">S</div>
-                 </div>
-                 <div class="grid grid-cols-7 text-center gap-1" id="dashboard-calendar-days">
-                    <!-- generated by JS -->
-                 </div>
+              <div
+                class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 p-md h-full flex flex-col justify-center">
+                <div class="flex justify-between items-center mb-4 px-2">
+                  <span
+                    class="material-symbols-outlined text-[18px] cursor-pointer text-slate-400 hover:text-slate-700">chevron_left</span>
+                  <span class="text-sm font-bold text-primary dark:text-white" id="dashboard-calendar-month"></span>
+                  <span
+                    class="material-symbols-outlined text-[18px] cursor-pointer text-slate-400 hover:text-slate-700">chevron_right</span>
+                </div>
+                <div class="grid grid-cols-7 text-center gap-1">
+                  <div class="text-[10px] font-bold text-slate-400 mb-1">S</div>
+                  <div class="text-[10px] font-bold text-slate-400 mb-1">M</div>
+                  <div class="text-[10px] font-bold text-slate-400 mb-1">T</div>
+                  <div class="text-[10px] font-bold text-slate-400 mb-1">W</div>
+                  <div class="text-[10px] font-bold text-slate-400 mb-1">T</div>
+                  <div class="text-[10px] font-bold text-slate-400 mb-1">F</div>
+                  <div class="text-[10px] font-bold text-slate-400 mb-1">S</div>
+                </div>
+                <div class="grid grid-cols-7 text-center gap-1" id="dashboard-calendar-days">
+                  <!-- generated by JS -->
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Main Dashboard Layout -->
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-lg">
-            
+
             <!-- Projects Due Column (40%) -->
-            <div class="lg:col-span-5 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 flex flex-col h-[600px]">
-              <div class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
+            <div
+              class="lg:col-span-5 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 flex flex-col h-[600px]">
+              <div
+                class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
                 <h2 class="font-h2 text-[16px] text-primary dark:text-white">Projects Due</h2>
                 <button class="text-secondary dark:text-[#00FFFF] font-label text-label hover:underline"
                   onclick="document.querySelector('[data-target=view-projects]').click()">View All</button>
@@ -391,8 +423,10 @@
             </div>
 
             <!-- Engagements Column (40%) -->
-            <div class="lg:col-span-4 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 flex flex-col h-[600px]">
-              <div class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
+            <div
+              class="lg:col-span-4 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 flex flex-col h-[600px]">
+              <div
+                class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
                 <h2 class="font-h2 text-[16px] text-primary dark:text-white">Engagements</h2>
                 <button class="text-secondary dark:text-[#00FFFF] font-label text-label hover:underline"
                   onclick="document.querySelector('[data-target=view-engagements]').click()">View All</button>
@@ -403,19 +437,24 @@
             </div>
 
             <!-- Today's Task Column (20%) -->
-            <div class="lg:col-span-3 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 flex flex-col h-[600px]" id="dashboard-todo-widget">
-              <div class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
+            <div
+              class="lg:col-span-3 bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 flex flex-col h-[600px]"
+              id="dashboard-todo-widget">
+              <div
+                class="px-md py-sm border-b border-outline-variant dark:border-slate-800 flex justify-between items-center">
                 <h2 class="font-h2 text-[16px] text-primary dark:text-white">Today's Task</h2>
               </div>
               <div id="dashboard-todo-list" class="p-4 space-y-3 flex-1 overflow-y-auto">
                 <!-- Populated by JS -->
               </div>
-              
+
               <!-- Empty State & Add Button if Admin -->
               <div id="dashboard-todo-empty" class="hidden flex-col items-center justify-center p-6 text-center h-full">
-                  <div class="w-20 h-2 bg-slate-200 dark:bg-slate-700 rounded mb-2"></div>
-                  <div class="w-16 h-2 bg-slate-200 dark:bg-slate-700 rounded mb-6"></div>
-                  <button onclick="document.querySelector('[data-target=view-todos]').click()" id="btn-add-today-task" class="px-4 py-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors">Add a Task</button>
+                <div class="w-20 h-2 bg-slate-200 dark:bg-slate-700 rounded mb-2"></div>
+                <div class="w-16 h-2 bg-slate-200 dark:bg-slate-700 rounded mb-6"></div>
+                <button onclick="document.querySelector('[data-target=view-todos]').click()" id="btn-add-today-task"
+                  class="px-4 py-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-full text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors">Add
+                  a Task</button>
               </div>
             </div>
 
@@ -452,16 +491,18 @@
           </div>
 
           <div id="completed-projects-section" class="hidden mt-4">
-            <button onclick="toggleCompletedProjects()" class="w-full flex items-center justify-between px-5 py-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/50 rounded-xl text-green-700 dark:text-green-400 font-semibold text-sm hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
+            <button onclick="toggleCompletedProjects()"
+              class="w-full flex items-center justify-between px-5 py-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/50 rounded-xl text-green-700 dark:text-green-400 font-semibold text-sm hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-[18px]">task_alt</span>
                 Completed Projects &mdash; <span id="completed-projects-count" class="font-bold"></span>
               </div>
-              <span id="completed-projects-chevron" class="material-symbols-outlined text-[20px] transition-transform">expand_more</span>
+              <span id="completed-projects-chevron"
+                class="material-symbols-outlined text-[20px] transition-transform">expand_more</span>
             </button>
             <div id="completed-projects-table" class="hidden mt-4">
-               <div id="completed-projects-body" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-               </div>
+              <div id="completed-projects-body" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              </div>
             </div>
           </div>
         </section>
@@ -671,7 +712,8 @@
           <div class="mt-8 pt-8 border-t border-outline-variant dark:border-slate-800">
             <div class="flex justify-between items-end mb-4">
               <h2 class="font-h2 text-[16px] text-primary dark:text-white">Recent Document Analysis</h2>
-              <button onclick="clearAnalysisHistory()" class="text-sm font-bold text-error dark:text-red-400 hover:underline flex items-center gap-1">
+              <button onclick="clearAnalysisHistory()"
+                class="text-sm font-bold text-error dark:text-red-400 hover:underline flex items-center gap-1">
                 <span class="material-symbols-outlined text-[16px]">delete_sweep</span> Clear History
               </button>
             </div>
@@ -686,36 +728,46 @@
           <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-lg gap-4">
             <div>
               <h1 class="font-h1 text-h1 text-primary dark:text-white">My Desk</h1>
-              <p class="font-body-base text-body-base text-outline dark:text-slate-400 mt-1">Capture and track action items. Click the circle to mark a task complete.</p>
+              <p class="font-body-base text-body-base text-outline dark:text-slate-400 mt-1">Capture and track action
+                items. Click the circle to mark a task complete.</p>
             </div>
           </div>
 
           <!-- Add Task Form -->
-          <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl p-6 mb-6">
+          <div
+            class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl p-6 mb-6">
             <h2 class="font-h2 text-[15px] text-primary dark:text-white mb-4 flex items-center gap-2">
               <span class="material-symbols-outlined text-[18px]">add_task</span> Add New Task
             </h2>
             <div class="flex flex-col gap-4">
               <input type="text" id="todo-input" placeholder="What needs to be done?"
                 class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-primary dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                oninput="updateAddTodoButton()"
-                onkeydown="if(event.key==='Enter') addTodo()">
-              
-              <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-slate-50 dark:border-slate-800/50">
+                oninput="updateAddTodoButton()" onkeydown="if(event.key==='Enter') addTodo()">
+
+              <div
+                class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-slate-50 dark:border-slate-800/50">
                 <div class="flex items-center gap-3">
-                  <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Priority</span>
+                  <span
+                    class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Priority</span>
                   <div class="flex items-center gap-2">
                     <label class="cursor-pointer group">
                       <input type="radio" name="todo-priority" value="High" id="prio-high" class="hidden peer">
-                      <span class="px-3 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:border-red-500 peer-checked:bg-red-50 dark:peer-checked:bg-red-900/20 peer-checked:text-red-600 transition-all block" onclick="document.getElementById('prio-high').checked=true">High</span>
+                      <span
+                        class="px-3 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:border-red-500 peer-checked:bg-red-50 dark:peer-checked:bg-red-900/20 peer-checked:text-red-600 transition-all block"
+                        onclick="document.getElementById('prio-high').checked=true">High</span>
                     </label>
                     <label class="cursor-pointer group">
-                      <input type="radio" name="todo-priority" value="Medium" id="prio-medium" class="hidden peer" checked>
-                      <span class="px-3 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:border-amber-500 peer-checked:bg-amber-50 dark:peer-checked:bg-amber-900/20 peer-checked:text-amber-600 transition-all block" onclick="document.getElementById('prio-medium').checked=true">Medium</span>
+                      <input type="radio" name="todo-priority" value="Medium" id="prio-medium" class="hidden peer"
+                        checked>
+                      <span
+                        class="px-3 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:border-amber-500 peer-checked:bg-amber-50 dark:peer-checked:bg-amber-900/20 peer-checked:text-amber-600 transition-all block"
+                        onclick="document.getElementById('prio-medium').checked=true">Medium</span>
                     </label>
                     <label class="cursor-pointer group">
                       <input type="radio" name="todo-priority" value="Low" id="prio-low" class="hidden peer">
-                      <span class="px-3 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:border-green-500 peer-checked:bg-green-50 dark:peer-checked:bg-green-900/20 peer-checked:text-green-600 transition-all block" onclick="document.getElementById('prio-low').checked=true">Low</span>
+                      <span
+                        class="px-3 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 dark:border-slate-700 text-slate-500 peer-checked:border-green-500 peer-checked:bg-green-50 dark:peer-checked:bg-green-900/20 peer-checked:text-green-600 transition-all block"
+                        onclick="document.getElementById('prio-low').checked=true">Low</span>
                     </label>
                   </div>
                 </div>
@@ -730,8 +782,10 @@
           <!-- Task Lists by Priority -->
           <div class="space-y-4">
             <!-- High Priority -->
-            <div id="todo-section-High" class="bg-white dark:bg-slate-900 border border-red-200 dark:border-red-900/50 rounded-xl overflow-hidden">
-              <div class="px-6 py-3 bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-900/50 flex items-center justify-between">
+            <div id="todo-section-High"
+              class="bg-white dark:bg-slate-900 border border-red-200 dark:border-red-900/50 rounded-xl overflow-hidden">
+              <div
+                class="px-6 py-3 bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-900/50 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-red-500"></span>
                   <h2 class="font-h2 text-[14px] text-red-700 dark:text-red-400 font-bold">High Priority</h2>
@@ -743,21 +797,26 @@
               </div>
             </div>
             <!-- Medium Priority -->
-            <div id="todo-section-Medium" class="bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900/50 rounded-xl overflow-hidden">
-              <div class="px-6 py-3 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-900/50 flex items-center justify-between">
+            <div id="todo-section-Medium"
+              class="bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900/50 rounded-xl overflow-hidden">
+              <div
+                class="px-6 py-3 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-900/50 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-amber-500"></span>
                   <h2 class="font-h2 text-[14px] text-amber-700 dark:text-amber-400 font-bold">Medium Priority</h2>
                 </div>
-                <span id="todo-count-Medium" class="text-xs text-amber-500 dark:text-amber-400 font-medium">0 tasks</span>
+                <span id="todo-count-Medium" class="text-xs text-amber-500 dark:text-amber-400 font-medium">0
+                  tasks</span>
               </div>
               <div id="todo-list-Medium" class="divide-y divide-slate-100 dark:divide-slate-800 min-h-[48px]">
                 <p class="px-6 py-4 text-sm text-outline dark:text-slate-500 italic">No medium priority tasks.</p>
               </div>
             </div>
             <!-- Low Priority -->
-            <div id="todo-section-Low" class="bg-white dark:bg-slate-900 border border-green-200 dark:border-green-900/50 rounded-xl overflow-hidden">
-              <div class="px-6 py-3 bg-green-50 dark:bg-green-900/20 border-b border-green-200 dark:border-green-900/50 flex items-center justify-between">
+            <div id="todo-section-Low"
+              class="bg-white dark:bg-slate-900 border border-green-200 dark:border-green-900/50 rounded-xl overflow-hidden">
+              <div
+                class="px-6 py-3 bg-green-50 dark:bg-green-900/20 border-b border-green-200 dark:border-green-900/50 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-green-500"></span>
                   <h2 class="font-h2 text-[14px] text-green-700 dark:text-green-400 font-bold">Low Priority</h2>
@@ -771,12 +830,53 @@
           </div>
 
           <!-- Bot Integration Info -->
-          <div class="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl p-5 flex items-start gap-4">
-            <span class="material-symbols-outlined text-blue-500 dark:text-blue-400 text-[28px] shrink-0">smart_toy</span>
+          <div
+            class="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl p-5 flex items-start gap-4">
+            <span
+              class="material-symbols-outlined text-blue-500 dark:text-blue-400 text-[28px] shrink-0">smart_toy</span>
             <div>
-              <div class="font-bold text-sm text-blue-800 dark:text-blue-300 mb-1">Telegram / WhatsApp Bot Integration</div>
-              <p class="text-xs text-blue-700 dark:text-blue-400 leading-relaxed">Send tasks to this list via a bot message like <strong>"desk: Prepare Q2 budget report #high"</strong>. Available once the tool is deployed to a live server.</p>
+              <div class="font-bold text-sm text-blue-800 dark:text-blue-300 mb-1">Telegram / WhatsApp Bot Integration
+              </div>
+              <p class="text-xs text-blue-700 dark:text-blue-400 leading-relaxed">Send tasks to this list via a bot
+                message like <strong>"desk: Prepare Q2 budget report #high"</strong>. Available once the tool is
+                deployed to a live server.</p>
             </div>
+          </div>
+        </section>
+
+        <!-- PROJECT DETAIL PAGE -->
+        <section id="view-project-detail" class="view-section">
+          <div class="flex items-center gap-2 mb-8 text-sm">
+            <button onclick="navigate('/projects')"
+              class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors font-medium group">
+              <span
+                class="material-symbols-outlined text-[20px] group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+              Projects
+            </button>
+            <span class="text-slate-300 dark:text-slate-700 mx-1">/</span>
+            <span id="pdp-breadcrumb"
+              class="text-primary dark:text-white font-semibold truncate max-w-xs md:max-w-lg"></span>
+          </div>
+          <div id="project-detail-page-body">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+
+        <!-- ENGAGEMENT DETAIL PAGE -->
+        <section id="view-engagement-detail" class="view-section">
+          <div class="flex items-center gap-2 mb-8 text-sm">
+            <button onclick="navigate('/engagements')"
+              class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-white transition-colors font-medium group">
+              <span
+                class="material-symbols-outlined text-[20px] group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+              Engagements
+            </button>
+            <span class="text-slate-300 dark:text-slate-700 mx-1">/</span>
+            <span id="edp-breadcrumb"
+              class="text-primary dark:text-white font-semibold truncate max-w-xs md:max-w-lg"></span>
+          </div>
+          <div id="engagement-detail-page-body">
+            <!-- Populated by JS -->
           </div>
         </section>
 
@@ -803,7 +903,8 @@
     style="display: none;">
     <div
       class="bg-white dark:bg-slate-900 w-full max-w-xl rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[90vh] flex flex-col">
-      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
+      <div
+        class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
         <h2 id="project-modal-title" class="font-h2 text-lg text-primary dark:text-white">Add Project</h2>
         <button onclick="closeModal('project-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
           <span class="material-symbols-outlined">close</span>
@@ -828,8 +929,9 @@
               class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary">
               <option>State-wide</option>
               <option>North</option>
-              <option>South</option>
-              <option>West</option>
+              <option>Central</option>
+              <option>South East</option>
+              <option>South West</option>
             </select>
           </div>
         </div>
@@ -866,12 +968,13 @@
           <textarea id="p-notes" rows="3" placeholder="• Enter objective 1..."
             class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary resize-y"></textarea>
         </div>
-        
+
         <!-- SUB TASKS -->
         <div class="pt-2 border-t border-slate-200 dark:border-slate-700">
           <div class="flex justify-between items-center mb-2">
             <label class="block font-label text-xs text-outline dark:text-slate-400">SUB-TASKS</label>
-            <button type="button" onclick="addSubProjectField()" class="text-xs font-bold text-secondary dark:text-[#00FFFF] hover:underline flex items-center gap-1">
+            <button type="button" onclick="addSubProjectField()"
+              class="text-xs font-bold text-secondary dark:text-[#00FFFF] hover:underline flex items-center gap-1">
               <span class="material-symbols-outlined text-[14px]">add</span> Add Sub-Task
             </button>
           </div>
@@ -885,7 +988,8 @@
             class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 dark:border-slate-700 border-dashed rounded-lg bg-slate-50 dark:bg-slate-800/30 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors cursor-pointer group">
             <input type="file" id="p-file-upload" class="hidden" accept="image/png,image/jpeg,application/pdf" />
             <div class="space-y-2 text-center">
-              <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors">cloud_upload</span>
+              <span
+                class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary transition-colors">cloud_upload</span>
               <div class="text-sm text-slate-600 dark:text-slate-400">
                 <span class="text-primary font-semibold hover:underline">Upload a file</span> or drag and drop
               </div>
@@ -897,68 +1001,40 @@
           <button type="button" onclick="closeModal('project-modal')"
             class="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Cancel</button>
           <button type="submit"
-            class="px-4 py-2 bg-primary-container dark:bg-[#003366] text-white rounded text-sm font-medium hover:opacity-90">Save Project</button>
+            class="px-4 py-2 bg-primary-container dark:bg-[#003366] text-white rounded text-sm font-medium hover:opacity-90">Save
+            Project</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- PROJECT DETAIL MODAL (read-only) -->
-  <div id="project-detail-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
+  <!-- PROJECT UPDATE MODAL -->
+  <div id="project-update-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
     style="display: none;">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[90vh] flex flex-col">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
       <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-primary dark:text-[#00FFFF]">folder_open</span>
-          <h2 id="pdm-title" class="font-h2 text-lg text-primary dark:text-white">Project Details</h2>
-        </div>
-        <div class="flex items-center gap-2">
-          <button id="pdm-edit-btn" onclick="editFromDetail()" class="text-xs font-bold px-3 py-1.5 rounded bg-primary-container dark:bg-[#003366] text-white hover:opacity-90 transition-opacity hidden">
-            Edit
-          </button>
-          <button id="pdm-complete-btn" onclick="markProjectCompleteFromDetail()" class="text-xs font-bold px-3 py-1.5 rounded bg-green-600 text-white hover:opacity-90 transition-opacity hidden">
-            Mark Complete
-          </button>
-          <button id="pdm-delete-btn" onclick="deleteFromDetail()" class="text-xs font-bold px-3 py-1.5 rounded bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors hidden">
-            Delete
-          </button>
-          <button onclick="closeModal('project-detail-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white" aria-label="Close">
-            <span class="material-symbols-outlined">close</span>
-          </button>
-        </div>
+        <h2 class="font-h2 text-lg text-primary dark:text-white">Add Project Update</h2>
+        <button onclick="closeModal('project-update-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+          <span class="material-symbols-outlined">close</span>
+        </button>
       </div>
-      <div id="project-detail-body" class="p-6 overflow-y-auto flex-1 space-y-5">
-        <!-- Populated by JS -->
-      </div>
+      <form id="project-update-form" class="p-6 space-y-4" onsubmit="submitProjectUpdate(event)">
+        <input type="hidden" id="pu-project-id">
+        <div>
+          <label class="block font-label text-xs text-outline dark:text-slate-400 mb-1">UPDATE MESSAGE *</label>
+          <textarea id="pu-content" rows="4" required placeholder="Type the project update here..."
+            class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-primary dark:text-white outline-none focus:border-primary resize-y"></textarea>
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="closeModal('project-update-modal')"
+            class="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Cancel</button>
+          <button type="submit"
+            class="px-4 py-2 bg-primary-container dark:bg-[#003366] text-white rounded text-sm font-medium hover:opacity-90">Post Update</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- ENGAGEMENT DETAIL MODAL (read-only) -->
-  <div id="engagement-detail-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
-    style="display: none;">
-    <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[90vh] flex flex-col">
-      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 shrink-0">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-primary dark:text-[#00FFFF]">handshake</span>
-          <h2 id="edm-title" class="font-h2 text-lg text-primary dark:text-white">Engagement Details</h2>
-        </div>
-        <div class="flex items-center gap-2">
-          <button id="edm-edit-btn" onclick="editEngagementFromDetail()" class="text-xs font-bold px-3 py-1.5 rounded bg-primary-container dark:bg-[#003366] text-white hover:opacity-90 transition-opacity hidden">
-            Edit
-          </button>
-          <button id="edm-delete-btn" onclick="deleteEngagementFromDetail()" class="text-xs font-bold px-3 py-1.5 rounded bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors hidden">
-            Delete
-          </button>
-          <button onclick="closeModal('engagement-detail-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white" aria-label="Close">
-            <span class="material-symbols-outlined">close</span>
-          </button>
-        </div>
-      </div>
-      <div id="engagement-detail-body" class="p-6 overflow-y-auto flex-1 space-y-5">
-        <!-- Populated by JS -->
-      </div>
-    </div>
-  </div>
 
 
   <div id="engagement-modal"
@@ -994,7 +1070,9 @@
                 class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all disabled:opacity-70 disabled:bg-slate-50 disabled:dark:bg-slate-900">
             </div>
             <div class="space-y-1.5">
-              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Engagement Type</label>
+              <label
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Engagement
+                Type</label>
               <div class="flex gap-3 pt-1">
                 <label class="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="e-type" value="Internal" id="e-type-internal" class="accent-blue-600">
@@ -1002,7 +1080,8 @@
                   <span class="inline-block w-3 h-3 rounded-full bg-blue-500"></span>
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="e-type" value="External" id="e-type-external" class="accent-green-600" checked>
+                  <input type="radio" name="e-type" value="External" id="e-type-external" class="accent-green-600"
+                    checked>
                   <span class="text-sm font-medium text-slate-700 dark:text-slate-300">External</span>
                   <span class="inline-block w-3 h-3 rounded-full bg-green-500"></span>
                 </label>
@@ -1010,7 +1089,9 @@
             </div>
 
             <div class="space-y-1.5">
-              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Priority Flag</label>
+              <label
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Priority
+                Flag</label>
               <div id="md-attention-container" class="mt-2">
                 <label class="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" id="e-md-attention" class="accent-red-600 w-4 h-4 rounded border-slate-300">
@@ -1027,7 +1108,8 @@
             class="grid grid-cols-1 md:grid-cols-2 gap-5 p-4 bg-slate-50 dark:bg-slate-800/30 rounded-lg border border-slate-100 dark:border-slate-800">
             <div class="space-y-1.5">
               <label
-                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Partner Name or Stakeholder
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Partner
+                Name or Stakeholder
                 <span class="text-error" id="lbl-partner-req">*</span></label>
               <input type="text" id="e-partner" required placeholder="e.g., World Bank, JICA, LWC Internal"
                 class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
@@ -1055,18 +1137,24 @@
           <div class="space-y-5">
             <div class="space-y-1.5">
               <label
-                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Supporting Link URL</label>
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Supporting
+                Link URL</label>
               <input type="url" id="e-link" placeholder="https://..."
                 class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
             </div>
             <div class="space-y-1.5">
-              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Outcomes &amp; Notes</label>
-              <textarea id="e-notes" rows="4" placeholder="Summarize key decisions, technical bottlenecks, or agreed next steps..."
+              <label
+                class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Outcomes
+                &amp; Notes</label>
+              <textarea id="e-notes" rows="4"
+                placeholder="Summarize key decisions, technical bottlenecks, or agreed next steps..."
                 class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-y"></textarea>
             </div>
             <div class="space-y-1.5 mt-4">
-              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Next Phase</label>
-              <textarea id="e-next-phase" rows="3" placeholder="Enter next phase notes... They will display as bulletin points."
+              <label class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 uppercase">Next
+                Phase</label>
+              <textarea id="e-next-phase" rows="3"
+                placeholder="Enter next phase notes... They will display as bulletin points."
                 class="modal-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-y"></textarea>
             </div>
           </div>
@@ -1162,10 +1250,11 @@
         const app = document.getElementById('main-app');
         app.classList.remove('hidden');
         setTimeout(() => app.classList.remove('opacity-0'), 10);
-        
+
         btn.innerHTML = 'Sign In';
         applyRolePermissions(currentUserRole);
-        initData();
+        await initData();
+        initRouter();
         initTodos();
         renderHistory();
       });
@@ -1174,7 +1263,7 @@
         const sidebar = document.getElementById('main-sidebar');
         const backdrop = document.getElementById('sidebar-backdrop');
         const isClosed = sidebar.classList.contains('-translate-x-full');
-        
+
         if (isClosed) {
           sidebar.classList.remove('-translate-x-full');
           sidebar.classList.add('translate-x-0');
@@ -1188,25 +1277,92 @@
         }
       }
 
+      /* ================================================
+         CLIENT-SIDE ROUTER
+      ================================================ */
+      const _NAV_PATHS = {
+        'view-dashboard': '/',
+        'view-projects': '/projects',
+        'view-engagements': '/engagements',
+        'view-ai-analyzer': '/ai-analyzer',
+        'view-todos': '/my-desk',
+      };
+      const _SECTION_FOR_PATH = {
+        '/': 'view-dashboard',
+        '/projects': 'view-projects',
+        '/engagements': 'view-engagements',
+        '/ai-analyzer': 'view-ai-analyzer',
+        '/my-desk': 'view-todos',
+      };
+
+      let _dataReady = false;
+      let _pendingRoute = null;
+
+      function navigate(path, pushState = true) {
+        if (pushState) history.pushState({}, '', path);
+        _handleRoute(path);
+      }
+
+      function _handleRoute(path) {
+        const projectMatch = path.match(/^\/projects\/(.+)$/);
+        const engagementMatch = path.match(/^\/engagements\/(.+)$/);
+
+        if (projectMatch) {
+          if (!_dataReady) { _pendingRoute = path; return; }
+          _showSection('view-project-detail');
+          _updateNavHighlight('/projects');
+          _renderProjectDetailPage(decodeURIComponent(projectMatch[1]));
+        } else if (engagementMatch) {
+          if (!_dataReady) { _pendingRoute = path; return; }
+          _showSection('view-engagement-detail');
+          _updateNavHighlight('/engagements');
+          _renderEngagementDetailPage(decodeURIComponent(engagementMatch[1]));
+        } else {
+          const sectionId = _SECTION_FOR_PATH[path] || 'view-dashboard';
+          _showSection(sectionId);
+          _updateNavHighlight(path);
+        }
+      }
+
+      function _showSection(id) {
+        document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+        const section = document.getElementById(id);
+        if (section) section.classList.add('active');
+        
+        // Reset scroll position to top
+        const wrapper = document.getElementById('main-content-wrapper');
+        if (wrapper) wrapper.scrollTop = 0;
+        window.scrollTo(0, 0);
+      }
+
+      function _updateNavHighlight(activePath) {
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+          const target = btn.getAttribute('data-target');
+          const btnPath = _NAV_PATHS[target] || '/';
+          const isActive = activePath === btnPath;
+          if (isActive) {
+            btn.classList.add('bg-primary-container/10', 'dark:bg-[#00FFFF]/10', 'text-[#003366]', 'dark:text-[#00FFFF]');
+            btn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-50', 'dark:hover:bg-slate-800', 'hover:text-[#003366]', 'dark:hover:text-white');
+          } else {
+            btn.classList.remove('bg-primary-container/10', 'dark:bg-[#00FFFF]/10', 'text-[#003366]', 'dark:text-[#00FFFF]');
+            btn.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-50', 'dark:hover:bg-slate-800', 'hover:text-[#003366]', 'dark:hover:text-white');
+          }
+        });
+      }
+
+      function initRouter() {
+        _handleRoute(window.location.pathname || '/');
+      }
+
+      window.addEventListener('popstate', () => _handleRoute(window.location.pathname));
+
       function applyNavClickHandlers() {
         document.querySelectorAll('.nav-btn').forEach(btn => {
           btn.addEventListener('click', () => {
-            // Mobile: close sidebar on nav
             if (window.innerWidth < 1024) toggleSidebar();
-            
             const target = btn.getAttribute('data-target');
-            document.querySelectorAll('.view-section').forEach(section => {
-              section.classList.remove('active');
-            });
-            document.getElementById(target).classList.add('active');
-            
-            document.querySelectorAll('.nav-btn').forEach(b => {
-              b.classList.remove('bg-primary-container/10', 'dark:bg-[#00FFFF]/10', 'text-[#003366]', 'dark:text-[#00FFFF]');
-              b.classList.add('text-slate-600', 'dark:text-slate-400');
-            });
-            
-            btn.classList.add('bg-primary-container/10', 'dark:bg-[#00FFFF]/10', 'text-[#003366]', 'dark:text-[#00FFFF]');
-            btn.classList.remove('text-slate-600', 'dark:text-slate-400');
+            const path = _NAV_PATHS[target] || '/';
+            navigate(path);
           });
         });
       }
@@ -1220,7 +1376,7 @@
       async function resetSystem() {
         if (!confirm('☢️ DANGER ZONE: This will delete ALL projects, engagements, and tasks permanently. Are you absolutely sure?')) return;
         if (!confirm('FINAL CONFIRMATION: There is no undo. Proceed with total system reset?')) return;
-        
+
         try {
           const btn = document.getElementById('btn-reset-system');
           const originalText = btn.innerText;
@@ -1258,7 +1414,7 @@
 
         const navTodos = document.getElementById('nav-todos');
         if (navTodos) navTodos.style.display = isAdmin ? 'block' : 'none';
-        
+
         const resetBtn = document.getElementById('btn-reset-system');
         if (resetBtn) resetBtn.style.display = isAdmin ? 'block' : 'none';
 
@@ -1284,7 +1440,7 @@
         document.querySelectorAll('[data-requires="admin"]').forEach(el => {
           el.style.display = isAdmin ? '' : 'none';
         });
-        
+
         renderAll();
         // Refresh todo UI after role is set
         renderDashboardTodos();
@@ -1320,31 +1476,31 @@
         const monthEl = document.getElementById('dashboard-calendar-month');
         const daysEl = document.getElementById('dashboard-calendar-days');
         if (!monthEl || !daysEl) return;
-        
+
         const now = new Date();
         const year = now.getFullYear();
         const month = now.getMonth();
-        
+
         const monthNames = ["January", "February", "March", "April", "May", "June",
           "July", "August", "September", "October", "November", "December"];
-        
+
         monthEl.textContent = `${monthNames[month]} ${year}`;
-        
+
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-        
+
         let html = '';
         // Empty cells before first day
         for (let i = 0; i < firstDay; i++) {
-           html += `<div></div>`;
+          html += `<div></div>`;
         }
         // Day cells
         for (let i = 1; i <= daysInMonth; i++) {
-           const isToday = i === now.getDate();
-           const classes = isToday 
-               ? "bg-[#003366] dark:bg-[#00FFFF] text-white dark:text-slate-900 rounded-full w-6 h-6 flex items-center justify-center mx-auto text-[10px] font-bold" 
-               : "text-slate-700 dark:text-slate-300 w-6 h-6 flex items-center justify-center mx-auto text-[10px]";
-           html += `<div class="${classes}">${i}</div>`;
+          const isToday = i === now.getDate();
+          const classes = isToday
+            ? "bg-[#003366] dark:bg-[#00FFFF] text-white dark:text-slate-900 rounded-full w-6 h-6 flex items-center justify-center mx-auto text-[10px] font-bold"
+            : "text-slate-700 dark:text-slate-300 w-6 h-6 flex items-center justify-center mx-auto text-[10px]";
+          html += `<div class="${classes}">${i}</div>`;
         }
         daysEl.innerHTML = html;
       }
@@ -1358,16 +1514,23 @@
           const { data: pData } = await supabase.from('projects').select('data');
           const { data: eData } = await supabase.from('engagements').select('data');
           const { data: rData } = await supabase.from('risks').select('data');
-          
+
           if (pData && pData.length > 0) projects = pData.map(row => row.data);
           if (eData && eData.length > 0) engagements = eData.map(row => row.data);
           if (rData && rData.length > 0) risks = rData.map(row => row.data);
-        } catch(e) {
+        } catch (e) {
           console.error('Error fetching data from Supabase', e);
         }
 
         // No automatic placeholders - keep it fresh
         renderAll();
+
+        _dataReady = true;
+        if (_pendingRoute) {
+          const path = _pendingRoute;
+          _pendingRoute = null;
+          navigate(path, false);
+        }
       }
 
       async function saveData() {
@@ -1375,7 +1538,7 @@
           if (projects.length) await supabase.from('projects').upsert(projects.map(p => ({ id: p.id, data: p })));
           if (engagements.length) await supabase.from('engagements').upsert(engagements.map(e => ({ id: e.id, data: e })));
           if (risks.length) await supabase.from('risks').upsert(risks.map(r => ({ id: r.id, data: r })));
-        } catch(e) {
+        } catch (e) {
           console.error('Error saving data to Supabase', e);
         }
         renderAll();
@@ -1396,23 +1559,7 @@
         }
       });
 
-      /* --- ROUTING --- */
-      document.querySelectorAll('.nav-btn').forEach(link => {
-        link.addEventListener('click', (e) => {
-          // Reset styles
-          document.querySelectorAll('.nav-btn').forEach(l => {
-            l.classList.remove('bg-primary-container/10', 'dark:bg-[#00FFFF]/10', 'text-[#003366]', 'dark:text-[#00FFFF]');
-            l.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-50', 'dark:hover:bg-slate-800', 'hover:text-[#003366]', 'dark:hover:text-white');
-          });
-          document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-
-          // Activate current
-          const btn = e.currentTarget;
-          btn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-50', 'dark:hover:bg-slate-800', 'hover:text-[#003366]', 'dark:hover:text-white');
-          btn.classList.add('bg-primary-container/10', 'dark:bg-[#00FFFF]/10', 'text-[#003366]', 'dark:text-[#00FFFF]');
-          document.getElementById(btn.dataset.target).classList.add('active');
-        });
-      });
+      /* --- ROUTING handled by router above --- */
 
       /* --- RENDERING UTILS --- */
       function getStatusStyles(status) {
@@ -1441,7 +1588,7 @@
         const activeOnly = projects.filter(p => p.status !== 'Completed' && p.dueDate);
         // Sort by closest due date
         const topProjects = [...activeOnly].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)).slice(0, 5);
-        
+
         const completionHtml = topProjects.map(p => {
           const due = new Date(p.dueDate);
           const now = new Date();
@@ -1485,9 +1632,9 @@
           </div>
         </div>
       `}).join('');
-        document.getElementById('projects-completion-list').innerHTML = completionHtml 
-            ? `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${completionHtml}</div>` 
-            : '<p class="text-sm text-outline dark:text-slate-500 p-4">No active projects with due dates.</p>';
+        document.getElementById('projects-completion-list').innerHTML = completionHtml
+          ? `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${completionHtml}</div>`
+          : '<p class="text-sm text-outline dark:text-slate-500 p-4">No active projects with due dates.</p>';
 
         // Risk List (safe - only render if element exists)
         const riskListEl = document.getElementById('risk-list');
@@ -1519,16 +1666,16 @@
           let badgeClass = isInternal ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400';
           let borderClass = isInternal ? 'bg-green-500' : 'bg-blue-500';
           let badgeText = isInternal ? 'Internal' : 'External';
-          
+
           if (isInternal && e.mdAttention) {
-             badgeClass = 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400';
-             badgeText = 'MD Attention';
-             borderClass = 'bg-red-500';
+            badgeClass = 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400';
+            badgeText = 'MD Attention';
+            borderClass = 'bg-red-500';
           }
-          
+
           let dateInfo = '';
           if (e.dueDate) {
-             dateInfo = `<div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 uppercase tracking-wider text-right">Due<br><span class="text-xs text-primary dark:text-white font-medium lowercase">${new Date(e.dueDate).toLocaleDateString()}</span></div>`;
+            dateInfo = `<div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 uppercase tracking-wider text-right">Due<br><span class="text-xs text-primary dark:text-white font-medium lowercase">${new Date(e.dueDate).toLocaleDateString()}</span></div>`;
           }
 
           let optionsMenuHtml = `
@@ -1570,10 +1717,10 @@
           </div>
           `;
         }).join('');
-        
+
         const engContainer = document.getElementById('engagements-dashboard-list');
         if (engContainer) {
-           engContainer.innerHTML = engHtml || '<p class="text-sm text-outline dark:text-slate-500 p-4">No recent engagements.</p>';
+          engContainer.innerHTML = engHtml || '<p class="text-sm text-outline dark:text-slate-500 p-4">No recent engagements.</p>';
         }
       }
 
@@ -1585,7 +1732,7 @@
 
         function buildCard(p) {
           const styles = getStatusStyles(p.status);
-          
+
           let dateInfo = '';
           if (p.dueDate) {
             const due = new Date(p.dueDate);
@@ -1595,7 +1742,7 @@
           return `
           <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-lg transition-all cursor-pointer flex flex-col h-full relative group" onclick="viewProjectDetails(${p.id})">
             <!-- Top Color Accent -->
-            <div class="h-2 w-full ${styles.bg.split(' ')[0].replace('/10','').replace('/20','')}"></div>
+            <div class="h-2 w-full ${styles.bg.split(' ')[0].replace('/10', '').replace('/20', '')}"></div>
             
             <div class="p-5 flex flex-col flex-1">
               <div class="flex justify-between items-start mb-3 gap-2">
@@ -1822,12 +1969,12 @@
         document.getElementById('p-region').value = p.region;
         document.getElementById('p-handler').value = p.handler || '';
         document.getElementById('p-status').value = p.status;
-        if(document.getElementById('p-link')) document.getElementById('p-link').value = p.link || '';
-        if(document.getElementById('p-start-date')) document.getElementById('p-start-date').value = p.startDate || '';
-        if(document.getElementById('p-due-date')) document.getElementById('p-due-date').value = p.dueDate || '';
-        if(document.getElementById('p-notes')) document.getElementById('p-notes').value = p.notes || '';
-        if(document.getElementById('p-breakdown')) document.getElementById('p-breakdown').value = p.breakdown || '';
-        
+        if (document.getElementById('p-link')) document.getElementById('p-link').value = p.link || '';
+        if (document.getElementById('p-start-date')) document.getElementById('p-start-date').value = p.startDate || '';
+        if (document.getElementById('p-due-date')) document.getElementById('p-due-date').value = p.dueDate || '';
+        if (document.getElementById('p-notes')) document.getElementById('p-notes').value = p.notes || '';
+        if (document.getElementById('p-breakdown')) document.getElementById('p-breakdown').value = p.breakdown || '';
+
         const spContainer = document.getElementById('sub-projects-container');
         spContainer.innerHTML = '';
         if (p.subprojects && p.subprojects.length > 0) {
@@ -1852,244 +1999,492 @@
         }
       }
 
-      let currentDetailProjectId = null;
-
+      /* --- DETAIL NAVIGATION (now route-based) --- */
       function viewProjectDetails(id) {
-        const pid = isNaN(id) ? id : Number(id);
-        const p = projects.find(x => x.id == pid || x.id === id);
-        if (!p) return;
-        currentDetailProjectId = p.id;
+        navigate('/projects/' + id);
+      }
+
+      function viewEngagementDetails(id) {
+        navigate('/engagements/' + id);
+      }
+
+      /* ================================================
+         PROJECT DETAIL PAGE RENDERER
+      ================================================ */
+      function _renderProjectDetailPage(idParam) {
+        const pid = isNaN(idParam) ? idParam : Number(idParam);
+        const p = projects.find(x => x.id == pid || x.id === idParam);
+        const body = document.getElementById('project-detail-page-body');
+        if (!body) return;
+
+        if (!p) {
+          body.innerHTML = `
+            <div class="text-center py-24 text-outline dark:text-slate-500">
+              <span class="material-symbols-outlined text-6xl mb-4 block opacity-40">search_off</span>
+              <p class="text-lg font-bold text-primary dark:text-white mb-2">Project Not Found</p>
+              <p class="text-sm mb-6">This project may have been deleted or the link is incorrect.</p>
+              <button onclick="navigate('/projects')" class="px-5 py-2.5 bg-primary-container dark:bg-[#003366] text-white rounded-lg text-sm font-bold hover:opacity-90 transition-all">← Back to Projects</button>
+            </div>`;
+          return;
+        }
+
+        const breadcrumb = document.getElementById('pdp-breadcrumb');
+        if (breadcrumb) breadcrumb.textContent = p.name;
+        document.title = `${p.name} — LWC Intelligence Hub`;
+
         const styles = getStatusStyles(p.status);
-        let pColor = 'bg-amber-500';
-        if (p.completion >= 70) pColor = 'bg-green-500';
-        else if (p.completion < 40) pColor = 'bg-red-500';
-
-        document.getElementById('pdm-title').textContent = p.name;
-        
-        let subProjectsHtml = '';
-        if (p.subprojects && p.subprojects.length > 0) {
-          subProjectsHtml = `
-            <div class="mt-4 border-t border-slate-200 dark:border-slate-700 pt-4">
-              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-3">Sub-Tasks</div>
-              <div class="space-y-3">
-                ${p.subprojects.map(sp => `
-                  <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-3">
-                    <div class="font-bold text-sm text-primary dark:text-white mb-1">${sp.name}</div>
-                    <div class="flex flex-wrap gap-4 text-xs text-outline dark:text-slate-400 mt-2">
-                      <div class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">person</span> ${sp.handler}</div>
-                      ${sp.dueDate ? `<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">calendar_today</span> Due: ${new Date(sp.dueDate).toLocaleDateString()}</div>` : ''}
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          `;
-        }
-        
-        let dateHtml = '';
-        if (p.dueDate) {
-           dateHtml = `
-             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
-               <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Due Date</div>
-               <div class="text-sm font-medium text-primary dark:text-white flex items-center gap-1">
-                 <span class="material-symbols-outlined text-[16px] text-slate-400">event</span> ${new Date(p.dueDate).toLocaleDateString()}
-               </div>
-             </div>
-           `;
-        }
-
-        document.getElementById('project-detail-body').innerHTML = `
-          <div class="flex flex-wrap gap-3 items-center">
-            <span class="px-3 py-1 rounded-full ${styles.badge} text-xs font-bold uppercase">${p.status}</span>
-            <span class="text-sm text-outline dark:text-slate-400 font-medium">${p.region || 'No Region'}</span>
-            ${p.link ? `<a href="${p.link}" target="_blank" class="text-sm font-bold text-secondary dark:text-[#00FFFF] hover:underline flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">link</span> External Link</a>` : ''}
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
-              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Owner</div>
-              <div class="text-sm font-medium text-primary dark:text-white flex items-center gap-1">
-                 <span class="material-symbols-outlined text-[16px] text-slate-400">person</span> ${p.handler || 'Unassigned'}
-              </div>
-            </div>
-            ${dateHtml}
-          </div>
-          ${p.breakdown ? `
-          <div>
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Project Breakdown</div>
-            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 rounded-lg p-4">${p.breakdown.replace(/\n/g, '<br>')}</p>
-          </div>` : ''}
-          ${p.notes ? `
-          <div>
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Key Objectives</div>
-            <div class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 rounded-lg p-4">${p.notes.replace(/\n/g, '<br>')}</div>
-          </div>` : ''}
-          ${subProjectsHtml}
-          ${p.image ? `
-          <div class="mt-4">
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Attached Photo</div>
-            <img src="${p.image}" alt="Project attachment" class="rounded-lg max-h-64 w-full object-cover border border-slate-200 dark:border-slate-700 cursor-pointer" onclick="window.open(this.src,'_blank')">
-          </div>` : ''}
-        `;
-        // Show edit/delete buttons only to Admins/Editors
-        const editBtn = document.getElementById('pdm-edit-btn');
-        const completeBtn = document.getElementById('pdm-complete-btn');
-        const deleteBtn = document.getElementById('pdm-delete-btn');
-        
         const role = (currentUserRole || '').toLowerCase();
         const isViewer = role === 'viewer';
         const isAdmin = role === 'admin';
-        
-        editBtn?.classList.toggle('hidden', isViewer);
-        if (completeBtn) {
-          if (p.status !== 'Completed' && !isViewer) {
-              completeBtn.classList.remove('hidden');
-          } else {
-              completeBtn.classList.add('hidden');
-          }
+        const isEditor = role === 'editor' || isAdmin;
+
+        // Sub-tasks block
+        let subTasksHtml = '';
+        if (p.subprojects && p.subprojects.length) {
+          subTasksHtml = `
+            <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl p-6">
+              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[14px]">checklist</span>Sub-Tasks (${p.subprojects.length})
+              </div>
+              <div class="space-y-3">
+                ${p.subprojects.map(sp => `
+                  <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+                    <div class="font-bold text-sm text-primary dark:text-white mb-2">${sp.name}</div>
+                    <div class="flex flex-wrap gap-4 text-xs text-outline dark:text-slate-400">
+                      ${sp.handler ? `<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">person</span>${sp.handler}</div>` : ''}
+                      ${sp.dueDate ? `<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">calendar_today</span>Due: ${new Date(sp.dueDate).toLocaleDateString()}</div>` : ''}
+                    </div>
+                  </div>`).join('')}
+              </div>
+            </div>`;
         }
-        deleteBtn?.classList.toggle('hidden', !isAdmin);
-        
-        document.getElementById('project-detail-modal').style.display = 'flex';
+
+        // Action buttons
+        const actionBtns = `
+          <div class="flex items-center gap-2 flex-wrap shrink-0">
+            ${isEditor ? `<button onclick="editProject(${p.id})" class="flex items-center gap-1.5 px-4 py-2 bg-primary-container dark:bg-[#003366] text-white text-sm font-bold rounded-lg hover:opacity-90 transition-all"><span class="material-symbols-outlined text-[16px]">edit</span>Edit</button>` : ''}
+            ${p.status !== 'Completed' && isEditor ? `<button onclick="markProjectCompleteFromPage(${p.id})" class="flex items-center gap-1.5 px-4 py-2 bg-green-600 text-white text-sm font-bold rounded-lg hover:bg-green-700 transition-all"><span class="material-symbols-outlined text-[16px]">task_alt</span>Mark Complete</button>` : ''}
+            ${isAdmin ? `<button onclick="deleteProjectFromPage(${p.id})" class="flex items-center gap-1.5 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 text-sm font-bold rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"><span class="material-symbols-outlined text-[16px]">delete</span>Delete</button>` : ''}
+          </div>`;
+
+        const hasContent = p.breakdown || p.notes || (p.subprojects && p.subprojects.length) || p.image;
+
+        body.innerHTML = `
+          <!-- Header -->
+          <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full ${styles.badge} text-xs font-bold uppercase tracking-wider">${p.status}</span>
+                ${p.region ? `<span class="text-sm text-outline dark:text-slate-400 font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">location_on</span>${p.region}</span>` : ''}
+              </div>
+              <h1 class="font-h1 text-h1 text-primary dark:text-white leading-tight break-words">${p.name}</h1>
+            </div>
+            ${actionBtns}
+          </div>
+
+          <!-- Two-column layout -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Main content (2/3) -->
+            <div class="lg:col-span-2 space-y-6">
+              ${p.breakdown ? `
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl p-6">
+                <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">description</span>Project Breakdown</div>
+                <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed whitespace-pre-line">${p.breakdown}</p>
+              </div>` : ''}
+
+              ${p.notes ? `
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl p-6">
+                <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">format_list_bulleted</span>Key Objectives</div>
+                <div class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed whitespace-pre-line">${p.notes}</div>
+              </div>` : ''}
+
+              ${subTasksHtml}
+
+              ${p.image ? `
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl p-6">
+                <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-3">Attached Photo</div>
+                <img src="${p.image}" alt="Project attachment" class="rounded-lg max-h-96 w-full object-cover cursor-pointer hover:opacity-95 transition-opacity" onclick="window.open(this.src,'_blank')">
+              </div>` : ''}
+
+              ${!hasContent ? `
+              <div class="bg-white dark:bg-slate-900 border border-dashed border-outline-variant dark:border-slate-700 rounded-xl p-16 text-center">
+                <span class="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-600 mb-4 block">folder_open</span>
+                <p class="text-sm text-outline dark:text-slate-500 mb-2">No additional details have been added to this project yet.</p>
+                ${isEditor ? `<button onclick="editProject(${p.id})" class="mt-2 text-secondary dark:text-[#00FFFF] hover:underline text-sm font-bold">Add Details →</button>` : ''}
+              </div>` : ''}
+            </div>
+
+            <!-- Sidebar (1/3) -->
+            <div class="space-y-4">
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl overflow-hidden">
+                <div class="px-5 py-3 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
+                  <span class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider">Project Info</span>
+                </div>
+                <div class="p-5 space-y-5">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary-container/10 dark:bg-[#003366]/40 flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[18px] text-primary dark:text-[#00FFFF]">person</span>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-outline dark:text-slate-500 uppercase font-bold tracking-wider mb-0.5">Owner</div>
+                      <div class="text-sm font-semibold text-primary dark:text-white">${p.handler || 'Unassigned'}</div>
+                    </div>
+                  </div>
+                  ${p.dueDate ? `
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary-container/10 dark:bg-[#003366]/40 flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[18px] text-primary dark:text-[#00FFFF]">event</span>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-outline dark:text-slate-500 uppercase font-bold tracking-wider mb-0.5">Due Date</div>
+                      <div class="text-sm font-semibold text-primary dark:text-white">${new Date(p.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                    </div>
+                  </div>` : ''}
+                  ${p.region ? `
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary-container/10 dark:bg-[#003366]/40 flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[18px] text-primary dark:text-[#00FFFF]">location_on</span>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-outline dark:text-slate-500 uppercase font-bold tracking-wider mb-0.5">Region</div>
+                      <div class="text-sm font-semibold text-primary dark:text-white">${p.region}</div>
+                    </div>
+                  </div>` : ''}
+                  ${p.category ? `
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary-container/10 dark:bg-[#003366]/40 flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[18px] text-primary dark:text-[#00FFFF]">category</span>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-outline dark:text-slate-500 uppercase font-bold tracking-wider mb-0.5">Category</div>
+                      <div class="text-sm font-semibold text-primary dark:text-white">${p.category}</div>
+                    </div>
+                  </div>` : ''}
+                  ${p.contractor ? `
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary-container/10 dark:bg-[#003366]/40 flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[18px] text-primary dark:text-[#00FFFF]">construction</span>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-outline dark:text-slate-500 uppercase font-bold tracking-wider mb-0.5">Contractor</div>
+                      <div class="text-sm font-semibold text-primary dark:text-white">${p.contractor}</div>
+                    </div>
+                  </div>` : ''}
+                  ${p.link ? `
+                  <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <a href="${p.link}" target="_blank" rel="noopener" class="flex items-center gap-2 text-secondary dark:text-[#00FFFF] text-sm font-bold hover:underline">
+                      <span class="material-symbols-outlined text-[16px]">open_in_new</span>Supporting Link
+                    </a>
+                  </div>` : ''}
+                </div>
+              </div>
+
+              <!-- Recent Updates Card -->
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl overflow-hidden">
+                <div class="px-5 py-3 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                  <span class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider">Recent Updates</span>
+                  ${isEditor ? `
+                  <button onclick="openAddUpdateModal(${p.id})" class="text-xs text-secondary dark:text-[#00FFFF] hover:underline font-bold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">add</span>Add Update
+                  </button>
+                  ` : ''}
+                </div>
+                <div class="p-5 space-y-4 max-h-[350px] overflow-y-auto custom-scrollbar" id="project-updates-list">
+                  ${!p.updates || p.updates.length === 0 ? `
+                  <p class="text-xs text-outline dark:text-slate-500 text-center py-4">No updates posted yet.</p>
+                  ` : p.updates.slice().reverse().map((up, index) => `
+                  <div class="space-y-1 text-xs border-b border-slate-100 dark:border-slate-800 pb-3 last:border-0 last:pb-0 relative group">
+                    <!-- Row 1: ID and delete icon -->
+                    <div class="flex justify-between items-start gap-2">
+                      <span class="font-bold text-primary dark:text-white truncate max-w-[120px]">${up.author}</span>
+                      ${isAdmin ? `
+                      <button onclick="deleteProjectUpdate(${p.id}, ${p.updates.length - 1 - index})" class="text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                        <span class="material-symbols-outlined text-[14px]">delete</span>
+                      </button>
+                      ` : ''}
+                    </div>
+                    <!-- Row 2: Message and timestamp -->
+                    <div class="flex justify-between items-end gap-2 mt-1">
+                      <p class="text-on-surface-variant dark:text-slate-300 leading-normal whitespace-pre-wrap flex-1 break-words">${up.content}</p>
+                      <span class="text-[10px] text-outline dark:text-slate-500 shrink-0 whitespace-nowrap">${new Date(up.date).toLocaleDateString('en-GB', {day: 'numeric', month: 'short', hour: '2-digit', minute:'2-digit'})}</span>
+                    </div>
+                  </div>
+                  `).join('')}
+                </div>
+              </div>
+
+            </div>
+          </div>`;
       }
 
-      async function deleteFromDetail() {
-        if (!currentDetailProjectId) return;
-        await deleteProject(currentDetailProjectId);
-        closeModal('project-detail-modal');
+      function markProjectCompleteFromPage(id) {
+        const p = projects.find(x => x.id == id);
+        if (!p) return;
+        p.status = 'Completed';
+        p.completion = 100;
+        saveData();
+        _renderProjectDetailPage(String(id));
       }
 
-      function markProjectCompleteFromDetail() {
-        if (!currentDetailProjectId) return;
-        const p = projects.find(x => x.id === currentDetailProjectId);
-        if (p) {
-          p.status = 'Completed';
-          saveData();
-          closeModal('project-detail-modal');
+      async function deleteProjectFromPage(id) {
+        const role = (currentUserRole || '').toLowerCase();
+        if (role !== 'admin') { alert('Only administrators can delete projects.'); return; }
+        if (!confirm('Are you sure you want to delete this project?')) return;
+        projects = projects.filter(p => p.id != id);
+        await supabase.from('projects').delete().eq('id', id);
+        saveData();
+        navigate('/projects');
+      }
+
+      function openAddUpdateModal(projectId) {
+        document.getElementById('pu-project-id').value = projectId;
+        document.getElementById('pu-content').value = '';
+        toggleModal('project-update-modal', true);
+      }
+
+      async function submitProjectUpdate(e) {
+        e.preventDefault();
+        const pid = document.getElementById('pu-project-id').value;
+        const content = document.getElementById('pu-content').value.trim();
+        if (!content) return;
+
+        const p = projects.find(x => x.id == pid);
+        if (!p) return;
+
+        if (!p.updates) p.updates = [];
+
+        p.updates.push({
+          date: new Date().toISOString(),
+          author: window._userName || 'Unknown User',
+          content: content
+        });
+
+        await saveData();
+        closeModal('project-update-modal');
+        _renderProjectDetailPage(String(pid));
+      }
+
+      async function deleteProjectUpdate(projectId, index) {
+        const role = (currentUserRole || '').toLowerCase();
+        if (role !== 'admin') { alert('Only Administrators can delete updates.'); return; }
+        if (!confirm('Are you sure you want to delete this update?')) return;
+
+        const p = projects.find(x => x.id == projectId);
+        if (!p || !p.updates) return;
+
+        p.updates.splice(index, 1);
+
+        await saveData();
+        _renderProjectDetailPage(String(projectId));
+      }
+
+      /* ================================================
+         ENGAGEMENT DETAIL PAGE RENDERER
+      ================================================ */
+      function _renderEngagementDetailPage(idParam) {
+        const eid = isNaN(idParam) ? idParam : Number(idParam);
+        const e = engagements.find(x => x.id == eid || x.id === idParam);
+        const body = document.getElementById('engagement-detail-page-body');
+        if (!body) return;
+
+        if (!e) {
+          body.innerHTML = `
+            <div class="text-center py-24 text-outline dark:text-slate-500">
+              <span class="material-symbols-outlined text-6xl mb-4 block opacity-40">search_off</span>
+              <p class="text-lg font-bold text-primary dark:text-white mb-2">Engagement Not Found</p>
+              <p class="text-sm mb-6">This engagement may have been deleted or the link is incorrect.</p>
+              <button onclick="navigate('/engagements')" class="px-5 py-2.5 bg-primary-container dark:bg-[#003366] text-white rounded-lg text-sm font-bold hover:opacity-90 transition-all">← Back to Engagements</button>
+            </div>`;
+          return;
         }
-      }
 
-      function editFromDetail() {
-        closeModal('project-detail-modal');
-        if (currentDetailProjectId) editProject(currentDetailProjectId);
-      }
-
-      let currentDetailEngagementId = null;
-
-      function viewEngagementDetails(id) {
-        const eid = isNaN(id) ? id : Number(id);
-        const e = engagements.find(x => x.id == eid || x.id === id);
-        if (!e) return;
-        currentDetailEngagementId = e.id;
+        const breadcrumb = document.getElementById('edp-breadcrumb');
+        if (breadcrumb) breadcrumb.textContent = e.title;
+        document.title = `${e.title} — LWC Intelligence Hub`;
 
         const isInternal = e.engagementType === 'Internal';
         const typeTag = isInternal
           ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
           : 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300';
-
         const icon = getPartnerIcon(e.partner);
-        
-        document.getElementById('edm-title').textContent = e.title;
-        
-        const nextStepsHtml = e.nextPhase ? `
-          <div>
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Next Phase</div>
-            <ul class="list-disc pl-5 space-y-1">
-              ${e.nextPhase.split('\n').filter(Boolean).map(s => `<li class="text-sm font-medium text-primary dark:text-[#00FFFF]">${s.trim()}</li>`).join('')}
-            </ul>
-          </div>
-        ` : '';
-
-        document.getElementById('engagement-detail-body').innerHTML = `
-          <div class="flex flex-wrap gap-3 items-center">
-            <span class="${typeTag} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">${e.engagementType || 'External'}</span>
-            <span class="text-sm text-outline dark:text-slate-400 font-medium">${e.region || 'No Region'}</span>
-            ${e.link ? `<a href="${e.link}" target="_blank" class="text-sm font-bold text-secondary dark:text-[#00FFFF] hover:underline flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">link</span> External Link</a>` : ''}
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
-              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Partner / Stakeholder</div>
-              <div class="flex items-center gap-2 mt-1">
-                <span class="material-symbols-outlined text-secondary dark:text-[#00FFFF] text-sm" data-weight="fill">${icon}</span>
-                <span class="text-sm font-medium text-primary dark:text-white">${e.partner || '—'}</span>
-              </div>
-            </div>
-            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4">
-              <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Owner</div>
-              <div class="flex items-center gap-2 mt-1">
-                <span class="material-symbols-outlined text-outline dark:text-slate-500 text-sm">person</span>
-                <span class="text-sm font-medium text-primary dark:text-white">${e.handler || '—'}</span>
-              </div>
-            </div>
-          </div>
-          ${e.dueDate ? `
-          <div class="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-4 w-1/2">
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Due Date</div>
-            <div class="flex items-center gap-2 mt-1">
-              <span class="material-symbols-outlined text-outline dark:text-slate-500 text-sm">event</span>
-              <span class="text-sm font-medium text-primary dark:text-white">${new Date(e.dueDate).toLocaleDateString()}</span>
-            </div>
-          </div>` : ''}
-          ${e.notes ? `
-          <div>
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Breakdown of Engagement</div>
-            <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 rounded-lg p-4">${e.notes.replace(/\n/g, '<br>')}</p>
-          </div>` : ''}
-          ${nextStepsHtml}
-          ${e.image ? `
-          <div>
-            <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Attached Photo</div>
-            <img src="${e.image}" alt="Engagement attachment" class="rounded-lg max-h-64 w-full object-cover border border-slate-200 dark:border-slate-700 cursor-pointer" onclick="window.open(this.src,'_blank')">
-          </div>` : ''}
-        `;
-
-        // Show edit button only to Admins/Editors
-        const editBtn = document.getElementById('edm-edit-btn');
-        const deleteBtn = document.getElementById('edm-delete-btn');
         const role = (currentUserRole || '').toLowerCase();
         const isViewer = role === 'viewer';
         const isAdmin = role === 'admin';
-        
-        editBtn?.classList.toggle('hidden', isViewer);
-        deleteBtn?.classList.toggle('hidden', !isAdmin);
-        
-        document.getElementById('engagement-detail-modal').style.display = 'flex';
-      }
+        const isEditor = role === 'editor' || isAdmin;
 
-      async function deleteEngagementFromDetail() {
-        if (!currentDetailEngagementId) return;
-        await deleteEngagement(currentDetailEngagementId);
-        closeModal('engagement-detail-modal');
-      }
-
-      function editEngagementFromDetail() {
-        closeModal('engagement-detail-modal');
-        if (currentDetailEngagementId) editEngagement(currentDetailEngagementId);
-      }
-
-        // Automatic bullet points for Key Objectives
-        const pNotes = document.getElementById('p-notes');
-        if (pNotes) {
-          pNotes.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-              const start = this.selectionStart;
-              const end = this.selectionEnd;
-              const lines = this.value.substring(0, start).split('\n');
-              const currentLine = lines[lines.length - 1];
-              
-              // Only auto-bullet if the current line already has a bullet or if it's the first line
-              if (currentLine.trim().startsWith('•') || currentLine.trim() === '') {
-                e.preventDefault();
-                this.value = this.value.substring(0, start) + '\n• ' + this.value.substring(end);
-                this.selectionStart = this.selectionEnd = start + 3;
-              }
-            }
-          });
-          pNotes.addEventListener('focus', function() {
-            if (this.value.trim() === '') {
-              this.value = '• ';
-            }
-          });
+        // Next phase bullets
+        let nextPhaseHtml = '';
+        if (e.nextPhase) {
+          const bullets = e.nextPhase.split('\n').filter(Boolean);
+          if (bullets.length) {
+            nextPhaseHtml = `
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl p-6">
+                <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-4 flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[14px]">arrow_forward</span>Next Phase
+                </div>
+                <ul class="space-y-2">
+                  ${bullets.map(s => `<li class="flex items-start gap-2 text-sm font-medium text-primary dark:text-[#00FFFF]">
+                    <span class="material-symbols-outlined text-[14px] mt-0.5 shrink-0">chevron_right</span>${s.trim()}
+                  </li>`).join('')}
+                </ul>
+              </div>`;
+          }
         }
+
+        // Action buttons
+        const actionBtns = `
+          <div class="flex items-center gap-2 flex-wrap shrink-0">
+            ${isEditor ? `<button onclick="editEngagement(${e.id})" class="flex items-center gap-1.5 px-4 py-2 bg-primary-container dark:bg-[#003366] text-white text-sm font-bold rounded-lg hover:opacity-90 transition-all"><span class="material-symbols-outlined text-[16px]">edit</span>Edit</button>` : ''}
+            ${isAdmin ? `<button onclick="deleteEngagementFromPage(${e.id})" class="flex items-center gap-1.5 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 text-sm font-bold rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"><span class="material-symbols-outlined text-[16px]">delete</span>Delete</button>` : ''}
+          </div>`;
+
+        const hasContent = e.notes || e.nextPhase || e.image;
+
+        body.innerHTML = `
+          <!-- Header -->
+          <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span class="${typeTag} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">${e.engagementType || 'External'}</span>
+                ${e.mdAttention ? `<span class="flex items-center gap-1 text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded-full"><span class="material-symbols-outlined text-[12px]">priority_high</span>MD's Attention</span>` : ''}
+              </div>
+              <h1 class="font-h1 text-h1 text-primary dark:text-white leading-tight break-words">${e.title}</h1>
+              <p class="text-secondary dark:text-[#00FFFF] font-semibold mt-2 text-base">${e.partner || ''}</p>
+            </div>
+            ${actionBtns}
+          </div>
+
+          <!-- Two-column layout -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Main content (2/3) -->
+            <div class="lg:col-span-2 space-y-6">
+              ${e.notes ? `
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl p-6">
+                <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">description</span>Outcomes &amp; Notes</div>
+                <p class="text-sm text-on-surface-variant dark:text-slate-300 leading-relaxed whitespace-pre-line">${e.notes}</p>
+              </div>` : ''}
+
+              ${nextPhaseHtml}
+
+              ${e.image ? `
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl p-6">
+                <div class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider mb-3">Attached Photo</div>
+                <img src="${e.image}" alt="Engagement attachment" class="rounded-lg max-h-96 w-full object-cover cursor-pointer hover:opacity-95 transition-opacity" onclick="window.open(this.src,'_blank')">
+              </div>` : ''}
+
+              ${!hasContent ? `
+              <div class="bg-white dark:bg-slate-900 border border-dashed border-outline-variant dark:border-slate-700 rounded-xl p-16 text-center">
+                <span class="material-symbols-outlined text-5xl text-slate-300 dark:text-slate-600 mb-4 block">handshake</span>
+                <p class="text-sm text-outline dark:text-slate-500 mb-2">No additional details have been added.</p>
+                ${isEditor ? `<button onclick="editEngagement(${e.id})" class="mt-2 text-secondary dark:text-[#00FFFF] hover:underline text-sm font-bold">Add Details →</button>` : ''}
+              </div>` : ''}
+            </div>
+
+            <!-- Sidebar (1/3) -->
+            <div class="space-y-4">
+              <div class="bg-white dark:bg-slate-900 border border-outline-variant dark:border-slate-800 rounded-xl overflow-hidden">
+                <div class="px-5 py-3 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
+                  <span class="text-xs text-outline dark:text-slate-400 uppercase font-bold tracking-wider">Engagement Info</span>
+                </div>
+                <div class="p-5 space-y-5">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary-container/10 dark:bg-[#003366]/40 flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[18px] text-primary dark:text-[#00FFFF]">${icon}</span>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-outline dark:text-slate-500 uppercase font-bold tracking-wider mb-0.5">Partner / Stakeholder</div>
+                      <div class="text-sm font-semibold text-primary dark:text-white">${e.partner || '—'}</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary-container/10 dark:bg-[#003366]/40 flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[18px] text-primary dark:text-[#00FFFF]">person</span>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-outline dark:text-slate-500 uppercase font-bold tracking-wider mb-0.5">Owner</div>
+                      <div class="text-sm font-semibold text-primary dark:text-white">${e.handler || '—'}</div>
+                    </div>
+                  </div>
+                  ${e.location || e.region ? `
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary-container/10 dark:bg-[#003366]/40 flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[18px] text-primary dark:text-[#00FFFF]">location_on</span>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-outline dark:text-slate-500 uppercase font-bold tracking-wider mb-0.5">Location</div>
+                      <div class="text-sm font-semibold text-primary dark:text-white">${e.location || e.region}</div>
+                    </div>
+                  </div>` : ''}
+                  ${e.date ? `
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary-container/10 dark:bg-[#003366]/40 flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[18px] text-primary dark:text-[#00FFFF]">today</span>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-outline dark:text-slate-500 uppercase font-bold tracking-wider mb-0.5">Date Logged</div>
+                      <div class="text-sm font-semibold text-primary dark:text-white">${e.date}</div>
+                    </div>
+                  </div>` : ''}
+                  ${e.dueDate ? `
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-primary-container/10 dark:bg-[#003366]/40 flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[18px] text-primary dark:text-[#00FFFF]">event</span>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-outline dark:text-slate-500 uppercase font-bold tracking-wider mb-0.5">Due Date</div>
+                      <div class="text-sm font-semibold text-primary dark:text-white">${new Date(e.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                    </div>
+                  </div>` : ''}
+                  ${e.link ? `
+                  <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <a href="${e.link}" target="_blank" rel="noopener" class="flex items-center gap-2 text-secondary dark:text-[#00FFFF] text-sm font-bold hover:underline">
+                      <span class="material-symbols-outlined text-[16px]">open_in_new</span>Supporting Link
+                    </a>
+                  </div>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      async function deleteEngagementFromPage(id) {
+        const role = (currentUserRole || '').toLowerCase();
+        if (role !== 'admin') { alert('Unauthorized. Only Admins can delete engagements.'); return; }
+        if (!confirm('Are you sure you want to delete this engagement log?')) return;
+        engagements = engagements.filter(e => e.id != id);
+        await supabase.from('engagements').delete().eq('id', id);
+        saveData();
+        navigate('/engagements');
+      }
+
+
+
+      // Automatic bullet points for Key Objectives
+      const pNotes = document.getElementById('p-notes');
+      if (pNotes) {
+        pNotes.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            const start = this.selectionStart;
+            const end = this.selectionEnd;
+            const lines = this.value.substring(0, start).split('\n');
+            const currentLine = lines[lines.length - 1];
+
+            // Only auto-bullet if the current line already has a bullet or if it's the first line
+            if (currentLine.trim().startsWith('•') || currentLine.trim() === '') {
+              e.preventDefault();
+              this.value = this.value.substring(0, start) + '\n• ' + this.value.substring(end);
+              this.selectionStart = this.selectionEnd = start + 3;
+            }
+          }
+        });
+        pNotes.addEventListener('focus', function () {
+          if (this.value.trim() === '') {
+            this.value = '• ';
+          }
+        });
+      }
       const pDropZone = document.getElementById('p-file-dropzone');
       const pFileInput = document.getElementById('p-file-upload');
       if (pDropZone && pFileInput) {
@@ -2112,14 +2507,14 @@
         e.preventDefault();
         const id = document.getElementById('p-id').value;
         const file = pFileInput && pFileInput.files[0];
-        
+
         // Collect sub-projects
         const subprojects = Array.from(document.querySelectorAll('.sub-project-entry')).map(entry => ({
           name: entry.querySelector('.sp-name').value,
           handler: entry.querySelector('.sp-handler').value,
           dueDate: entry.querySelector('.sp-due-date').value
         })).filter(sp => sp.name); // only keep if name is filled
-        
+
         const finishSave = (imageData) => {
           const data = {
             name: document.getElementById('p-name').value,
@@ -2200,19 +2595,19 @@
         if (document.getElementById('e-due-date')) document.getElementById('e-due-date').value = e.dueDate || '';
         if (document.getElementById('e-region')) document.getElementById('e-region').value = e.region || 'State-wide';
         if (document.getElementById('e-location')) document.getElementById('e-location').value = e.location || e.region || '';
-        if(document.getElementById('e-link')) document.getElementById('e-link').value = e.link || '';
+        if (document.getElementById('e-link')) document.getElementById('e-link').value = e.link || '';
         document.getElementById('e-notes').value = e.notes || '';
-        if(document.getElementById('e-next-phase')) document.getElementById('e-next-phase').value = e.nextPhase || '';
+        if (document.getElementById('e-next-phase')) document.getElementById('e-next-phase').value = e.nextPhase || '';
         // Set type radio
         const typeVal = e.engagementType || 'External';
         const radio = document.querySelector(`input[name="e-type"][value="${typeVal}"]`);
         if (radio) radio.checked = true;
-        
+
         // Handle MD Attention
         const mdAttentionCb = document.getElementById('e-md-attention');
         if (mdAttentionCb) {
-           mdAttentionCb.checked = e.mdAttention || false;
-           // toggleMdAttention removed — field no longer shown conditionally
+          mdAttentionCb.checked = e.mdAttention || false;
+          // toggleMdAttention removed — field no longer shown conditionally
         }
 
         document.getElementById('engagement-modal-title').textContent = 'Edit Engagement';
@@ -2363,10 +2758,10 @@
           const session = await supabase.auth.getSession();
           const token = session.data.session?.access_token;
 
-          const res = await fetch('/api/analyze', { 
-            method: 'POST', 
+          const res = await fetch('/api/analyze', {
+            method: 'POST',
             headers: { 'Authorization': `Bearer ${token}` },
-            body: formData 
+            body: formData
           });
           const data = await res.json();
 
@@ -2401,7 +2796,7 @@
               }
               const severity = f.severity?.toLowerCase() || 'info';
               let borderClass, bgClass, topTextClass;
-              
+
               if (severity === 'critical') {
                 borderClass = 'border-error'; bgClass = 'bg-[#fefafc] dark:bg-error/5';
                 topTextClass = 'text-error';
@@ -2498,10 +2893,10 @@
         const flag = lastExtractedData.flags[index];
         // Normalize object if it's a string somehow
         const riskToAdd = typeof flag === 'string' ? { title: '', severity: '', description: flag, statusText: '' } : flag;
-        
+
         risks.unshift({ id: Date.now(), ...riskToAdd }); // Add to top
         saveData();
-        
+
         // Show brief visual feedback (could be a toast, but alert is easiest for now without adding extra UI)
         alert('Risk flag added to dashboard!');
       }
@@ -2575,15 +2970,16 @@
               const app = document.getElementById('main-app');
               app.classList.remove('hidden');
               app.classList.remove('opacity-0');
-              
+
               applyRolePermissions(currentUserRole);
-              initData();
+              await initData();
+              initRouter();
               initTodos();
               renderHistory();
               return; // Successfully initialized auth session
             }
           }
-        } catch(e) {
+        } catch (e) {
           console.error("Supabase auth check failed", e);
         }
 
@@ -2600,7 +2996,7 @@
         try {
           const { data } = await supabase.from('todos').select('data');
           if (data) {
-             todos = data.map(row => row.data);
+            todos = data.map(row => row.data);
           }
         } catch (e) {
           console.error("Failed to load todos from Supabase", e);
@@ -2614,9 +3010,9 @@
 
       async function saveTodos() {
         try {
-           if (todos.length) await supabase.from('todos').upsert(todos.map(t => ({ id: t.id, data: t })));
+          if (todos.length) await supabase.from('todos').upsert(todos.map(t => ({ id: t.id, data: t })));
         } catch (e) {
-           console.error('Failed to sync todos', e);
+          console.error('Failed to sync todos', e);
         }
         renderTodos();
         renderDashboardTodos();
@@ -2660,9 +3056,9 @@
       }
 
       const PRIORITY_CONFIG = {
-        High:   { dot: 'bg-red-500',   ring: 'hover:border-red-400',   label: '🔴', emptyMsg: 'No high priority tasks.' },
+        High: { dot: 'bg-red-500', ring: 'hover:border-red-400', label: '🔴', emptyMsg: 'No high priority tasks.' },
         Medium: { dot: 'bg-amber-500', ring: 'hover:border-amber-400', label: '🟡', emptyMsg: 'No medium priority tasks.' },
-        Low:    { dot: 'bg-green-500', ring: 'hover:border-green-400', label: '🟢', emptyMsg: 'No low priority tasks.' }
+        Low: { dot: 'bg-green-500', ring: 'hover:border-green-400', label: '🟢', emptyMsg: 'No low priority tasks.' }
       };
 
       function renderTodos() {
@@ -2703,7 +3099,7 @@
         const list = document.getElementById('dashboard-todo-list');
         const emptyState = document.getElementById('dashboard-todo-empty');
         if (!widget || !list || !emptyState) return;
-        
+
         const role = (currentUserRole || '').toLowerCase();
         // Always show widget if admin
         if (role !== 'admin') {
@@ -2713,14 +3109,14 @@
         widget.classList.remove('hidden');
 
         const pending = todos.filter(t => !t.completed);
-        
+
         if (!pending.length) {
           list.classList.add('hidden');
           emptyState.classList.remove('hidden');
           emptyState.classList.add('flex');
           return;
         }
-        
+
         list.classList.remove('hidden');
         emptyState.classList.add('hidden');
         emptyState.classList.remove('flex');
@@ -2730,9 +3126,9 @@
           return (order[a.priority] ?? 1) - (order[b.priority] ?? 1);
         });
         const colorMap = {
-          High:   { border: 'border-red-400',   bg: 'bg-red-50 dark:bg-red-900/20',   text: 'text-red-700 dark:text-red-300',   badge: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' },
+          High: { border: 'border-red-400', bg: 'bg-red-50 dark:bg-red-900/20', text: 'text-red-700 dark:text-red-300', badge: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' },
           Medium: { border: 'border-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', text: 'text-amber-700 dark:text-amber-300', badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300' },
-          Low:    { border: 'border-green-400', bg: 'bg-green-50 dark:bg-green-900/20', text: 'text-green-700 dark:text-green-300', badge: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300' }
+          Low: { border: 'border-green-400', bg: 'bg-green-50 dark:bg-green-900/20', text: 'text-green-700 dark:text-green-300', badge: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300' }
         };
         list.innerHTML = `<div class="flex flex-col gap-3">` +
           sorted.slice(0, 6).map(t => {
